@@ -1,39 +1,44 @@
-import { groupContact } from '@/types/groupContact'
+import { userAuth } from '@/store/UserAuth'
 import Image from 'next/image'
-import React from 'react'
+import React, { Key } from 'react'
 
-const ChatContacts = ({contacts, selectedContact, setSelectedContact}: {contacts: Array<groupContact>, selectedContact : groupContact | null , setSelectedContact: React.Dispatch<React.SetStateAction<groupContact | null>>}) => {
+
+
+const ChatContacts = () => {
+    const {groups , selectedContact, setSelectedContact} = userAuth();
   return (
-    <div className="overflow-y-auto">
-          {contacts.map((contact) => (
+    <div className="flex-1 overflow-y-scroll">
+          {groups?.map((group) => (
             <div
-              key={contact.id}
+              key={group.id as Key}
               className={`flex items-center p-4 hover:bg-gray-100 cursor-pointer ${
-                selectedContact?.id === contact.id ? "bg-gray-200" : ""
+                selectedContact?.id === group.id ? "bg-gray-200" : ""
               }`}
-              onClick={() => setSelectedContact(contact)}
+              onClick={() => setSelectedContact(group)}
             >
               <Image
-                src={contact.avatar!}
-                alt={contact.name}
-                className="rounded-full w-12 h-12 mr-4"
+                src="/user.png"
+                alt={group.groupName.charAt(0)}
+                className="rounded-full w-10 h-10 mr-4"
+                width={30}
+                height={30}
               />
               <div className="flex-grow">
                 <div className="flex justify-between">
                   <span className="font-semibold text-black">
-                    {contact.name}
+                    {group.groupName}
                   </span>
                   <span className="text-xs text-gray-500">
-                    {contact.lastMessageTime}
+                    {group.lastMessageTime}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">
-                    {contact.lastMessage}
+                    {group.lastMessage != null && group.lastMessage}
                   </span>
-                  {contact.unreadCount > 0 && (
+                  {group.unreadCount > 0 && (
                     <span className="bg-blue-500 text-white rounded-full px-2 text-xs">
-                      {contact.unreadCount}
+                      {group.unreadCount}
                     </span>
                   )}
                 </div>
@@ -44,4 +49,4 @@ const ChatContacts = ({contacts, selectedContact, setSelectedContact}: {contacts
   )
 }
 
-export default ChatContacts
+export default ChatContacts;

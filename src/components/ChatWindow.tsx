@@ -2,21 +2,41 @@ import { groupContact } from '@/types/groupContact'
 import { MessageSquare, Paperclip, Phone, Send, Smile, Video } from 'lucide-react'
 import Image from 'next/image'
 import {groupMessage} from '@/types/groupMessage'
-import React, { Key } from 'react'
+import React, { Key, use, useState } from 'react'
+import { userAuth } from '@/store/UserAuth'
 
-const ChatWindow = ({selectedContact, messages, newMessage, setNewMessage, handleSendMessage} : {selectedContact : groupContact | null, messages : groupMessage[], newMessage : string, setNewMessage : React.Dispatch<React.SetStateAction<string>> , handleSendMessage : ()=> void}) => {
+
+const ChatWindow = () => {
+    const {selectedContact, user} = userAuth();
+    let messages = selectedContact?.chats;
+    const [newMessage, setNewMessage] = useState<String>("");
+
+    const handleSendMessage = () => {
+        selectedContact?.chats.push({
+            content: newMessage,
+            senderId: user!.id,
+            time: new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+        });
+        setNewMessage("");
+    }
+
   return selectedContact ? (
         <>
           <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
             <div className="flex items-center">
               <Image
-                src={selectedContact.avatar!}
-                alt={selectedContact.name}
+                src="/user.png"
+                alt={selectedContact.groupName.charAt(0)}
                 className="rounded-full w-10 h-10 mr-4"
+                height={30}
+                width={30}
               />
               <div>
                 <div className="font-semibold text-black">
-                  {selectedContact.name}
+                  {selectedContact.groupName}
                 </div>
                 <div className="text-xs text-gray-500">online</div>
               </div>
@@ -27,20 +47,20 @@ const ChatWindow = ({selectedContact, messages, newMessage, setNewMessage, handl
             </div>
           </div>
           <div className="flex-grow overflow-y-auto p-4 bg-gray-100">
-            {messages.map((message) => (
+            {messages?.map((message, id) => (
               <div
-                key={message.id as Key}
+                key={id as Key}
                 className={`flex mb-4 ${
-                  message.sender === "me" ? "justify-end" : "justify-start"
+                  message.senderId  === user!.id? "justify-end" : "justify-start"
                 }`}
               >
                 <div
                   className={`
                     px-4 py-2 rounded-lg max-w-md
-                    ${message.sender === "me" ? "bg-blue-700" : "bg-blue-500"}
+                    ${message.senderId === user!.id ? "bg-blue-700" : "bg-blue-500"}
                   `}
                 >
-                  <div>{message.text}</div>
+                  <div>{message.content}</div>
                   <div className="text-xs text-white text-right">
                     {message.time}
                   </div>
@@ -56,7 +76,7 @@ const ChatWindow = ({selectedContact, messages, newMessage, setNewMessage, handl
             <input
               type="text"
               placeholder="Type a message"
-              value={newMessage}
+              value={newMessage as string}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
               className="flex-grow text-black bg-white border rounded-full px-4 py-2 focus:outline-none"

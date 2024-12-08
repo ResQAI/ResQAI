@@ -5,21 +5,25 @@ import {
     Phone,
     Search,
   } from "lucide-react";
+import { userAuth } from '@/store/UserAuth';
 
 const ChatHeader = () => {
+  const {user} = userAuth();
   return (
     <header>
         <div className="flex justify-between items-center p-4 bg-gray-50">
-          <Image
-            src="/avataaars.png"
-            alt="User Avatar"
-            className="rounded-full w-10 h-10"
-            width={40}
-            height={40}
-          />
+          <div className="flex gap-5 justify-center items-center">
+            <Image
+              src={user?.avatar ? user.avatar : "/avataaars.png"}
+              alt="User Avatar"
+              className="rounded-full w-10 h-10"
+              width={40}
+              height={40}
+            />
+            <div className='font-semibold text-lg text-black'>{user?.name}</div>
+          </div>
           <div className="flex space-x-4">
-            <MessageSquare className="text-gray-600 cursor-pointer" />
-            <Phone className="text-gray-600 cursor-pointer" />
+            <Image src="/add-group.png" alt="Add Group" width={30} height={30} className='cursor-pointer mr-8'/>
           </div>
         </div>
         <div className="p-3">

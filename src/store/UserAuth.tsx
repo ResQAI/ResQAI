@@ -7,15 +7,13 @@ import { createContext, ReactNode, use, useContext, useEffect, useState } from '
 const UserAuth = createContext({} as {
     user: chatUser | null;
     groups: groupChat[] | null;
-    messages: groupMessage[] | null;
-    selectedContact: groupContact | null;
-    setSelectedContact: React.Dispatch<React.SetStateAction<groupContact | null>>;
-    setMessages: React.Dispatch<React.SetStateAction<groupMessage[] | null>>;
+    selectedContact: groupChat | null;
+    setSelectedContact: React.Dispatch<React.SetStateAction<groupChat | null>>;
     setGroups: React.Dispatch<React.SetStateAction<groupChat[] | null>>;
 });
 
 export function UserAuthProvider({children} : {children : ReactNode}){
-    let [selectedContact, setSelectedContact] = useState<groupContact | null>(null);
+    let [selectedContact, setSelectedContact] = useState<groupChat | null>(null);
     let [messages, setMessages] = useState<groupMessage[] | null>(null);
     let [groups, setGroups] = useState<groupChat[] | null>(null);
     let [user, setUser] = useState<chatUser | null>(null);
@@ -26,7 +24,7 @@ export function UserAuthProvider({children} : {children : ReactNode}){
     })
 
     return (
-        <UserAuth.Provider value={{user, groups, messages, selectedContact, setSelectedContact, setMessages, setGroups}}>
+        <UserAuth.Provider value={{user, groups, selectedContact, setSelectedContact, setGroups}}>
             {children}
         </UserAuth.Provider>
     );
