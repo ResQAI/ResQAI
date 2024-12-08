@@ -1,8 +1,6 @@
-import { groupContact } from '@/types/groupContact'
 import { MessageSquare, Paperclip, Phone, Send, Smile, Video } from 'lucide-react'
 import Image from 'next/image'
-import {groupMessage} from '@/types/groupMessage'
-import React, { Key, use, useState } from 'react'
+import React, { Key, useState } from 'react'
 import { userAuth } from '@/store/UserAuth'
 
 

@@ -1,8 +1,6 @@
 "use client"
 import groupChats, { groupChat, userData } from '@/chatData';
 import { chatUser } from '@/types/chatUser';
-import { groupContact } from '@/types/groupContact';
-import { groupMessage } from '@/types/groupMessage';
 import { createContext, ReactNode, use, useContext, useEffect, useState } from 'react'
 const UserAuth = createContext({} as {
     user: chatUser | null;
@@ -14,7 +12,6 @@ const UserAuth = createContext({} as {
 
 export function UserAuthProvider({children} : {children : ReactNode}){
     let [selectedContact, setSelectedContact] = useState<groupChat | null>(null);
-    let [messages, setMessages] = useState<groupMessage[] | null>(null);
     let [groups, setGroups] = useState<groupChat[] | null>(null);
     let [user, setUser] = useState<chatUser | null>(null);
 

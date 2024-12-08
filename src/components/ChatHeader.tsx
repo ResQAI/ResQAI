@@ -1,8 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
 import {
-    MessageSquare,
-    Phone,
     Search,
   } from "lucide-react";
 import { userAuth } from '@/store/UserAuth';
