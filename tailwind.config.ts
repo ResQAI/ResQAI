@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      overflow: {
+        'touch': 'touch', // Adds `overflow-touch`
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
