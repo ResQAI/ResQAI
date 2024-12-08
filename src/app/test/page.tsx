@@ -7,6 +7,7 @@ import ChatContacts from "@/components/ChatContacts";
 import { groupContact } from "@/types/groupContact";
 import ChatWindow from "@/components/ChatWindow";
 import { groupMessage } from "@/types/groupMessage";
+import { UserAuthProvider } from "@/store/UserAuth";
 
 const mockContacts : Array<groupContact> = [
   {
@@ -63,16 +64,18 @@ const ChatApp = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="w-1/3 bg-white border-r border-gray-200">
-        <ChatHeader />
-        <ChatContacts contacts={mockContacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} />
-      </div>
+    <UserAuthProvider>
+        <div className="flex h-screen bg-gray-100">
+            <div className="w-1/3 bg-white border-r border-gray-200">
+                <ChatHeader />
+                <ChatContacts contacts={mockContacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} />
+            </div>
 
-      <div className="flex-grow flex flex-col">
-        <ChatWindow messages={mockMessages} newMessage={newMessage} setNewMessage={setNewMessage} handleSendMessage={handleSendMessage} selectedContact={selectedContact}/>
-      </div>
-    </div>
+            <div className="flex-grow flex flex-col">
+                <ChatWindow messages={mockMessages} newMessage={newMessage} setNewMessage={setNewMessage} handleSendMessage={handleSendMessage} selectedContact={selectedContact}/>
+            </div>
+        </div>
+    </UserAuthProvider>
   );
 };
 

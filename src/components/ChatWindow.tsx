@@ -10,7 +10,7 @@ const ChatWindow = ({selectedContact, messages, newMessage, setNewMessage, handl
           <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
             <div className="flex items-center">
               <Image
-                src={selectedContact.avatar}
+                src={selectedContact.avatar!}
                 alt={selectedContact.name}
                 className="rounded-full w-10 h-10 mr-4"
               />

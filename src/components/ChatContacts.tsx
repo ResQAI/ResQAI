@@ -14,7 +14,7 @@ const ChatContacts = ({contacts, selectedContact, setSelectedContact}: {contacts
               onClick={() => setSelectedContact(contact)}
             >
               <Image
-                src={contact.avatar}
+                src={contact.avatar!}
                 alt={contact.name}
                 className="rounded-full w-12 h-12 mr-4"
               />
