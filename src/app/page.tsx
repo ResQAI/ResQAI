@@ -1,10 +1,3 @@
-import Image from "next/image";
-import DisasterMap from "@/components/DisasterMap";
-
 export default function Home() {
-  return (
-    
-        <DisasterMap/>
-      
-  );
+  return <h1>Landing Page</h1>;
 }

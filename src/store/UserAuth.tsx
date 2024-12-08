@@ -1,5 +1,5 @@
 "use client"
-import groupChats, { groupChat, userData } from '@/chatData';
+import groupChats, { groupChat, userData } from '@/types/groupChats';
 import { chatUser } from '@/types/chatUser';
 import { createContext, ReactNode, use, useContext, useEffect, useState } from 'react'
 const UserAuth = createContext({} as {

@@ -1,4 +1,4 @@
-import { chatUser } from "./types/chatUser";
+import { chatUser } from "./chatUser";
 
 export type groupChat = {
     id: Number;
