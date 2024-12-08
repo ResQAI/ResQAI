@@ -1,6 +1,10 @@
-import { GroupChat } from "./types/groupChat";
+type groupChat = {
+    groupName: string;
+    members: Array<{ id: number; name: string }>;
+    chats: Array<{ content: string; senderId: number }>;
+};
 
-const groupChats : Array<GroupChat> = [
+const groupChats : Array<groupChat> = [
     {
       groupName: "Tech Enthusiasts",
       members: [
