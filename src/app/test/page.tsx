@@ -65,7 +65,7 @@ const ChatApp = () => {
 
   return (
     <UserAuthProvider>
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen bg-gray-200 ml-[6rem]">
             <div className="w-1/3 bg-white border-r border-gray-200">
                 <ChatHeader />
                 <ChatContacts contacts={mockContacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} />

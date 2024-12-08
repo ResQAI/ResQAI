@@ -1,10 +1,17 @@
-type groupChat = {
+import { chatUser } from "./types/chatUser";
+
+export type groupChat = {
     groupName: string;
     members: Array<{ id: number; name: string }>;
     chats: Array<{ content: string; senderId: number }>;
 };
+export const userData : chatUser = {
+    id: 2,
+    name: "Bob",
+    avatar: null,
+}
 
-const groupChats : Array<groupChat> = [
+export const groupChats : Array<groupChat> = [
     {
       groupName: "Tech Enthusiasts",
       members: [
