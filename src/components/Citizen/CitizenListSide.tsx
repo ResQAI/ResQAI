@@ -66,12 +66,7 @@ const NationalListSide: React.FC = () => {
 
   return (
     <div>
-      {/* <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
-        <button onClick={() => setView("list")}>View List</button>
-        <button onClick={() => setView("map")}>View Map</button>
-      </div>
 
-      {view === "list" ? ( */}
         <DisasterList
           title="Countrywide Disasters"
           disasters={disasterData}
