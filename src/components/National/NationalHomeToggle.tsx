@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import { 
 
   FileText, 
-  Clipboard 
+  Clipboard, 
+  Package
 } from 'lucide-react';
 
 import ResponsePlan from "@/components/ResponsePlan";
 import SituationReport from "@/components/SituationReport";
+import ResourceRequestManagement from './NationalResourceManagement';
 
 const NationalHomeToggleArea = () => {
   const [activeTab, setActiveTab] = useState('situationReport');
@@ -24,6 +26,12 @@ const NationalHomeToggleArea = () => {
       label: 'Response Plan', 
       icon: <Clipboard className="w-6 h-6" />,
       component: <ResponsePlan />,
+    },
+    { 
+      id: 'resourceRequest', 
+      label: 'Resource Request', 
+      icon: <Package className="w-6 h-6" />,
+      component: <ResourceRequestManagement />,
     }
   ];
 
