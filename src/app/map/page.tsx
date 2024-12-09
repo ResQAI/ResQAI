@@ -1,5 +1,7 @@
-import DisasterMap from "@/components/DisasterMap";
-
+// import DisasterMap from "@/components/DisasterMap";
+import Sidebar from "@/components/Sidebar";
 export default function Map() {
-  return <DisasterMap />;
+  const role = "ngo"; 
+
+  return <Sidebar role={role} />;
 }
