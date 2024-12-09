@@ -5,7 +5,7 @@ import Sidebar from "@/components/National/NationalSidebar";
 
 export const metadata: Metadata = {
   title: "ResQAI",
-  description: "AI powered disaster management application",
+  description: "AI-powered disaster management application",
 };
 
 export default function RootLayout({
@@ -15,20 +15,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <div className="flex flex-col">
-          <div className="header h-[8vh]">
+      <body className="min-h-screen bg-gray-100">
+        
+        <div className="flex flex-col min-h-screen">
+          
+          <header className="fixed top-0 left-0 right-0 h-16 bg-white shadow-md z-10">
             <NationalHeader />
-          </div>
-          <div className="flex flex-row">
-            <div className="sidebar w-[20vw]">
+          </header>
+
+          
+          <div className="flex flex-row pt-16 min-h-screen">
+           
+            <aside className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-gray-200 shadow-md">
               <Sidebar role="national" />
-            </div>
-            <div className="main-content w-full">
-              <div className="content flex">
-                {children}
-              </div>
-            </div>
+            </aside>
+
+            
+            <main className="ml-64 w-full p-6 bg-white overflow-y-auto">
+              {children}
+            </main>
           </div>
         </div>
       </body>
