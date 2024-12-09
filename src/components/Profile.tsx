@@ -721,7 +721,7 @@ export default function CoordinationProfile({ userType="national" }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {personalFields.map((field) => (
                     <div key={field.name}>
-                        <label className="block text-sm font-medium text-gray-700 flex items-center">
+                        <label className=" text-sm font-medium text-gray-700 flex items-center">
                             {field.icon}
                             {field.label}
                         </label>
@@ -772,7 +772,7 @@ export default function CoordinationProfile({ userType="national" }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     {professionalFields.map((field) => (
                         <div key={field.name}>
-                            <label className="block text-sm font-medium text-gray-700 flex items-center">
+                            <label className=" text-sm font-medium text-gray-700 flex items-center">
                                 {field.icon}
                                 {field.label}
                             </label>
@@ -814,7 +814,7 @@ export default function CoordinationProfile({ userType="national" }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Two-Factor Authentication */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 flex items-center">
+                    <label className=" text-sm font-medium text-gray-700 flex items-center">
                         <Lock className="mr-2 h-5 w-5 text-gray-500" />
                         Two-Factor Authentication
                     </label>
@@ -838,7 +838,7 @@ export default function CoordinationProfile({ userType="national" }) {
 
                 {/* Last Password Change */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 flex items-center">
+                    <label className=" text-sm font-medium text-gray-700 flex items-center">
                         <Calendar className="mr-2 h-5 w-5 text-gray-500" />
                         Last Password Change
                     </label>
@@ -854,7 +854,7 @@ export default function CoordinationProfile({ userType="national" }) {
 
                 {/* Access Level */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 flex items-center">
+                    <label className=" text-sm font-medium text-gray-700 flex items-center">
                         <Shield className="mr-2 h-5 w-5 text-gray-500" />
                         Access Level
                     </label>
