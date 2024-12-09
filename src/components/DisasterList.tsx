@@ -33,7 +33,7 @@ const DisasterList: React.FC<DisasterListProps> = ({
     );
   }, [disasters, selectedFilter]);
   return (
-    <div className="container w-[50vw] flex flex-wrap items-center justify-center">
+    <div className="container flex flex-wrap">
       <div className="flex gap-8 items-center mb-6 w-full">
         <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
         <div className="flex items-center space-x-4">

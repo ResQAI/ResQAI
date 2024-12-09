@@ -30,6 +30,14 @@ const NationalListSide: React.FC = () => {
       ]
     },
     {
+      name: "Wildfire",
+      area: "California Wilderness",
+      tags: [
+        { label: "Ongoing", type: "status" },
+        { label: "Level 2", type: "level" }
+      ]
+    },
+    {
       name: "Flood",
       area: "Louisiana Delta",
       tags: [
