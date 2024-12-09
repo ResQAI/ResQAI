@@ -355,8 +355,8 @@ const ResourceRequestManagement = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
-      <div className="container mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="">
         <div className="flex items-center mb-8">
         <Package className="w-10 h-10 text-blue-600 mr-4" />
 
@@ -410,7 +410,7 @@ const ResourceRequestManagement = () => {
         </div>
       </div>
 
-        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
           {filteredRequests.map((request) => (
             <div
               key={request.id}
@@ -422,21 +422,21 @@ const ResourceRequestManagement = () => {
                     <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">
                       {request.organization}
                     </h2>
-                    <p className="text-gray-600 flex items-center">
+                    <p className="text-sm sm:text-base text-gray-600 flex items-center">
                       <MapPin className="w-4 h-4 mr-2 text-blue-500" />
                       {request.disaster} - {request.location}
                     </p>
                   </div>
                   <div className="flex space-x-2">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${getUrgencyColor(
+                      className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border whitespace-nowrap ${getUrgencyColor(
                         request.urgency
                       )}`}
                     >
                       {request.urgency}
                     </span>
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${
+                      className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border whitespace-nowrap ${
                         request.status === "Approved"
                           ? "bg-green-100 text-green-700 border-green-300"
                           : request.status === "Pending"
@@ -449,14 +449,14 @@ const ResourceRequestManagement = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div>
-                    <p className="text-sm text-gray-500">Resource Type</p>
-                    <p className="font-medium">{request.resourceType}</p>
+                    <p className="text-sm sm:text-base text-gray-500">Resource Type</p>
+                    <p className="font-medium text-gray-800">{request.resourceType}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Quantity</p>
-                    <p className="font-medium">{request.quantity}</p>
+                    <p className="text-sm sm:text-base text-gray-500">Quantity</p>
+                    <p className="font-medium text-gray-800">{request.quantity}</p>
                   </div>
                 </div>
 

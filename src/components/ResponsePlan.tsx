@@ -19,7 +19,6 @@ const departments = [
   'Finance'
 ]
 
-// Initial mock data for works
 const initialWorks: Work[] = [
   { 
     id: 1, 
@@ -88,19 +87,15 @@ const ResponsePlan = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Basic validation
     if (!workDescription.trim()) {
       alert('Please enter a work description');
       return;
     }
-
     if (!selectedDepartment) {
       alert('Please select a department');
       return;
     }
 
-    // Add new work item
     const newWork: Work = {
       id: works.length + 1,
       description: workDescription,
@@ -109,8 +104,6 @@ const ResponsePlan = () => {
     }
 
     setWorks([...works, newWork]);
-    
-    // Reset form
     setWorkDescription('');
     setSelectedDepartment('');
   };
@@ -122,7 +115,7 @@ const ResponsePlan = () => {
   return (
     <div className="bg-neutral-50 h-full rounded-2xl shadow-2xl overflow-hidden border border-neutral-200 flex flex-col">
       {/* Work List Section */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 scrollbar-thin scrollbar-thumb-neutral-300">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4 scrollbar-thin scrollbar-thumb-neutral-300">
         {works.map((work) => {
           const statusStyle = StatusColors[work.status];
           const StatusIcon = StatusIcons[work.status];
@@ -140,17 +133,13 @@ const ResponsePlan = () => {
               onMouseEnter={() => setHoveredWork(work.id)}
               onMouseLeave={() => setHoveredWork(null)}
             >
-              {/* Hover effect */}
               {hoveredWork === work.id && (
                 <div className="absolute inset-0 bg-neutral-200/50 
                   animate-spread z-0 rounded-xl"></div>
               )}
 
-              {/* Content with blur effect */}
-              <div className={`
-                relative z-10 flex items-center 
-                ${hoveredWork === work.id ? 'blur-sm' : ''}
-              `}>
+              <div className={`relative z-10 flex items-center 
+                ${hoveredWork === work.id ? 'blur-sm' : ''}`}>
                 <StatusIcon className={`mr-3 ${statusStyle.icon}`} size={20} />
                 <div className="flex-grow">
                   <div className={`font-medium ${statusStyle.text}`}>
@@ -160,15 +149,12 @@ const ResponsePlan = () => {
                     {work.department}
                   </div>
                 </div>
-                <div className={`
-                  capitalize font-semibold 
-                  ${statusStyle.text} text-sm
-                `}>
+                <div className={`capitalize font-semibold 
+                  ${statusStyle.text} text-sm`}>
                   {work.status.replace('-', ' ')}
                 </div>
               </div>
 
-              {/* Hover dustbin icon */}
               {hoveredWork === work.id && (
                 <div className="absolute inset-0 flex items-center 
                   justify-center z-20">
@@ -188,10 +174,10 @@ const ResponsePlan = () => {
         })}
       </div>
 
-      {/* Input Section - Static at Bottom */}
-      <div className="bg-white border-t border-neutral-200 px-6 py-4 mt-auto">
+      {/* Input Section */}
+      <div className="bg-white border-t border-neutral-200 px-4 sm:px-6 py-4 mt-auto">
         <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4">
             <div className="flex-grow">
               <textarea 
                 value={workDescription}
@@ -205,7 +191,7 @@ const ResponsePlan = () => {
                 placeholder="Describe the work to be done..."
               />
             </div>
-            <div className="w-1/3">
+            <div className="w-full sm:w-1/3 mt-2 sm:mt-0">
               <div className="relative">
                 <select
                   value={selectedDepartment}
@@ -229,10 +215,10 @@ const ResponsePlan = () => {
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-4">
             <button 
               type="submit" 
-              className="w-1/2 bg-sky-600 text-white py-3 rounded-lg 
+              className="w-full sm:w-1/2 bg-sky-600 text-white py-3 rounded-lg 
               hover:bg-sky-700 active:bg-sky-800 
               focus:outline-none focus:ring-2 focus:ring-sky-300 
               transition-all duration-300 transform hover:scale-[1.02] 

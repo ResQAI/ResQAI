@@ -307,7 +307,7 @@ const SituationReport = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-4 sm:p-8">
+    <div className="min-h-screen bg-white sm:p-8">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
         <div className="bg-blue-600 text-white p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between">
           <div className="flex items-center space-x-3 mb-4 sm:mb-0">
