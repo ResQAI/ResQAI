@@ -66,6 +66,7 @@ const NationalListSide: React.FC = () => {
       title="AreaWise Disasters"
       disasters={disasterData}
       onOpenModal={handleOpenModal}
+      lat={28.6139} lng={77.209} zoom={10}
     />
   );
 };

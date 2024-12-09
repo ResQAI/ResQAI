@@ -72,6 +72,10 @@ const NationalListSide: React.FC = () => {
       title="Countrywide Disasters"
       disasters={disasterData}
       onOpenModal={handleOpenModal}
+      // onClick={() =>
+      //   setMapView({ lat: 20.5937, lng: 78.9629, zoom: 5 }) // India
+      // }
+      lat={20.5937} lng={78.9629} zoom={5}
     />
   );
 };
