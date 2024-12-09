@@ -21,7 +21,7 @@ const DisasterMap: React.FC<DisasterMapProps> = ({ lat, lng, zoom }) => {
     const loadGoogleMapsAPI = () => {
       return new Promise<void>((resolve, reject) => {
         if (typeof window.google !== "undefined") {
-          resolve(); // Google Maps API is already loaded
+          resolve(); 
           return;
         }
 
@@ -58,16 +58,15 @@ const DisasterMap: React.FC<DisasterMapProps> = ({ lat, lng, zoom }) => {
         script.src = "https://storage.googleapis.com/mapsdevsite/json/quakes.geo.json";
         document.head.appendChild(script);
 
-        // Add callback to process JSONP data
+
         window.eqfeed_callback = (data: any) => {
           map.data.addGeoJson(data);
 
-          // Style the features
+
           map.data.setStyle((feature) => ({
             title: feature.getProperty("place") as string,
           }));
 
-          // Add event listener to show info window on click
           map.data.addListener("click", (e: google.maps.Data.MouseEvent) => {
             if (!e.latLng || !e.feature) return;
 
@@ -96,7 +95,6 @@ const DisasterMap: React.FC<DisasterMapProps> = ({ lat, lng, zoom }) => {
       ref={mapRef}
       className="w-full h-[500px] my-5 rounded-xl border border-gray-200 shadow"
     >
-      {/* Map will render here */}
     </div>
   );
 };
