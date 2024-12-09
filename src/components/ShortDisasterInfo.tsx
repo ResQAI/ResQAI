@@ -48,7 +48,7 @@ const DisasterCard: React.FC<DisasterCardProps> = ({
   return (
     <div
       className={`
-      w-full
+      w-[305px]
       max-w-sm 
       bg-white 
       border 

@@ -7,6 +7,15 @@ import {
   Clock,
   AlertTriangle,
   Info,
+  Truck, // Transport
+  Home, // Home Affairs
+  Leaf, // Agriculture
+  ClipboardList, // Programme Implementation
+  Building, // Urban Affairs
+  Speaker, // Information
+  Utensils, // Food
+  Droplet, // Water Resources
+  LucideIcon, // Import the type for icons
 } from "lucide-react";
 import Button from "./Button";
 
@@ -23,70 +32,122 @@ interface Work {
 }
 
 const departments = [
-  "Engineering",
-  "Product Management",
-  "Customer Support",
-  "Sales",
-  "Marketing",
-  "Human Resources",
-  "Finance",
+  "Transport",
+  "Home Affairs",
+  "Agriculture",
+  "Programme Implementation",
+  "Urban Affairs",
+  "Information",
+  "Food",
+  "Water Resources",
 ];
 
 // Update initial mock data
 const initialWorks: Work[] = [
   {
     id: 1,
-    title: "User Auth System",
-    description: "Implement user authentication with OAuth and JWT tokens",
+    title: "Road Clearance",
+    description:
+      "Clear debris from roads to ensure safe passage for emergency vehicles.",
     status: "done",
-    department: "Engineering",
-    actualTime: 8,
-    estimatedTime: 6,
+    department: "Transport",
+    actualTime: 10,
+    estimatedTime: 8,
     startTime: new Date("2024-01-15T09:00:00"),
-    completedTime: new Date("2024-01-15T17:00:00"),
+    completedTime: new Date("2024-01-15T19:00:00"),
   },
   {
     id: 2,
-    title: "Landing Page Design",
-    description: "Design new landing page with modern UI/UX principles",
+    title: "Shelter Setup",
+    description: "Set up temporary shelters for displaced residents.",
     status: "in-progress",
-    department: "Product Management",
-    estimatedTime: 4,
+    department: "Home Affairs",
+    estimatedTime: 6,
     startTime: new Date("2024-01-16T10:00:00"),
   },
   {
     id: 3,
-    title: "Quarterly Report",
-    description: "Prepare quarterly financial report for stakeholders",
+    title: "Food Distribution",
+    description: "Distribute food supplies to affected areas.",
     status: "to-do",
-    department: "Finance",
+    department: "Food",
     estimatedTime: 5,
     startTime: new Date("2024-01-17T11:00:00"),
   },
   {
     id: 4,
-    title: "Client Meeting",
-    description: "Prepare for the upcoming client meeting with sales pitch",
+    title: "Water Supply Restoration",
+    description: "Restore clean water supply to affected areas.",
     status: "to-do",
-    department: "Sales",
-    estimatedTime: 2, // Add estimated time
+    department: "Water Resources",
+    estimatedTime: 8,
     startTime: new Date("2024-01-18T11:00:00"),
   },
   {
     id: 5,
-    title: "Marketing Materials",
-    description: "Update marketing materials for the new product launch",
+    title: "Public Information Campaign",
+    description: "Inform the public about safety measures and updates.",
     status: "in-progress",
-    department: "Marketing",
-    estimatedTime: 2,
+    department: "Information",
+    estimatedTime: 3,
     startTime: new Date("2024-01-19T11:00:00"),
+  },
+  {
+    id: 6,
+    title: "Agricultural Damage Assessment",
+    description: "Assess the damage to agricultural lands and crops.",
+    status: "to-do",
+    department: "Agriculture",
+    estimatedTime: 4,
+    startTime: new Date("2024-01-20T09:00:00"),
+  },
+  {
+    id: 7,
+    title: "Urban Infrastructure Inspection",
+    description: "Inspect urban infrastructure for safety and damage.",
+    status: "to-do",
+    department: "Urban Affairs",
+    estimatedTime: 7,
+    startTime: new Date("2024-01-21T10:00:00"),
+  },
+  {
+    id: 8,
+    title: "Program Coordination",
+    description: "Coordinate disaster response programs across departments.",
+    status: "in-progress",
+    department: "Programme Implementation",
+    estimatedTime: 6,
+    startTime: new Date("2024-01-22T11:00:00"),
+  },
+  {
+    id: 9,
+    title: "Medical Aid Distribution",
+    description: "Distribute medical aid to affected areas.",
+    status: "to-do",
+    department: "Home Affairs",
+    estimatedTime: 5,
+    startTime: new Date("2024-01-23T12:00:00"),
+  },
+  {
+    id: 10,
+    title: "Transport Coordination",
+    description: "Coordinate transport for evacuation and supply distribution.",
+    status: "in-progress",
+    department: "Transport",
+    estimatedTime: 8,
+    startTime: new Date("2024-01-24T13:00:00"),
   },
 ];
 
-const StatusIcons = {
-  done: Check,
-  "in-progress": Clock,
-  "to-do": AlertTriangle,
+const StatusIcons: { [key: string]: LucideIcon } = {
+  Transport: Truck,
+  "Home Affairs": Home,
+  Agriculture: Leaf,
+  "Programme Implementation": ClipboardList,
+  "Urban Affairs": Building,
+  Information: Speaker,
+  Food: Utensils,
+  "Water Resources": Droplet,
 };
 
 const StatusColors = {
@@ -204,10 +265,10 @@ const ResponsePlan = () => {
         <DescriptionPopup work={works.find((w) => w.id === showDescription)!} />
       )}
 
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:block [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb:hover]:bg-black/20">
+      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 max-h-[calc(5*6rem)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:block [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb:hover]:bg-black/20">
         {sortedWorks.map((work) => {
           const statusStyle = StatusColors[work.status];
-          const StatusIcon = StatusIcons[work.status];
+          const StatusIcon = StatusIcons[work.department];
 
           return (
             <div
@@ -288,7 +349,7 @@ const ResponsePlan = () => {
                 onChange={(e) => setSelectedDepartment(e.target.value)}
                 className="w-full border border-neutral-300 rounded-lg p-3 appearance-none focus:ring-2 focus:ring-sky-500 focus:outline-none hover:border-sky-300 transition-all duration-300 text-neutral-700"
               >
-                <option value="">Department</option>
+                <option value="">Ministry</option>
                 {departments.map((dept) => (
                   <option key={dept} value={dept}>
                     {dept}

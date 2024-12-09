@@ -721,7 +721,7 @@ export default function CoordinationProfile({ userType="national" }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {personalFields.map((field) => (
                     <div key={field.name}>
-                        <label className="block text-sm font-medium text-gray-700 flex items-center">
+                        <label className=" text-sm font-medium text-gray-700 flex items-center">
                             {field.icon}
                             {field.label}
                         </label>
@@ -772,7 +772,7 @@ export default function CoordinationProfile({ userType="national" }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     {professionalFields.map((field) => (
                         <div key={field.name}>
-                            <label className="block text-sm font-medium text-gray-700 flex items-center">
+                            <label className=" text-sm font-medium text-gray-700 flex items-center">
                                 {field.icon}
                                 {field.label}
                             </label>
@@ -814,7 +814,7 @@ export default function CoordinationProfile({ userType="national" }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Two-Factor Authentication */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 flex items-center">
+                    <label className=" text-sm font-medium text-gray-700 flex items-center">
                         <Lock className="mr-2 h-5 w-5 text-gray-500" />
                         Two-Factor Authentication
                     </label>
@@ -838,7 +838,7 @@ export default function CoordinationProfile({ userType="national" }) {
 
                 {/* Last Password Change */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 flex items-center">
+                    <label className=" text-sm font-medium text-gray-700 flex items-center">
                         <Calendar className="mr-2 h-5 w-5 text-gray-500" />
                         Last Password Change
                     </label>
@@ -854,7 +854,7 @@ export default function CoordinationProfile({ userType="national" }) {
 
                 {/* Access Level */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 flex items-center">
+                    <label className=" text-sm font-medium text-gray-700 flex items-center">
                         <Shield className="mr-2 h-5 w-5 text-gray-500" />
                         Access Level
                     </label>
@@ -897,108 +897,109 @@ export default function CoordinationProfile({ userType="national" }) {
 
     return (
         <div className={`min-h-screen p-8 ${currentConfig.backgroundClass}`}>
-            <div className="container mx-auto bg-white shadow-2xl rounded-xl overflow-hidden">
-                {/* Header Section */}
-                <div className="flex justify-between items-center p-6 bg-gray-100 border-b">
-                    <div className="flex items-center">
-                        {currentConfig.icon}
-                        <div className="ml-4">
-                            <h1 className="text-2xl font-bold text-gray-800">{currentConfig.title}</h1>
-                            <p className="text-sm text-gray-600">Manage and update your profile information</p>
-                        </div>
-                    </div>
-                    <div>
-                        {!isEditing ? (
-                            <button 
-                                onClick={() => setIsEditing(true)}
-                                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                            >
-                                <Edit className="mr-2 h-5 w-5" />
-                                Edit Profile
-                            </button>
-                        ) : (
-                            <div className="flex space-x-2">
-                                <button 
-                                    onClick={() => setIsEditing(false)}
-                                    className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                                >
-                                    <X className="mr-2 h-5 w-5" />
-                                    Cancel
-                                </button>
-                                <button 
-                                    onClick={() => {
-                                        // Save logic here
-                                        setIsEditing(false);
-                                    }}
-                                    className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                                >
-                                    <Save className="mr-2 h-5 w-5" />
-                                    Save Changes
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
+  <div className="container mx-auto bg-white shadow-xl rounded-lg overflow-hidden">
+    {/* Header Section */}
+    <div className="flex justify-between items-center p-6 bg-gray-50 border-b border-gray-200">
+      <div className="flex items-center">
+        {currentConfig.icon}
+        <div className="ml-4">
+          <h1 className="text-3xl font-semibold text-gray-800">{currentConfig.title}</h1>
+          <p className="text-sm text-gray-500">Manage and update your profile information</p>
+        </div>
+      </div>
+      <div>
+        {!isEditing ? (
+          <button 
+            onClick={() => setIsEditing(true)}
+            className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <Edit className="mr-2 h-5 w-5" />
+            Edit Profile
+          </button>
+        ) : (
+          <div className="flex space-x-4">
+            <button 
+              onClick={() => setIsEditing(false)}
+              className="flex items-center px-6 py-3 bg-gray-400 text-white rounded-lg hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300"
+            >
+              <X className="mr-2 h-5 w-5" />
+              Cancel
+            </button>
+            <button 
+              onClick={() => {
+                // Save logic here
+                setIsEditing(false);
+              }}
+              className="flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <Save className="mr-2 h-5 w-5" />
+              Save Changes
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
                     
-                    {/* Profile Content */}
-                    <div className="p-6">
-                        {renderProfileTabs()}
+    {/* Profile Content */}
+    <div className="p-6">
+      {renderProfileTabs()}
 
-                        {activeTab === 'profile' && (
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                {/* Profile Image Section */}
-                                <div className="md:col-span-1 flex flex-col items-center">
-                                    <div className="relative">
-                                        <img 
-                                            src="https://upload.wikimedia.org/wikipedia/en/6/6b/National_Disaster_Management_Authority_Logo.png"
-                                            alt="Profile" 
-                                            className="w-48 h-48 rounded-full object-cover border-4 border-white shadow-lg"
-                                        />
-                                        {isEditing && (
-                                            <>
-                                                <input 
-                                                    type="file" 
-                                                    ref={fileInputRef}
-                                                    onChange={handleImageUpload}
-                                                    className="hidden" 
-                                                    accept="image/*"
-                                                />
-                                                <button 
-                                                    onClick={() => fileInputRef.current.click()}
-                                                    className="absolute bottom-0 right-0 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600"
-                                                >
-                                                    <Upload className="h-5 w-5" />
-                                                </button>
-                                            </>
-                                        )}
-                                    </div>
-                                    <div className="mt-4 text-center">
-                                        <p className="text-sm text-gray-500">JPG, GIF or PNG. Max size 800K</p>
-                                    </div>
-                                </div>
-
-                                {/* Profile Form */}
-                                <div className="md:col-span-2">
-                                    {renderPersonalInfoForm()}
-                                    {renderExpertiseSection()}
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'professional' && (
-                            <div>
-                                {renderProfessionalInfoForm()}
-                            </div>
-                        )}
-
-                        {activeTab === 'security' && (
-                            <div>
-                                {renderSecuritySettingsForm()}
-                            </div>
-                        )}
-                    </div>
-                </div>
+      {activeTab === 'profile' && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Profile Image Section */}
+          <div className="md:col-span-1 flex flex-col items-center">
+            <div className="relative">
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/en/6/6b/National_Disaster_Management_Authority_Logo.png"
+                alt="Profile" 
+                className="w-48 h-48 rounded-full object-cover border-4 border-white shadow-md"
+              />
+              {isEditing && (
+                <>
+                  <input 
+                    type="file" 
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    className="hidden" 
+                    accept="image/*"
+                  />
+                  <button 
+                    onClick={() => fileInputRef.current.click()}
+                    className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full shadow-md hover:bg-blue-700"
+                  >
+                    <Upload className="h-5 w-5" />
+                  </button>
+                </>
+              )}
             </div>
+            <div className="mt-4 text-center">
+              <p className="text-xs text-gray-500">JPG, GIF, or PNG. Max size 800K</p>
+            </div>
+          </div>
+
+          {/* Profile Form */}
+          <div className="md:col-span-2">
+            {renderPersonalInfoForm()}
+            {renderExpertiseSection()}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'professional' && (
+        <div>
+          {renderProfessionalInfoForm()}
+        </div>
+      )}
+
+      {activeTab === 'security' && (
+        <div>
+          {renderSecuritySettingsForm()}
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
         
     ); 
 

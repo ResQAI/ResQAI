@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from "react";
 import DisasterCard from "./ShortDisasterInfo";
 
-// Define the disaster item interface to match the DisasterCard props
-interface DisasterItem {
+export interface DisasterItem {
   name: string;
   area: string;
   tags?: { label: string; type?: "status" | "level" | "custom" }[];
@@ -34,8 +33,8 @@ const DisasterList: React.FC<DisasterListProps> = ({
     );
   }, [disasters, selectedFilter]);
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
+    <div className="container flex flex-wrap">
+      <div className="flex gap-8 items-center mb-6 w-full">
         <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
         <div className="flex items-center space-x-4">
           <div className="relative">
@@ -120,19 +119,20 @@ const DisasterList: React.FC<DisasterListProps> = ({
                   clipRule="evenodd"
                 />
               </svg>
-              Open Modal
+              View Map
             </button>
           )}
         </div>
       </div>
       {filteredDisasters.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="flex flex-wrap gap-4">
           {filteredDisasters.map((disaster, index) => (
             <DisasterCard
               key={index}
               name={disaster.name}
               area={disaster.area}
               tags={disaster.tags}
+              onViewMore={onOpenModal}
             />
           ))}
         </div>
