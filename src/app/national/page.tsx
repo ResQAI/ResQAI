@@ -6,7 +6,7 @@ const page = () => {
   return (
     <div className="flex h-screen items-start justify-center">
       {/* Left Half */}
-      <div className="filter-map-div h-full flex flex-col mt-12 w-[50%] bg-gray-100">
+      <div className="filter-map-div h-full flex flex-col mt-12 w-[50%] bg-white">
         <NationalListSide />
       </div>
       

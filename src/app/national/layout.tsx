@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-100">
+      <body className="min-h-screen bg-white">
         
         <div className="flex flex-col min-h-screen">
           
@@ -26,7 +26,7 @@ export default function RootLayout({
           
           <div className="flex flex-row pt-16 min-h-screen">
            
-            <aside className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-gray-200 shadow-md">
+            <aside className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white shadow-md">
               <Sidebar role="national" />
             </aside>
 
