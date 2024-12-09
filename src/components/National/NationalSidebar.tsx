@@ -109,7 +109,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
     <>
       <aside
         id="separator-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed left-0 z-40 w-64 h-[92vh] transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 flex flex-col justify-between overflow-y-auto bg-gray-50">
@@ -119,8 +119,8 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
                 <a
                   href="#"
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex my-5 items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group ${
-                    activeTab === item.id ? 'bg-blue-500 text-white hover:bg-blue-500 hover:text-white' : 'bg-gray-50'
+                  className={`flex my-5 items-center p-2 text-gray-900 rounded-lg  group ${
+                    activeTab === item.id ? 'bg-blue-500 text-white' : 'bg-gray-50'
                   }`}
                 >
                   <item.icon size={24} />
