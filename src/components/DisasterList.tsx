@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import DisasterCard from "./ShortDisasterInfo";
 import DisasterMap from "./DisasterMap"; // Assuming this is your map component
 
-interface DisasterItem {
+export interface DisasterItem {
   name: string;
   area: string;
   tags?: { label: string; type?: "status" | "level" | "custom" }[];
