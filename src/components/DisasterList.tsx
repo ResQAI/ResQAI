@@ -44,33 +44,11 @@ const DisasterList: React.FC<DisasterListProps> = ({ title, disasters,lat,lng,zo
     <div className="container">
       <div className="flex justify-between items-center my-6">
         <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-        <button
-          onClick={openModal}
-          className="
-            inline-flex 
-            items-center 
-            px-4 
-            py-2 
-            border 
-            border-transparent 
-            text-sm 
-            font-medium 
-            rounded-md 
-            text-white 
-            bg-blue-600 
-            hover:bg-blue-700 
-            focus:outline-none 
-            focus:ring-2 
-            focus:ring-offset-2 
-            focus:ring-blue-500
-          "
-        >
-          View Map
-        </button>
+        
       </div>
 
-      <div className="relative mb-6">
-        <select
+      <div className="relative mb-6 flex justify-between mr-10">
+      <select
           value={selectedFilter || ""}
           onChange={(e) => setSelectedFilter(e.target.value || null)}
           className="
@@ -97,10 +75,35 @@ const DisasterList: React.FC<DisasterListProps> = ({ title, disasters,lat,lng,zo
             </option>
           ))}
         </select>
+
+        <button
+          onClick={openModal}
+          className="
+            inline-flex 
+            items-center 
+            px-4 
+            py-2 
+            border 
+            border-transparent 
+            text-sm 
+            font-medium 
+            rounded-md 
+            text-white 
+            bg-blue-600 
+            hover:bg-blue-700 
+            focus:outline-none 
+            focus:ring-2 
+            focus:ring-offset-2 
+            focus:ring-blue-500
+            ml-10
+          "
+        >
+          View Map
+        </button>
       </div>
 
       {filteredDisasters.length > 0 ? (
-        <div className="flex flex-wrap gap-4">
+        <div className="md:flex md:flex-wrap gap-4 item-center justify-center">
           {filteredDisasters.map((disaster, index) => (
             <DisasterCard
               key={index}

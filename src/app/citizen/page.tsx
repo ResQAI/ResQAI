@@ -1,5 +1,6 @@
 // import NationalHomeToggleArea from "@/components/National/NationalHomeToggle";
 import NationalListSide from "@/components/Citizen/CitizenListSide";
+import ProfileComponent from "@/components/Profile"
 import React from "react";
 
 const page = () => {
@@ -8,6 +9,7 @@ const page = () => {
       {/* Left Half */}
       <div className="filter-map-div h-full flex flex-col mt-12 w-[90%] bg-white">
         <NationalListSide />
+        {/* <ProfileComponent /> */}
       </div>
       
       {/* Right Half

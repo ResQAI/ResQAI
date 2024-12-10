@@ -67,6 +67,29 @@ const ResourceRequestManagement = () => {
     status: "All",
   });
 
+
+  interface Filters {
+    urgency: string;
+    status: string;
+  }
+  
+  const handleFilterChange = (filterType: FilterType, value: string): void => {
+    // Assuming filters are stored in a state or a similar context
+    setFilters((prevFilters: Filters) => ({
+      ...prevFilters,
+      [filterType]: value,
+    }));
+  
+    // Add any additional logic, e.g., fetching filtered data
+    console.log(`Filter updated: ${filterType} = ${value}`);
+  };
+  
+  // Example usage in a React component:
+  // const [filters, setFilters] = React.useState<Filters>({
+  //   urgency: "All",
+  //   status: "All",
+  // });
+
   // Color and styling helpers
   const getUrgencyStyles = (urgency) => {
     const styles = {
@@ -124,15 +147,34 @@ const ResourceRequestManagement = () => {
 
         {/* Filters */}
         <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
-          <div className="flex flex-wrap gap-2 items-center">
-            <span className="text-gray-700 text-sm font-medium mr-2">Urgency:</span>
-            {renderFilterButtons("urgency", ["All", "Critical", "High", "Medium"])}
-          </div>
-          <div className="flex flex-wrap gap-2 items-center">
-            <span className="text-gray-700 text-sm font-medium mr-2">Status:</span>
-            {renderFilterButtons("status", ["All", "Approved", "Pending", "Rejected"])}
-          </div>
-        </div>
+  <div className="flex flex-wrap gap-2 items-center">
+    <label className="text-gray-700 text-sm font-medium mr-2" htmlFor="urgency-filter">Urgency:</label>
+    <select
+      id="urgency-filter"
+      className="border border-gray-300 rounded-md text-sm px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
+      onChange={(e) => handleFilterChange("urgency", e.target.value)}
+    >
+      <option value="All">All</option>
+      <option value="Critical">Critical</option>
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+    </select>
+  </div>
+  <div className="flex flex-wrap gap-2 items-center">
+    <label className="text-gray-700 text-sm font-medium mr-2" htmlFor="status-filter">Status:</label>
+    <select
+      id="status-filter"
+      className="border border-gray-300 rounded-md text-sm px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
+      onChange={(e) => handleFilterChange("status", e.target.value)}
+    >
+      <option value="All">All</option>
+      <option value="Approved">Approved</option>
+      <option value="Pending">Pending</option>
+      <option value="Rejected">Rejected</option>
+    </select>
+  </div>
+</div>
+
 
         {/* Request Cards */}
         <div className="grid grid-cols-2 gap-6">
