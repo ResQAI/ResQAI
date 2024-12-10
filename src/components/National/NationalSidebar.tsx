@@ -7,6 +7,7 @@ import {
   MessageSquareLockIcon,
   SendIcon,
   User2Icon,
+  AlertTriangleIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -29,6 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
     },
     { id: "sendnotification", name: "Send Notifications", icon: SendIcon },
     { id: "collaborate", name: "Collaborate", icon: MessageSquareLockIcon },
+    { id: "incomingdisasterinfo", name: "Incoming Disaster", icon: AlertTriangleIcon },
   ];
 
   const setActiveTabFunction = (id: string) => () => {

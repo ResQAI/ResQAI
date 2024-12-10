@@ -32,7 +32,7 @@ const NationalHomeToggleArea = () => {
   return (
     <div className="h-full w-full">
       {/* Tabs */}
-      <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200">
+      <div className="grid grid-cols-3 border-b border-gray-200">
         {tabs.map((tab) => (
           <button
             key={tab.id}
