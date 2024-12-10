@@ -1,6 +1,6 @@
 "use client";
-import React from 'react';
-import DisasterList from '../DisasterList';
+import React from "react";
+import DisasterList from "../DisasterList";
 
 const NationalListSide: React.FC = () => {
   const disasterData = [
@@ -10,57 +10,48 @@ const NationalListSide: React.FC = () => {
       tags: [
         { label: "Ongoing", type: "status" },
         { label: "Level 3", type: "level" },
-        { label: "Critical" }
-      ]
+        { label: "Critical" },
+      ],
     },
     {
       name: "Hurricane Elena",
       area: "Florida Coast",
-      tags: [
-        { label: "Upcoming", type: "status" },
-        { label: "Warning" }
-      ]
+      tags: [{ label: "Upcoming", type: "status" }, { label: "Warning" }],
     },
     {
       name: "Wildfire",
       area: "California Wilderness",
       tags: [
         { label: "Ongoing", type: "status" },
-        { label: "Level 2", type: "level" }
-      ]
+        { label: "Level 2", type: "level" },
+      ],
     },
     {
       name: "Wildfire",
       area: "California Wilderness",
       tags: [
         { label: "Ongoing", type: "status" },
-        { label: "Level 2", type: "level" }
-      ]
+        { label: "Level 2", type: "level" },
+      ],
     },
     {
       name: "Flood",
       area: "Louisiana Delta",
       tags: [
         { label: "Resolved", type: "status" },
-        { label: "Level 1", type: "level" }
-      ]
+        { label: "Level 1", type: "level" },
+      ],
     },
     {
       name: "Tropical Storm",
       area: "Gulf of Mexico",
-      tags: [
-        { label: "Warning" },
-        { label: "Level 2", type: "level" }
-      ]
+      tags: [{ label: "Warning" }, { label: "Level 2", type: "level" }],
     },
     {
       name: "Avalanche",
       area: "Rocky Mountains",
-      tags: [
-        { label: "Critical" },
-        { label: "Level 3", type: "level" }
-      ]
-    }
+      tags: [{ label: "Critical" }, { label: "Level 3", type: "level" }],
+    },
   ];
 
   const handleOpenModal = () => {
@@ -68,11 +59,19 @@ const NationalListSide: React.FC = () => {
   };
 
   return (
-    <DisasterList 
-      title="Countrywide Disasters"
-      disasters={disasterData}
-      onOpenModal={handleOpenModal}
-    />
+    <div>
+      <DisasterList
+        title="Countrywide Disasters"
+        disasters={disasterData}
+        onOpenModal={handleOpenModal}
+        // onClick={() =>
+        //   setMapView({ lat: 20.5937, lng: 78.9629, zoom: 5 }) // India
+        // }
+        lat={20.5937}
+        lng={78.9629}
+        zoom={5}
+      />
+    </div>
   );
 };
 

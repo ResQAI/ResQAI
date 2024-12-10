@@ -11,25 +11,20 @@ import SituationReport from "@/components/SituationReport";
 import ResourceRequestManagement from './NationalResourceManagement';
 
 const NationalHomeToggleArea = () => {
-  const [activeTab, setActiveTab] = useState('situationReport');
+  const [activeTab, setActiveTab] = useState('responsePlan');
 
   const tabs = [
-    { 
-      id: 'situationReport', 
-      label: 'Situation Report', 
-      icon: <FileText className="w-6 h-6" />,
-      component: <SituationReport />,
-    },
+    
     { 
       id: 'responsePlan', 
       label: 'Response Plan', 
-      icon: <Clipboard className="w-6 h-6" />,
+      icon: <Clipboard className="w-4 h-4" />,
       component: <ResponsePlan />,
     },
     { 
       id: 'resourceRequest', 
       label: 'Resource Request', 
-      icon: <Package className="w-6 h-6" />,
+      icon: <Package className="w-4 h-4" />,
       component: <ResourceRequestManagement />,
     }
   ];
@@ -37,7 +32,7 @@ const NationalHomeToggleArea = () => {
   return (
     <div className="h-full w-full">
       {/* Tabs */}
-      <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200">
+      <div className="grid grid-cols-3 border-b border-gray-200">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -69,7 +64,7 @@ const NationalHomeToggleArea = () => {
 
       {/* Content */}
       <div 
-        className="relative p-8 min-h-[400px]" // Set a minimum height to prevent movement
+        className="relative p-8 min-h-[500px]" // Set a minimum height to prevent movement
       >
         {tabs.map((tab) => (
           <div
