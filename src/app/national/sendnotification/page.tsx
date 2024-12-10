@@ -1,12 +1,12 @@
-import NationalHomeToggleArea from "@/components/National/NationalHomeToggle";
-import NationalListSide from "@/components/National/NationalListSide";
+
+import AlertNotificationPage from "@/components/National/NationalSendNotification";
 import React from "react";
 
 const page = () => {
   return (
-    <div className="flex h-screen items-start justify-center">
-      
-    </div>
+    
+      <AlertNotificationPage />
+    
   );
 };
 
