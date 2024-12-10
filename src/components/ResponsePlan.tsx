@@ -258,7 +258,7 @@ const ResponsePlan = () => {
   };
 
   return (
-    <div className="bg-neutral-50 h-full rounded-2xl shadow-2xl overflow-hidden border border-neutral-200 flex flex-col max-w-[1400px] min-h-[50vh] mx-auto">
+    <div className="bg-neutral-50 h-full rounded-2xl shadow-2xl overflow-hidden border border-neutral-200 flex flex-col max-h-[1400px] min-h-[730px] mx-auto">
       {/* Timeline container with relative positioning */}
       <div className="relative overflow-hidden h-[calc(100vh-20rem)] min-h-[500px]">
         {/* Task Detail Overlay - Moved inside timeline container */}
@@ -424,7 +424,7 @@ const ResponsePlan = () => {
                     </div>
 
                     {/* Center Node */}
-                    <div className="absolute left-1/2 -translate-x-1/2 z-10">
+                    <div className="absolute left-[49.5%] -translate-x-1/2 z-10">
                       <div
                         className={`w-3 h-3 rounded-full border-2 border-white ${
                           work.failed ? "bg-red-600" : "bg-blue-700"
