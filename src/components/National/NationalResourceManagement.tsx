@@ -7,6 +7,7 @@ import {
   Check,
   X,
   Filter,
+  Phone
 } from "lucide-react";
 
 const ResourceRequestManagement = () => {
@@ -197,12 +198,12 @@ const ResourceRequestManagement = () => {
             </div>
             <div className="flex flex-col space-y-2">
               <span 
-                className={`px-3 py-1 rounded-full text-xs font-semibold ${getUrgencyStyles(request.urgency)}`}
+                className={`px-3 py-1 rounded-full text-center text-xs font-semibold ${getUrgencyStyles(request.urgency)}`}
               >
                 {request.urgency}
               </span>
               <span 
-                className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusStyles(request.status)}`}
+                className={`px-3 py-1 rounded-full text-center text-xs font-semibold ${getStatusStyles(request.status)}`}
               >
                 {request.status}
               </span>
@@ -238,7 +239,7 @@ const ResourceRequestManagement = () => {
         {selectedRequest && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="bg-blue-600 text-white p-6 rounded-t-xl">
+              <div className="bg-blue-600 text-white p-6">
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-lg font-bold">{selectedRequest.organization}</h2>
@@ -258,7 +259,7 @@ const ResourceRequestManagement = () => {
 
               <div className="p-6 space-y-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                  <h3 className="text-md font-semibold mb-2 text-gray-800">
                     Current Situation
                   </h3>
                   <p className="text-gray-700">
@@ -268,7 +269,7 @@ const ResourceRequestManagement = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                    <h3 className="text-md font-semibold mb-2 text-gray-800">
                       Specific Needs
                     </h3>
                     <p className="text-gray-700">
@@ -276,17 +277,17 @@ const ResourceRequestManagement = () => {
                     </p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                    <h3 className="text-md font-semibold mb-2 text-gray-800">
                       Population Affected
                     </h3>
-                    <p className="text-3xl font-bold text-gray-800">
+                    <p className="text-lg font-bold text-gray-800">
                       {selectedRequest.progressDetails.populationAffected}
                     </p>
                   </div>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                  <h3 className="text-md font-semibold mb-2 text-gray-800">
                     Critical Challenges
                   </h3>
                   <p className="text-gray-700">
@@ -294,7 +295,7 @@ const ResourceRequestManagement = () => {
                   </p>
                 </div>
 
-                <div className="flex flex-wrap justify-center gap-4">
+                                <div className="flex flex-wrap justify-center gap-4">
                   <button 
                     onClick={() => {
                       setResourceRequests(prev => 
@@ -326,6 +327,13 @@ const ResourceRequestManagement = () => {
                   >
                     <X className="w-5 h-5 mr-2" />
                     Reject
+                  </button>
+                  <button 
+                    onClick={() => handleContactOrganization(selectedRequest)}
+                    className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                  >
+                    <Phone className="w-5 h-5 mr-2" />
+                    Contact Organization
                   </button>
                 </div>
               </div>

@@ -1,45 +1,62 @@
 "use client";
-import React, { useState } from "react";
-import { jsPDF } from "jspdf";
-import {
-  ChevronDown,
-  FileText,
-  MapPin,
-  CloudRain,
-  Users,
-  Truck,
-  Clipboard,
-  Sparkles,
-} from "lucide-react";
+import React, { useState } from 'react';
+import { FileText, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
+import jsPDF from 'jspdf';
 
-const SituationReport = () => {
-  const [activeSection, setActiveSection] = useState(null);
+const DisasterSituationReport = () => {
   const [formData, setFormData] = useState({
     disasterStatus: {
-      weatherCondition: "",
-      affectedAreas: "",
-      affectedPopulation: "",
+      weatherCondition: '',
+      affectedAreas: '',
+      affectedPopulation: ''
     },
     casualties: {
-      types: "",
-      firstAid: "",
-      communication: "",
+      types: '',
+      firstAid: '',
+      communication: ''
     },
     materialFlow: {
-      foodMaterials: "",
-      airDropping: "",
-      transport: "",
-      medicalAid: "",
+      foodMaterials: '',
+      airDropping: '',
+      transport: '',
+      medicalAid: ''
     },
     teamArrival: {
-      centralTeams: "",
-      internationalTeams: "",
-      others: "",
+      centralTeams: '',
+      internationalTeams: '',
+      others: ''
     },
-    quickResponse: "",
+    quickResponse: ''
   });
 
-  // AI Autofill Mock Function (you'd replace this with actual AI API call)
+  // New state to track which sections are expanded
+  const [expandedSections, setExpandedSections] = useState({
+    disasterStatus: true,
+    casualties: false,
+    materialFlow: false,
+    teamArrival: false,
+    quickResponse: true
+  });
+
+  // Toggle section expansion
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  // Handle input changes
+  const handleChange = (section, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value
+      }
+    }));
+  };
+
   const handleAIAutofill = () => {
     const mockAIData = {
       disasterStatus: {
@@ -70,15 +87,7 @@ const SituationReport = () => {
     setFormData(mockAIData);
   };
 
-  const handleChange = (section, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value,
-      },
-    }));
-  };
+  
 
   // PDF Generation Function (remains the same as previous implementation)
   const generatePDF = () => {
@@ -267,37 +276,28 @@ const SituationReport = () => {
     pdf.save("Disaster_Situation_Report.pdf");
   };
 
-  const renderSection = (title, fields, sectionKey, icon) => {
-    const isActive = activeSection === sectionKey;
-
+  // Reusable section renderer
+  const renderSection = (title, sectionKey, fields) => {
     return (
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div
-          onClick={() => setActiveSection(isActive ? null : sectionKey)}
-          className="flex items-center justify-between p-4 cursor-pointer bg-gray-100 hover:bg-gray-200 transition-colors"
+      <div className="mb-6 border border-gray-200 rounded-lg">
+        <div 
+          onClick={() => toggleSection(sectionKey)}
+          className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50 transition-colors"
         >
-          <div className="flex items-center space-x-3">
-            {icon}
-            <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
-          </div>
-          <ChevronDown
-            className={`transform transition-transform ${
-              isActive ? "rotate-180" : ""
-            }`}
-          />
+          <h3 className="text-lg font-medium text-gray-800">{title}</h3>
+          {expandedSections[sectionKey] ? <ChevronUp /> : <ChevronDown />}
         </div>
-        {isActive && (
-          <div className="p-4 space-y-3">
+        
+        {expandedSections[sectionKey] && (
+          <div className="p-4">
             {fields.map((field) => (
               <input
-                key={field.name}
+                key={field}
                 type="text"
-                placeholder={field.placeholder}
-                value={formData[sectionKey][field.name]}
-                onChange={(e) =>
-                  handleChange(sectionKey, field.name, e.target.value)
-                }
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                placeholder={field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                value={formData[sectionKey][field]}
+                onChange={(e) => handleChange(sectionKey, field, e.target.value)}
+                className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             ))}
           </div>
@@ -307,112 +307,81 @@ const SituationReport = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white sm:p-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
-        <div className="bg-blue-600 text-white p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between">
-          <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-            <FileText size={32} />
+    <div className="min-h-screen w-full bg-white flex flex-col">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-8xl mx-auto px-4 py-6 flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <FileText className="text-blue-600" size={32} />
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">
+              <h1 className="text-2xl font-bold text-gray-900">
                 Disaster Situation Report
               </h1>
-              <p className="text-blue-100 text-sm sm:text-base mt-1">
-                Comprehensive disaster reporting tool
+              <p className="text-gray-500 text-sm">
+                Comprehensive disaster management tool
               </p>
             </div>
           </div>
           <button
             onClick={handleAIAutofill}
-            className="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full shadow-lg hover:from-purple-600 hover:to-pink-600 transition-transform transform hover:scale-105"
+            className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
-            <Sparkles size={20} />
-            <span className="text-sm font-medium">AI Autofill</span>
+            <Sparkles size={16} />
+            <span className="text-lg">AI Autofill</span>
           </button>
         </div>
+      </header>
 
-        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-          {renderSection(
-            "Disaster Status",
-            [
-              { name: "weatherCondition", placeholder: "Weather Condition" },
-              { name: "affectedAreas", placeholder: "Affected Areas" },
-              {
-                name: "affectedPopulation",
-                placeholder: "Affected Population",
-              },
-            ],
-            "disasterStatus",
-            <CloudRain className="text-blue-600" />
-          )}
+      {/* Main Content */}
+      <main className="flex-grow max-w-8xl w-full mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
+        {/* Form Sections */}
+        <div className="space-y-6">
+          {renderSection('Disaster Status', 'disasterStatus', ['weatherCondition', 'affectedAreas', 'affectedPopulation'])}
+          {renderSection('Casualties', 'casualties', ['types', 'firstAid', 'communication'])}
+          {renderSection('Material Flow', 'materialFlow', ['foodMaterials', 'airDropping', 'transport', 'medicalAid'])}
+          {renderSection('Team Arrival', 'teamArrival', ['centralTeams', 'internationalTeams', 'others'])}
+        </div>
 
-          {renderSection(
-            "Casualties",
-            [
-              { name: "types", placeholder: "Types of Casualties" },
-              { name: "firstAid", placeholder: "First Aid" },
-              { name: "communication", placeholder: "Communication" },
-            ],
-            "casualties",
-            <Users className="text-red-600" />
-          )}
-
-          {renderSection(
-            "Material Flow",
-            [
-              { name: "foodMaterials", placeholder: "Food and Materials" },
-              { name: "airDropping", placeholder: "Air Dropping" },
-              { name: "transport", placeholder: "Transport" },
-              { name: "medicalAid", placeholder: "Medical Aid" },
-            ],
-            "materialFlow",
-            <Truck className="text-green-600" />
-          )}
-
-          {renderSection(
-            "Team Arrival",
-            [
-              { name: "centralTeams", placeholder: "Central Teams" },
-              {
-                name: "internationalTeams",
-                placeholder: "International Teams",
-              },
-              { name: "others", placeholder: "Others" },
-            ],
-            "teamArrival",
-            <MapPin className="text-purple-600" />
-          )}
-
-          <div className="bg-white rounded-lg shadow-md">
-            <div className="flex items-center p-4 bg-gray-100">
-              <Clipboard className="text-blue-600 mr-3" />
-              <h2 className="text-lg font-semibold text-gray-800">
+        {/* Quick Response and PDF Generation */}
+        <div className="space-y-6">
+          <div 
+            className="bg-white border border-gray-200 rounded-lg"
+          >
+            <div 
+              onClick={() => toggleSection('quickResponse')}
+              className="p-4 border-b border-gray-200 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors"
+            >
+              <h3 className="text-lg font-medium text-gray-800">
                 Quick Response
-              </h2>
+              </h3>
+              {expandedSections.quickResponse ? <ChevronUp /> : <ChevronDown />}
             </div>
-            <textarea
-              placeholder="Provide a quick summary of the response efforts"
-              value={formData.quickResponse}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  quickResponse: e.target.value,
-                }))
-              }
-              className="w-full p-4 min-h-[150px] border-t border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-            />
+            {expandedSections.quickResponse && (
+              <textarea
+                placeholder="Provide a quick summary of the response efforts"
+                value={formData.quickResponse}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    quickResponse: e.target.value,
+                  }))
+                }
+                className="w-full p-4 min-h-[300px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            )}
           </div>
 
           <button
             onClick={generatePDF}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 font-semibold text-lg"
+            className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center space-x-2"
           >
             <FileText />
             <span>Generate Detailed PDF Report</span>
           </button>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
 
-export default SituationReport;
+export default DisasterSituationReport;
