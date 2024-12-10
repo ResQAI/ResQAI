@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import NationalHeader from "@/components/National/NationalHeader";
-import Sidebar from "@/components/Citizen/CitizenlSidebar";
+import Sidebar from "@/components/NGO/NgoSidebar";
 
 export const metadata: Metadata = {
   title: "ResQAI",
