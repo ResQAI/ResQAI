@@ -11,7 +11,7 @@ import {
   SendIcon,
   Sparkle,
   User2Icon,
-  HeartHandshake ,
+  HeartHandshake
 } from "lucide-react";
 
 interface SidebarProps {
@@ -131,7 +131,8 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
               </li>
             ))}
           </ul>
-          <Button className="w-full text-lg" color="red">Help Me</Button>
+          {/* <Button className="w-full text-lg" color="red">Help Me</Button> */}
+          <Button className="w-full text-lg">AI suggestions</Button>
         </div>
       </aside>
     </>
