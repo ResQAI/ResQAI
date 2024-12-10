@@ -17,19 +17,19 @@ const NationalHomeToggleArea = () => {
     { 
       id: 'situationReport', 
       label: 'Situation Report', 
-      icon: <FileText className="w-6 h-6" />,
+      icon: <FileText className="w-4 h-4" />,
       component: <SituationReport />,
     },
     { 
       id: 'responsePlan', 
       label: 'Response Plan', 
-      icon: <Clipboard className="w-6 h-6" />,
+      icon: <Clipboard className="w-4 h-4" />,
       component: <ResponsePlan />,
     },
     { 
       id: 'resourceRequest', 
       label: 'Resource Request', 
-      icon: <Package className="w-6 h-6" />,
+      icon: <Package className="w-4 h-4" />,
       component: <ResourceRequestManagement />,
     }
   ];
