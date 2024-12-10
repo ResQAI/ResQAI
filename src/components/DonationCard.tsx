@@ -15,7 +15,7 @@ const DonationCard: React.FC<DonationCardProps> = ({ image, title, description, 
 //   const progress = Math.min((raised / goal) * 100, 100);
 
   return (
-    <div className="px-6 py-6 w-full border-2 border-gray-200 rounded-xl">
+    <div className="px-6 py-6 w-full border-2 border-gray-200 rounded-xl flex flex-col justify-between">
       {/* <img
         src={image}
         alt="Donation"
@@ -51,7 +51,7 @@ const DonationCard: React.FC<DonationCardProps> = ({ image, title, description, 
         <p className="font-light text-gray-900 text-md">{progress.toFixed(0)}%</p>
       </div> */}
       <button
-        className="w-full py-4 bg-info font-semibold text-white text-lg rounded-lg bg-blue-800 transition ease-in-out duration-500 hover:bg-gray-500"
+        className="w-full py-4 bg-info font-semibold text-white text-lg rounded-lg bg-blue-500 transition ease-in-out duration-500 hover:bg-blue-800"
         onClick={onDonate}
       >
         Donate
