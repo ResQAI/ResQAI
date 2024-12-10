@@ -14,13 +14,22 @@ interface DisasterListProps {
   lat: number;
   lng: number;
   zoom: number;
-
 }
 
-const DisasterList: React.FC<DisasterListProps> = ({ title, disasters,lat,lng,zoom }) => {
+const DisasterList: React.FC<DisasterListProps> = ({
+  title,
+  disasters,
+  lat,
+  lng,
+  zoom,
+}) => {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [mapView, setMapView] = useState({ lat: 20.5937, lng: 78.9629, zoom: 5 });
+  const [mapView, setMapView] = useState({
+    lat: 20.5937,
+    lng: 78.9629,
+    zoom: 5,
+  });
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -42,18 +51,16 @@ const DisasterList: React.FC<DisasterListProps> = ({ title, disasters,lat,lng,zo
 
   return (
     <div className="container">
-      <div className="flex justify-between items-center my-6">
-        <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-        
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
       </div>
 
       <div className="relative mb-6 flex justify-between mr-10">
-      <select
+        <select
           value={selectedFilter || ""}
           onChange={(e) => setSelectedFilter(e.target.value || null)}
           className="
-            block 
-       
+            block
             pl-3 
             pr-10 
             py-2 
@@ -103,7 +110,7 @@ const DisasterList: React.FC<DisasterListProps> = ({ title, disasters,lat,lng,zo
       </div>
 
       {filteredDisasters.length > 0 ? (
-        <div className="md:flex md:flex-wrap gap-4 item-center justify-center">
+        <div className="md:flex max-h-screen mb-2 overflow-y-scroll md:flex-wrap gap-4 item-center justify-center">
           {filteredDisasters.map((disaster, index) => (
             <DisasterCard
               key={index}
