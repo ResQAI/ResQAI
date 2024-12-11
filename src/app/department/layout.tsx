@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import "../globals.css";
-import Sidebar from "@/components/State/StateSidebar";
-import StateHeader from "@/components/State/StateHeader";
+import Sidebar from "@/components/Department/DepartmentSidebar";
+import StateHeader from "@/components/Department/DepartmentHeader";
 
 export const metadata: Metadata = {
   title: "ResQAI - State",
@@ -26,7 +25,7 @@ export default function StateLayout({
               <Sidebar role="national" />
             </aside>
 
-            <main className="ml-64 w-full bg-white overflow-y-auto">
+            <main className="ml-64 mt-8 w-full bg-white overflow-y-auto">
               {children}
             </main>
           </div>

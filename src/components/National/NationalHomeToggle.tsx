@@ -61,13 +61,15 @@ const NationalHomeToggleArea = () => {
 
       {/* Content */}
       <div
-        className="relative p-8 min-h-[50vh]" // Set a minimum height to prevent movement
+        className="relative p-8 min-h-[500px]" // Set a minimum height to prevent movement
       >
         {tabs.map((tab) => (
           <div
             key={tab.id}
             className={`
-              absolute inset-0 transition-opacity duration-500
+              ${
+                tab.id != "responsePlan" && "absolute inset-0"
+              } transition-opacity duration-500
               ${
                 activeTab === tab.id
                   ? "opacity-100"

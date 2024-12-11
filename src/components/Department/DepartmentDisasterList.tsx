@@ -63,7 +63,7 @@ const NationalListSide: React.FC = () => {
 
   return (
     <DisasterList
-      title="Area Wise Disasters"
+      title="Active Disasters"
       disasters={disasterData}
       onOpenModal={handleOpenModal}
       lat={28.6139}
