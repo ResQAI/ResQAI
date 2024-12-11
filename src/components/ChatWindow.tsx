@@ -1,3 +1,4 @@
+"use client";
 import { MessageSquare, Paperclip, Phone, Send, Smile, Video } from 'lucide-react'
 import Image from 'next/image'
 import React, { Key, useState } from 'react'

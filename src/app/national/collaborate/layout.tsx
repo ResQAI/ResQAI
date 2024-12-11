@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "../globals.css";
+import "../../globals.css";
 import NationalHeader from "@/components/National/NationalHeader";
 import Sidebar from "@/components/National/NationalSidebar";
 
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-white">
+      <body className="h-fit max-h-[70vh] bg-white">
         <div className="flex flex-col min-h-screen">
           <header className="fixed top-0 left-0 right-0 h-16 bg-white shadow-md z-10">
             <NationalHeader />
@@ -26,7 +26,7 @@ export default function RootLayout({
               <Sidebar role="national" />
             </aside>
 
-            <main className="ml-64 w-full p-6 bg-white">
+            <main className="ml-64 w-full mt-2 bg-white">
               {children}
             </main>
           </div>

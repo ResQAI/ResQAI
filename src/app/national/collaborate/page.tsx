@@ -1,12 +1,24 @@
-import NationalHomeToggleArea from "@/components/National/NationalHomeToggle";
-import NationalListSide from "@/components/National/NationalListSide";
+"use client";
+import ChatContacts from "@/components/ChatContacts";
+import ChatHeader from "@/components/ChatHeader";
+import ChatWindow from "@/components/ChatWindow";
+import { UserAuthProvider } from "@/store/UserAuth";
 import React from "react";
 
 const page = () => {
   return (
-    <div className="flex h-screen items-start justify-center">
-      
-    </div>
+    <UserAuthProvider>
+      <div className="flex h-screen bg-gray-200">
+        <div className="w-1/3 bg-white border-r border-gray-200 flex flex-col ">
+          <ChatHeader />
+          <ChatContacts />
+        </div>
+
+        <div className="flex-grow flex flex-col">
+          <ChatWindow />
+        </div>
+      </div>
+    </UserAuthProvider>
   );
 };
 

@@ -110,13 +110,14 @@ const DisasterList: React.FC<DisasterListProps> = ({
       </div>
 
       {filteredDisasters.length > 0 ? (
-        <div className="md:flex max-h-screen mb-2 overflow-y-scroll md:flex-wrap gap-4 item-center justify-center">
+        <div className="md:flex max-h-screen mb-2 md:flex-wrap gap-4 item-center justify-center">
           {filteredDisasters.map((disaster, index) => (
             <DisasterCard
               key={index}
               name={disaster.name}
               area={disaster.area}
               tags={disaster.tags}
+              onViewMore={() => console.log("View more")}
             />
           ))}
         </div>
