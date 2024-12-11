@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
             {navigationItems.map((item) => (
               <li key={item.id}>
                  <Link
-                  href={`/citizen/${item.id}`}
+                  href={`/ngo/${item.id}`}
                   onClick={setActiveTabFunction(item.id)}
                   className={`flex my-5 items-center p-2 text-gray-900 rounded-lg  group ${
                     activeTab === item.id

@@ -34,7 +34,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
     // { id: 'incoming-requests', name: 'Incoming Requests', icon: GitPullRequestClosedIcon },
     // { id: 'progress-submission', name: 'Progress Submission', icon: ChartLine },
     // { id: 'send-notifications', name: 'Send Notifications', icon: SendIcon },
-    { id: 'volunteer', name: 'Become a volunteer', icon: MessageSquareLockIcon },
+    // { id: 'volunteer', name: 'Become a volunteer', icon: MessageSquareLockIcon },
     { id: 'Donate', name: 'Donate to Govt. Funds', icon: HeartHandshake },
   ];
 
