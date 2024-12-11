@@ -157,12 +157,12 @@ const AlertNotificationPage = () => {
     <div className="min-h-screen w-full bg-white font-sans p-4">
       <div className="max-w-8xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        {/* <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 flex items-center">
             <Bell className="mr-3 w-8 h-8 text-blue-600" />
             Alert Management System
           </h1>
-        </div>
+        </div> */}
 
         {/* Tab Navigation */}
         <div className="bg-white rounded-xl shadow-lg mb-6 overflow-hidden">

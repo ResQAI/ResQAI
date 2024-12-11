@@ -62,7 +62,7 @@ const DisasterCard: React.FC<DisasterCardProps> = ({
     >
       <div className="space-y-3">
         <div className="flex justify-between items-start">
-          <h2 className="text-lg font-bold text-gray-900 flex-grow">{name}</h2>
+          <h2 className="text-md font-bold text-gray-900 flex-grow">{name}</h2>
           {/* Tags Container */}
           {tags.length > 0 && (
             <div className="flex flex-wrap gap-2 justify-end">
