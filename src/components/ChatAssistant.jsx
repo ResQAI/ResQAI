@@ -8,7 +8,7 @@ const LandingChatAssistant = () => {
   const [messages, setMessages] = useState([
     {
       role: 'model',
-      parts: ['Hi there! 🫡\n\nI am ResQAI, your intelligent assistant. How can I help you today?'],
+      parts: [{'text':'Hi there! 🫡\n\nI am ResQAI, your intelligent assistant. How can I help you today?'}],
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -42,7 +42,7 @@ const LandingChatAssistant = () => {
         } else {
           clearInterval(typeInterval);
         }
-      }, 20); // Adjust typing speed here
+      }, 2); // Adjust typing speed here
     };
 
     // Find the last model message that needs typing
@@ -54,7 +54,7 @@ const LandingChatAssistant = () => {
     }, -1);
 
     if (lastModelMessageIndex !== -1) {
-      typeMessage(messages[lastModelMessageIndex].parts[0], lastModelMessageIndex);
+      typeMessage(messages[lastModelMessageIndex].parts[0]['text'], lastModelMessageIndex);
     }
   }, [messages]);
 
@@ -63,7 +63,7 @@ const LandingChatAssistant = () => {
 
     const userMessage = { 
       role: 'user', 
-      parts: [inputMessage] 
+      parts: [{'text': inputMessage}] 
     };
     
     const updatedMessages = [...messages, userMessage];
@@ -90,7 +90,7 @@ const LandingChatAssistant = () => {
       const data = await response.json();
       const assistantResponse = { 
         role: 'model', 
-        parts: [data.response] 
+        parts: [{'text':data.response}] 
       };
 
       setMessages(prev => [...prev, assistantResponse]);
@@ -99,7 +99,7 @@ const LandingChatAssistant = () => {
       console.error('Error sending message:', error);
       const errorMessage = { 
         role: 'model', 
-        parts: ['Sorry, there was an error processing your request. Please try again.'] 
+        parts: [{'text':'Sorry, there was an error processing your request. Please try again.'}] 
       };
       setMessages(prev => [...prev, errorMessage]);
       setIsLoading(false);
@@ -238,8 +238,8 @@ const LandingChatAssistant = () => {
                     }}
                   >
                     {msg.role === 'model' 
-                      ? (typedMessages[index] || msg.parts[0]) 
-                      : msg.parts[0]
+                      ? (typedMessages[index] || msg.parts[0]['text']) 
+                      : msg.parts[0]['text']
                     }
                   </ReactMarkdown>
                 </div>
