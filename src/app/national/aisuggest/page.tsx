@@ -1,13 +1,18 @@
-import NationalHomeToggleArea from "@/components/National/NationalHomeToggle";
-import NationalListSide from "@/components/National/NationalListSide";
 import React from "react";
+import Prediction from "@/components/PredectionForm";
 
-const page = () => {
+const AnalysisPage = () => {
   return (
-    <div className="flex h-screen items-start justify-center">
+    <div className="flex w-full h-full">
+      <div className="w-1/2 h-full bg-blue-700">
+        {/* <WeatherComponent /> */}
+      </div>
+      <div className="w-1/2 h-full bg-red-700">
+        <Prediction/>
       
+      </div>
     </div>
   );
 };
 
-export default page;
+export default AnalysisPage;

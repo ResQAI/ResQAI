@@ -170,7 +170,9 @@ const TaskCard = ({
 
               {lastUpdate.departments.length > 0 && (
                 <div>
-                  <p className="font-medium mb-1">Departments Involved:</p>
+                  <p className="font-medium mb-1">
+                    Other Departments Involved:
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {lastUpdate.departments.map((dept, index) => (
                       <span
