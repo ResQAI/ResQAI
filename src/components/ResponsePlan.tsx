@@ -19,6 +19,8 @@ import {
   X,
 } from "lucide-react";
 import Button from "./Button";
+import PlanForm from "./PlanForm";
+import { usePathname } from "next/navigation";
 
 export interface Work {
   id: number;
@@ -31,6 +33,15 @@ export interface Work {
   startTime: Date;
   completedTime?: Date;
   failed?: boolean;
+  statusUpdates?: {
+    timestamp: Date;
+    currentStatus: string;
+    personnelCount: number;
+    additionalTimeNeeded: number;
+    resources: string[];
+    departments: string[];
+    additionalResources: string[];
+  }[];
 }
 
 const departments = [
@@ -98,6 +109,33 @@ const initialWorks: Work[] = [
     estimatedTime: 3,
     startTime: new Date(Date.now() - 1000 * 60 * 60 * 5), // 5 hours ago
     failed: false,
+    statusUpdates: [
+      {
+        timestamp: new Date("2024-01-19T12:30:00"),
+        currentStatus: "25% of response units established",
+        personnelCount: 15,
+        additionalTimeNeeded: 4,
+        resources: ["Ambulances", "Basic Supplies"],
+        departments: ["Medical"],
+        additionalResources: ["More vehicles needed"],
+      },
+      {
+        timestamp: new Date("2024-01-19T15:30:00"),
+        currentStatus: "50% of response units established",
+        personnelCount: 25,
+        additionalTimeNeeded: 2,
+        resources: [
+          "Ambulances",
+          "Medical Supplies",
+          "Communication Equipment",
+        ],
+        departments: ["Medical", "Police"],
+        additionalResources: [
+          "More paramedics needed",
+          "Additional tents required",
+        ],
+      },
+    ],
   },
   {
     id: 6,
@@ -185,10 +223,6 @@ const StatusColors = {
 };
 
 const ResponsePlan = () => {
-  const [workTitle, setWorkTitle] = useState("");
-  const [workDescription, setWorkDescription] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState("");
-  const [estimatedTime, setEstimatedTime] = useState("");
   const [works, setWorks] = useState<Work[]>(initialWorks);
   const [selectedTask, setSelectedTask] = useState<Work | null>(null);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
@@ -203,34 +237,13 @@ const ResponsePlan = () => {
     return a.startTime.getTime() - b.startTime.getTime();
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !workTitle.trim() ||
-      !workDescription.trim() ||
-      !selectedDepartment ||
-      !estimatedTime
-    ) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    const newWork: Work = {
+  const handleAddWork = (newWork: Omit<Work, "id" | "status">) => {
+    const work: Work = {
+      ...newWork,
       id: works.length + 1,
-      title: workTitle,
-      description: workDescription,
       status: "to-do",
-      department: selectedDepartment,
-      estimatedTime: parseFloat(estimatedTime),
-      startTime: new Date(), // Record current time when work is created
     };
-
-    setWorks([...works, newWork]);
-    setWorkTitle("");
-    setWorkDescription("");
-    setSelectedDepartment("");
-    setEstimatedTime("");
+    setWorks([...works, work]);
   };
 
   const handleDeleteWork = (e: React.MouseEvent, id: number) => {
@@ -257,96 +270,177 @@ const ResponsePlan = () => {
     return currentTime > endTime;
   };
 
+  // Add utility function to get the latest status update
+  const getLastStatusUpdate = (work: Work) => {
+    // Assuming work has a statusUpdates array
+    return work.statusUpdates?.length > 0
+      ? work.statusUpdates[work.statusUpdates.length - 1]
+      : null;
+  };
+
+  let isDepartment = usePathname().includes("department");
+
   return (
-    <div className="bg-neutral-50 h-full rounded-2xl shadow-2xl overflow-hidden border border-neutral-200 flex flex-col max-h-[1400px] min-h-[730px] mx-auto">
-      {/* Timeline container with relative positioning */}
-      <div className="relative overflow-hidden h-[calc(100vh-20rem)] min-h-[500px]">
-        {/* Task Detail Overlay - Moved inside timeline container */}
-        {selectedTask && (
-          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/5 backdrop-blur-sm">
-            <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-2xl p-8 max-w-2xl w-[90%] mx-4 relative border border-gray-100">
-              <button
-                onClick={handleCloseDetail}
-                className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <X size={20} />
-              </button>
-              <div className="text-2xl font-bold mb-4 text-gray-800">
-                {selectedTask.title}{" "}
-                {isTaskLate(selectedTask) && !selectedTask.failed && (
-                  <span className="text-sm text-red-600"> (Delay)</span>
-                )}
-                {selectedTask.failed && (
-                  <span className="text-sm text-red-600"> (Failed)</span>
-                )}
+    <div className="bg-neutral-50 h-full rounded-2xl shadow-2xl overflow-hidden border border-neutral-200 flex flex-col max-h-[1400px] mx-auto mb-[5rem] relative">
+      {selectedTask && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/5 backdrop-blur-sm overflow-scroll">
+          <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-2xl p-6 max-w-md w-[90%] mx-4 relative border border-gray-100">
+            <button
+              onClick={handleCloseDetail}
+              className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="text-2xl font-bold mb-4 text-gray-800">
+              {selectedTask.title}{" "}
+              {isTaskLate(selectedTask) && !selectedTask.failed && (
+                <span className="text-sm text-red-600"> (Delay)</span>
+              )}
+              {selectedTask.failed && (
+                <span className="text-sm text-red-600"> (Failed)</span>
+              )}
+            </div>
+            <p className="text-gray-800 mb-1 leading-relaxed">
+              <span className="font-bold">Description - </span>
+              {selectedTask.description}
+            </p>
+            <div className="grid grid-cols-2 gap-6 text-md">
+              <div className="space-y-1">
+                <span className="font-semibold text-gray-800 block">
+                  Department
+                </span>
+                <span className="text-gray-800">{selectedTask.department}</span>
               </div>
-              <p className="text-gray-800 mb-1 leading-relaxed">
-                <span className="font-bold">Description - </span>
-                {selectedTask.description}
-              </p>
-              {selectedTask.status === "in-progress" && (
-                <div className="mb-4 font-bold">
-                  Current Progress -
-                  <span className="font-normal">
-                    The team is cleaning debris
+              <div className="space-y-1">
+                <span className="font-semibold text-gray-800 block">
+                  Status
+                </span>
+                <span className="text-gray-800">{selectedTask.status}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="font-semibold text-gray-800 block">
+                  Start Time
+                </span>
+                <span className="text-gray-800">
+                  {selectedTask.startTime.toLocaleString()}
+                </span>
+              </div>
+              {selectedTask.status === "done" && (
+                <div className="space-y-1">
+                  <span className="font-semibold text-gray-800 block">
+                    End Time
+                  </span>
+                  <span className="text-gray-800">
+                    {selectedTask.completedTime?.toLocaleString()}
                   </span>
                 </div>
               )}
-              <div className="grid grid-cols-2 gap-6 text-md">
-                <div className="space-y-1">
-                  <span className="font-semibold text-gray-800 block">
-                    Department
-                  </span>
-                  <span className="text-gray-800">
-                    {selectedTask.department}
-                  </span>
-                </div>
-                <div className="space-y-1">
-                  <span className="font-semibold text-gray-800 block">
-                    Status
-                  </span>
-                  <span className="text-gray-800">{selectedTask.status}</span>
-                </div>
-                <div className="space-y-1">
-                  <span className="font-semibold text-gray-800 block">
-                    Start Time
-                  </span>
-                  <span className="text-gray-800">
-                    {selectedTask.startTime.toLocaleString()}
-                  </span>
-                </div>
-                {selectedTask.status === "done" && (
-                  <div className="space-y-1">
-                    <span className="font-semibold text-gray-800 block">
-                      End Time
-                    </span>
-                    <span className="text-gray-800">
-                      {selectedTask.completedTime?.toLocaleString()}
-                    </span>
-                  </div>
-                )}
-                <div className="space-y-1">
-                  <span className="font-semibold text-gray-800 block">
-                    Estimated Time
-                  </span>
-                  <span className="text-gray-800">
-                    {selectedTask.estimatedTime}h
-                  </span>
-                </div>
-                {selectedTask.status === "done" && (
-                  <div className="space-y-1">
-                    <span className="font-semibold text-gray-800 block">
-                      Actual Time
-                    </span>
-                    <span className="text-gray-800">
-                      {selectedTask.actualTime}h
-                    </span>
-                  </div>
-                )}
+              <div className="space-y-1">
+                <span className="font-semibold text-gray-800 block">
+                  Estimated Time
+                </span>
+                <span className="text-gray-800">
+                  {selectedTask.estimatedTime}h
+                </span>
               </div>
+              {selectedTask.status === "done" && (
+                <div className="space-y-1">
+                  <span className="font-semibold text-gray-800 block">
+                    Actual Time
+                  </span>
+                  <span className="text-gray-800">
+                    {selectedTask.actualTime}h
+                  </span>
+                </div>
+              )}
             </div>
+            {/* Last Status Update */}
+            {getLastStatusUpdate(selectedTask) && (
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <h4 className="text-lg font-semibold text-gray-700 mb-4">
+                  Latest Status Update (
+                  {getLastStatusUpdate(selectedTask).timestamp.toLocaleString()}
+                  )
+                </h4>
+                <div className="space-y-3 text-gray-600">
+                  <p>
+                    <span className="font-medium">Current Status:</span>{" "}
+                    {getLastStatusUpdate(selectedTask).currentStatus}
+                  </p>
+                  <p>
+                    <span className="font-medium">Personnel Involved:</span>{" "}
+                    {getLastStatusUpdate(selectedTask).personnelCount}
+                  </p>
+                  <p>
+                    <span className="font-medium">Additional Time Needed:</span>{" "}
+                    {getLastStatusUpdate(selectedTask).additionalTimeNeeded}{" "}
+                    hours
+                  </p>
+                  {getLastStatusUpdate(selectedTask).resources.length > 0 && (
+                    <div>
+                      <p className="font-medium mb-1">Resources Being Used:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {getLastStatusUpdate(selectedTask).resources.map(
+                          (resource, index) => (
+                            <span
+                              key={index}
+                              className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm"
+                            >
+                              {resource}
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {getLastStatusUpdate(selectedTask).departments.length > 0 && (
+                    <div>
+                      <p className="font-medium mb-1">
+                        Other Departments Involved:
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {getLastStatusUpdate(selectedTask).departments.map(
+                          (dept, index) => (
+                            <span
+                              key={index}
+                              className="bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-sm"
+                            >
+                              {dept}
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {getLastStatusUpdate(selectedTask).additionalResources
+                    .length > 0 && (
+                    <div>
+                      <p className="font-medium mb-1">
+                        Additional Resources Needed:
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {getLastStatusUpdate(
+                          selectedTask
+                        ).additionalResources.map((resource, index) => (
+                          <span
+                            key={index}
+                            className="bg-amber-50 text-amber-700 px-3 py-1 rounded-full text-sm"
+                          >
+                            {resource}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
+      )}
+      {/* Timeline container with relative positioning */}
+      <div className="relative overflow-hidden h-[calc(100vh-20rem)] min-h-[500px]">
+        {/* Task Detail Overlay - Moved inside timeline container */}
 
         {/* Timeline content - Remove blur effect since we're using backdrop-blur */}
         <div className="absolute top-0 left-[48.4%] w-0.5 h-full bg-blue-700 transform -translate-x-1/2 pointer-events-none" />
@@ -453,85 +547,7 @@ const ResponsePlan = () => {
           </div>
         </div>
       </div>
-
-      {/* Updated Form Section */}
-      <div className="bg-white border-t border-neutral-200 px-8 py-4 mt-auto">
-        <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="flex items-center space-x-4">
-            <div className="flex-grow space-y-2">
-              <input
-                type="text"
-                value={workTitle}
-                onChange={(e) => setWorkTitle(e.target.value)}
-                className="w-full border border-neutral-300 rounded-lg p-3 focus:ring-2 focus:ring-sky-500 focus:outline-none hover:border-sky-300 transition-all duration-300 text-neutral-700 placeholder-neutral-400"
-                placeholder="Work Title"
-              />
-              <textarea
-                value={workDescription}
-                onChange={(e) => setWorkDescription(e.target.value)}
-                rows={1}
-                className="w-full border border-neutral-300 rounded-lg p-3 focus:ring-2 focus:ring-sky-500 focus:outline-none hover:border-sky-300 transition-all duration-300 resize-none text-neutral-700 placeholder-neutral-400 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:block [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb:hover]:bg-black/20"
-                placeholder="Describe what work to be done..."
-              />
-            </div>
-            <div className="w-1/3 space-y-2">
-              <select
-                value={selectedDepartment}
-                onChange={(e) => setSelectedDepartment(e.target.value)}
-                className="w-full border border-neutral-300 rounded-lg p-3 appearance-none focus:ring-2 focus:ring-sky-500 focus:outline-none hover:border-sky-300 transition-all duration-300 text-neutral-700"
-              >
-                <option value="">Ministry</option>
-                {departments.map((dept) => (
-                  <option key={dept} value={dept}>
-                    {dept}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="number"
-                step="0.5"
-                min="0.5"
-                value={estimatedTime}
-                onChange={(e) => setEstimatedTime(e.target.value)}
-                className="w-full border border-neutral-300 rounded-lg p-3 focus:ring-2 focus:ring-sky-500 focus:outline-none hover:border-sky-300 transition-all duration-300 text-neutral-700 placeholder-neutral-400"
-                placeholder="Estimated hours"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <Button className="py-3 rounded-lg font-semibold">
-              Add in Plan
-            </Button>
-            <div className="flex items-center gap-4 mt-4">
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-red-300 border border-red-400" />
-                <span className="text-xs text-gray-800 font-medium">
-                  Failed
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-[#90EE90] border border-emerald-200" />
-                <span className="text-xs text-gray-800 font-medium">
-                  Completed
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-[#FFFACD] border border-sky-200" />
-                <span className="text-xs text-gray-800 font-medium">
-                  Ongoing
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-[#87CEFA] border border-amber-200" />
-                <span className="text-xs text-gray-800 font-medium">
-                  Upcoming
-                </span>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      {!isDepartment && <PlanForm onSubmit={handleAddWork} />}
     </div>
   );
 };

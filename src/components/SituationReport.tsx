@@ -1,32 +1,32 @@
 "use client";
-import React, { useState } from 'react';
-import { FileText, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
-import jsPDF from 'jspdf';
+import React, { useState } from "react";
+import { FileText, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
+import jsPDF from "jspdf";
 
 const DisasterSituationReport = () => {
   const [formData, setFormData] = useState({
     disasterStatus: {
-      weatherCondition: '',
-      affectedAreas: '',
-      affectedPopulation: ''
+      weatherCondition: "",
+      affectedAreas: "",
+      affectedPopulation: "",
     },
     casualties: {
-      types: '',
-      firstAid: '',
-      communication: ''
+      types: "",
+      firstAid: "",
+      communication: "",
     },
     materialFlow: {
-      foodMaterials: '',
-      airDropping: '',
-      transport: '',
-      medicalAid: ''
+      foodMaterials: "",
+      airDropping: "",
+      transport: "",
+      medicalAid: "",
     },
     teamArrival: {
-      centralTeams: '',
-      internationalTeams: '',
-      others: ''
+      centralTeams: "",
+      internationalTeams: "",
+      others: "",
     },
-    quickResponse: ''
+    quickResponse: "",
   });
 
   // New state to track which sections are expanded
@@ -35,25 +35,25 @@ const DisasterSituationReport = () => {
     casualties: false,
     materialFlow: false,
     teamArrival: false,
-    quickResponse: true
+    quickResponse: true,
   });
 
   // Toggle section expansion
   const toggleSection = (section) => {
-    setExpandedSections(prev => ({
+    setExpandedSections((prev) => ({
       ...prev,
-      [section]: !prev[section]
+      [section]: !prev[section],
     }));
   };
 
   // Handle input changes
   const handleChange = (section, field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [section]: {
         ...prev[section],
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
@@ -86,8 +86,6 @@ const DisasterSituationReport = () => {
 
     setFormData(mockAIData);
   };
-
-  
 
   // PDF Generation Function (remains the same as previous implementation)
   const generatePDF = () => {
@@ -280,23 +278,27 @@ const DisasterSituationReport = () => {
   const renderSection = (title, sectionKey, fields) => {
     return (
       <div className="mb-6 border border-gray-200 rounded-lg">
-        <div 
+        <div
           onClick={() => toggleSection(sectionKey)}
           className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50 transition-colors"
         >
           <h3 className="text-lg font-medium text-gray-800">{title}</h3>
           {expandedSections[sectionKey] ? <ChevronUp /> : <ChevronDown />}
         </div>
-        
+
         {expandedSections[sectionKey] && (
           <div className="p-4">
             {fields.map((field) => (
               <input
                 key={field}
                 type="text"
-                placeholder={field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                placeholder={field
+                  .replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (str) => str.toUpperCase())}
                 value={formData[sectionKey][field]}
-                onChange={(e) => handleChange(sectionKey, field, e.target.value)}
+                onChange={(e) =>
+                  handleChange(sectionKey, field, e.target.value)
+                }
                 className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             ))}
@@ -336,19 +338,34 @@ const DisasterSituationReport = () => {
       <main className="flex-grow max-w-8xl w-full mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
         {/* Form Sections */}
         <div className="space-y-6">
-          {renderSection('Disaster Status', 'disasterStatus', ['weatherCondition', 'affectedAreas', 'affectedPopulation'])}
-          {renderSection('Casualties', 'casualties', ['types', 'firstAid', 'communication'])}
-          {renderSection('Material Flow', 'materialFlow', ['foodMaterials', 'airDropping', 'transport', 'medicalAid'])}
-          {renderSection('Team Arrival', 'teamArrival', ['centralTeams', 'internationalTeams', 'others'])}
+          {renderSection("Disaster Status", "disasterStatus", [
+            "weatherCondition",
+            "affectedAreas",
+            "affectedPopulation",
+          ])}
+          {renderSection("Casualties", "casualties", [
+            "types",
+            "firstAid",
+            "communication",
+          ])}
+          {renderSection("Material Flow", "materialFlow", [
+            "foodMaterials",
+            "airDropping",
+            "transport",
+            "medicalAid",
+          ])}
+          {renderSection("Team Arrival", "teamArrival", [
+            "centralTeams",
+            "internationalTeams",
+            "others",
+          ])}
         </div>
 
         {/* Quick Response and PDF Generation */}
         <div className="space-y-6">
-          <div 
-            className="bg-white border border-gray-200 rounded-lg"
-          >
-            <div 
-              onClick={() => toggleSection('quickResponse')}
+          <div className="bg-white border border-gray-200 rounded-lg">
+            <div
+              onClick={() => toggleSection("quickResponse")}
               className="p-4 border-b border-gray-200 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors"
             >
               <h3 className="text-lg font-medium text-gray-800">
