@@ -1,9 +1,11 @@
+"use client";
 import Nav from "@/components/Navbar";
-
+import LandingChatAssistant from "@/components/ChatAssistant"
 
 export default function Home() {
   return (
     <div>
+      <LandingChatAssistant />
       <div>
         <Nav/>
         <div
