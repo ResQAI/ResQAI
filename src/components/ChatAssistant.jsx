@@ -17,7 +17,7 @@ const LandingChatAssistant = () => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const API_ENDPOINT_CHAT_ASSISTANT = `http://localhost:5000/genie`;
+  const API_ENDPOINT_CHAT_ASSISTANT = `http://localhost:5000/landing-chat`;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -188,10 +188,10 @@ const LandingChatAssistant = () => {
                         </a>
                       ),
                       ul: ({ children }) => (
-                        <ul className="list-disc list-inside ml-4">{children}</ul>
+                        <ul className="list-disc list-outside ml-4">{children}</ul>
                       ),
                       ol: ({ children }) => (
-                        <ol className="list-decimal list-inside ml-4">{children}</ol>
+                        <ol className="list-decimal list-outside ml-4">{children}</ol>
                       ),
                       h1: ({ children }) => (
                         <h1 className="text-xl font-bold">{children}</h1>
