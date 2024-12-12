@@ -26,9 +26,7 @@ export default function RootLayout({
               <Sidebar role="national" />
             </aside>
 
-            <main className="ml-64 w-full p-6 bg-white">
-              {children}
-            </main>
+            <main className="ml-64 w-full p-6 bg-white">{children}</main>
           </div>
         </div>
       </body>
