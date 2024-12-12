@@ -1,4 +1,5 @@
 import React from "react";
+import Prediction from "@/components/PredectionForm";
 
 const AnalysisPage = () => {
   return (
@@ -7,7 +8,8 @@ const AnalysisPage = () => {
         {/* <WeatherComponent /> */}
       </div>
       <div className="w-1/2 h-full bg-red-700">
-        {/* <AnalysisComponent /> */}
+        <Prediction/>
+      
       </div>
     </div>
   );
