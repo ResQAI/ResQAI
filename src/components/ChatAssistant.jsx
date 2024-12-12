@@ -14,6 +14,7 @@ const LandingChatAssistant = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [typedMessages, setTypedMessages] = useState({});
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -25,6 +26,36 @@ const LandingChatAssistant = () => {
 
   useEffect(() => {
     scrollToBottom();
+  }, [messages]);
+
+  // Typewriter effect hook
+  useEffect(() => {
+    const typeMessage = (message, index) => {
+      let currentLength = 0;
+      const typeInterval = setInterval(() => {
+        if (currentLength <= message.length) {
+          setTypedMessages(prev => ({
+            ...prev,
+            [index]: message.slice(0, currentLength)
+          }));
+          currentLength++;
+        } else {
+          clearInterval(typeInterval);
+        }
+      }, 20); // Adjust typing speed here
+    };
+
+    // Find the last model message that needs typing
+    const lastModelMessageIndex = messages.reduceRight((acc, msg, index) => {
+      if (msg.role === 'model' && !(index in typedMessages)) {
+        return index;
+      }
+      return acc;
+    }, -1);
+
+    if (lastModelMessageIndex !== -1) {
+      typeMessage(messages[lastModelMessageIndex].parts[0], lastModelMessageIndex);
+    }
   }, [messages]);
 
   const handleSendMessage = async () => {
@@ -39,7 +70,7 @@ const LandingChatAssistant = () => {
     setMessages(updatedMessages);
     setInputMessage('');
     setIsLoading(true);
-    console.log(messages)
+
     try {
       const response = await fetch(API_ENDPOINT_CHAT_ASSISTANT, {
         method: 'POST',
@@ -57,7 +88,6 @@ const LandingChatAssistant = () => {
       }
 
       const data = await response.json();
-      console.log('Chat Assistant Response:', data);
       const assistantResponse = { 
         role: 'model', 
         parts: [data.response] 
@@ -178,12 +208,12 @@ const LandingChatAssistant = () => {
                     remarkPlugins={[remarkGfm]}
                     components={{
                       a: ({ href, children }) => (
-                        <a>
+                        <a
                           href={href}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-400 underline hover:text-blue-600"
-                        
+                        >
                           {children}
                         </a>
                       ),
@@ -207,7 +237,10 @@ const LandingChatAssistant = () => {
                       ),
                     }}
                   >
-                    {msg.parts[0]}
+                    {msg.role === 'model' 
+                      ? (typedMessages[index] || msg.parts[0]) 
+                      : msg.parts[0]
+                    }
                   </ReactMarkdown>
                 </div>
               </div>
