@@ -1,97 +1,104 @@
 export default function Nav() {
     return (
-      <div>
-        <nav className="bg-white dkbg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dkborder-gray-600">
-  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <a
-      href="https://flowbite.com/"
-      className="flex items-center space-x-3 rtl:space-x-reverse"
-    >
-      <img
-        src="https://flowbite.com/docs/images/logo.svg"
-        className="h-8"
-        alt="Flowbite Logo"
-      />
-      <span className="self-center text-2xl font-semibold whitespace-nowrap dktext-white">
-        Flowbite
-      </span>
-    </a>
-    <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-      <button
-        type="button"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dkbg-blue-600 dkhover:bg-blue-700 dkfocus:ring-blue-800"
-      >
-        Get started
-      </button>
-      <button
-        data-collapse-toggle="navbar-sticky"
-        type="button"
-        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dktext-gray-400 dkhover:bg-gray-700 dkfocus:ring-gray-600"
-        aria-controls="navbar-sticky"
-        aria-expanded="false"
-      >
-        <span className="sr-only">Open main menu</span>
-        <svg
-          className="w-5 h-5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 17 14"
+      <nav className="absolute z-10 w-full border-b border-black/5 ddkkborder-white/5 lg:border-transparent astro-ES6RJE63">
+  <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
+    <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 md:gap-0 md:py-4 astro-ES6RJE63">
+      <div className="relative z-20 flex w-full justify-between md:px-0 lg:w-max astro-ES6RJE63">
+        <a
+          href="/#home"
+          aria-label="logo"
+          className="flex items-center space-x-2 astro-ES6RJE63"
         >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M1 1h15M1 7h15M1 13h15"
-          />
-        </svg>
-      </button>
-    </div>
-    <div
-      className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-      id="navbar-sticky"
-    >
-      <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dkbg-gray-800 md:dkbg-gray-900 dkborder-gray-700">
-        <li>
-          <a
-            href="#"
-            className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dktext-blue-500"
-            aria-current="page"
+          <div aria-hidden="true" className="flex space-x-1 astro-ES6RJE63">
+            <div className="h-4 w-4 rounded-full bg-gray-900 ddkkbg-white astro-ES6RJE63" />
+            <div className="h-6 w-2 bg-primary astro-ES6RJE63" />
+          </div>
+          <span className="text-2xl font-bold text-gray-900 ddkktext-white astro-ES6RJE63">
+            Astrolus
+          </span>
+        </a>
+        <div className="relative flex max-h-10 items-center lg:hidden astro-ES6RJE63">
+          <button
+            aria-label="humburger"
+            id="hamburger"
+            className="relative -mr-6 p-6 astro-ES6RJE63"
           >
-            Home
-          </a>
-        </li>
-        <li>
+            <div
+              aria-hidden="true"
+              id="line"
+              className="m-auto h-0.5 w-5 rounded bg-sky-900 transition duration-300 ddkkbg-gray-300 astro-ES6RJE63"
+            />
+            <div
+              aria-hidden="true"
+              id="line2"
+              className="m-auto mt-2 h-0.5 w-5 rounded bg-sky-900 transition duration-300 ddkkbg-gray-300 astro-ES6RJE63"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        id="navLayer"
+        aria-hidden="true"
+        className="fixed inset-0 z-10 h-screen w-screen origin-bottom scale-y-0 bg-white/70 backdrop-blur-2xl transition duration-500 ddkkbg-gray-900/70 lg:hidden astro-ES6RJE63"
+      />
+      <div
+        id="navlinks"
+        className="invisible absolute top-full left-0 z-20 w-full origin-top-right translate-y-1 scale-90 flex-col flex-wrap justify-end gap-6 rounded-3xl border border-gray-100 bg-white p-8 opacity-0 shadow-2xl shadow-gray-600/10 transition-all duration-300 ddkkborder-gray-700 ddkkbg-gray-800 ddkkshadow-none lg:visible lg:relative lg:flex lg:w-7/12 lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none astro-ES6RJE63"
+      >
+        <div className="w-full text-gray-600 ddkktext-gray-200 lg:w-auto lg:pr-4 lg:pt-0 astro-ES6RJE63">
+          <ul className="flex flex-col gap-6 tracking-wide lg:flex-row lg:gap-0 lg:text-sm astro-ES6RJE63">
+            <li className="astro-ES6RJE63">
+              <a
+                href="/#features"
+                className="hover:text-primary block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
+              >
+                <span className="astro-ES6RJE63">Features</span>
+              </a>
+            </li>
+            <li className="astro-ES6RJE63">
+              <a
+                href="/#solution"
+                className="hover:text-primary block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
+              >
+                <span className="astro-ES6RJE63">Solution</span>
+              </a>
+            </li>
+            <li className="astro-ES6RJE63">
+              <a
+                href="/awareness"
+                className="hover:text-purple-500 block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
+              >
+                <span className="astro-ES6RJE63">Awareness</span>
+              </a>
+            </li>
+            <li className="astro-ES6RJE63">
+              <a
+                href="https://tailus.gumroad.com/l/astls-premium"
+                target="_blank"
+                className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary ddkktext-white ddkkhover:text-white md:px-4 astro-ES6RJE63"
+              >
+                <span className="astro-ES6RJE63">Premium</span>
+                
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="mt-12 lg:mt-0 astro-ES6RJE63">
           <a
-            href="#"
-            className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dkhover:text-blue-500 dktext-white dkhover:bg-gray-700 dkhover:text-white md:dkhover:bg-transparent dkborder-gray-700"
+            href="/register"
+            className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-primary transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
           >
-            About
+            <span className="relative text-sm font-semibold text-white astro-ES6RJE63">
+              {" "}
+              Get Started
+            </span>
           </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dkhover:text-blue-500 dktext-white dkhover:bg-gray-700 dkhover:text-white md:dkhover:bg-transparent dkborder-gray-700"
-          >
-            Services
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dkhover:text-blue-500 dktext-white dkhover:bg-gray-700 dkhover:text-white md:dkhover:bg-transparent dkborder-gray-700"
-          >
-            Contact
-          </a>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
 
-      </div>
     );
   }
   

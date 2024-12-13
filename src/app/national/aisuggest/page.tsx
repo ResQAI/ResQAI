@@ -1,13 +1,20 @@
-import NationalHomeToggleArea from "@/components/National/NationalHomeToggle";
-import NationalListSide from "@/components/National/NationalListSide";
 import React from "react";
+import Prediction from "@/components/PredectionForm";
+import WeatherCards from "@/components/WeatherCards";
+import LandingChatAssistant from "@/components/ChatAssistant";
 
-const page = () => {
+const AnalysisPage = () => {
   return (
-    <div className="flex h-screen items-start justify-center">
-      
+    <div className="flex w-full h-full">
+      <LandingChatAssistant />
+      <div className="w-1/2 h-full">
+        <WeatherCards />
+      </div>
+      <div className="w-1/2 h-full">
+        <Prediction />
+      </div>
     </div>
   );
 };
 
-export default page;
+export default AnalysisPage;

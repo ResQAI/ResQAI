@@ -1,10 +1,10 @@
 "use client";
 import ResponsePlan from "@/components/ResponsePlan";
 import StateDisasterList from "@/components/State/StateDisasterList";
-import SituationReport from "@/components/SituationReport";
 import React, { useState } from "react";
 import { MdTaskAlt } from "react-icons/md";
 import { IoWarningOutline } from "react-icons/io5";
+import PreviousReports from "@/components/PreviousReports";
 
 const StatePage = () => {
   const [activeTab, setActiveTab] = useState<"response" | "situation">(
@@ -46,7 +46,7 @@ const StatePage = () => {
 
           {/* Content Area */}
           <div className="max-h-[calc(100%-4rem)]">
-            {activeTab === "response" ? <ResponsePlan /> : <SituationReport />}
+            {activeTab === "response" ? <ResponsePlan /> : <PreviousReports />}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import LandingChatAssistant from "@/components/ChatAssistant";
 
 export const metadata: Metadata = {
   title: "ResQAI",
@@ -13,7 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div>
+          <LandingChatAssistant />
+        {children}
+        </div>
+        </body>
     </html>
   );
 }

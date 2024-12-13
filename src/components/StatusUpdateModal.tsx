@@ -2,10 +2,27 @@ import React, { useState, KeyboardEvent } from "react";
 import { Dialog } from "@headlessui/react";
 import Button from "./Button";
 
+interface Task {
+  id: number;
+  title: string;
+  statusUpdates: StatusUpdate[];
+}
+
+interface StatusUpdate {
+  timestamp: Date;
+  currentStatus: string;
+  personnelCount: number;
+  additionalTimeNeeded: number;
+  resources: string[];
+  departments: string[];
+  additionalResources: string[];
+}
+
 interface StatusUpdateModalProps {
   isOpen: boolean;
   onClose: () => void;
-  task: any;
+  task: Task; // Update to use the Task type with statusUpdates array
+  onUpdate?: (taskId: number, update: StatusUpdate) => void;
 }
 
 interface ListItem {
@@ -73,6 +90,7 @@ const StatusUpdateModal: React.FC<StatusUpdateModalProps> = ({
   isOpen,
   onClose,
   task,
+  onUpdate,
 }) => {
   const [resources, setResources] = useState<ListItem[]>([]);
   const [departments, setDepartments] = useState<ListItem[]>([]);
@@ -82,8 +100,19 @@ const StatusUpdateModal: React.FC<StatusUpdateModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission with lists
-    console.log({ resources, departments, additionalResources });
+    const newUpdate: StatusUpdate = {
+      timestamp: new Date(),
+      currentStatus: "Status update", // Get from form
+      personnelCount: 0, // Get from form
+      additionalTimeNeeded: 0, // Get from form
+      resources: resources.map((r) => r.text),
+      departments: departments.map((d) => d.text),
+      additionalResources: additionalResources.map((r) => r.text),
+    };
+
+    if (onUpdate) {
+      onUpdate(task.id, newUpdate);
+    }
     onClose();
   };
 
