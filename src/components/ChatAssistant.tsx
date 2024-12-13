@@ -159,7 +159,7 @@ const LandingChatAssistant = () => {
           <div className="bg-black/90 text-white p-4 sm:p-5 flex justify-between items-center">
             <div className="flex items-center space-x-3 sm:space-x-4">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full flex items-center justify-center">
-                <img src={'Chat.svg'} alt="Chat Icon" className="h-6 w-6 sm:h-8 sm:w-8" />
+                <img src={'/Chat.svg'} alt="Chat Icon" className="h-6 w-6 sm:h-8 sm:w-8" />
               </div>
               <div>
                 <h2 className="text-lg sm:text-xl font-bold tracking-wide">ResQAI</h2>
@@ -194,7 +194,7 @@ const LandingChatAssistant = () => {
               >
                 {msg.role === 'model' && (
                   <div className="w-9 h-9 sm:w-11 sm:h-11 bg-black text-white rounded-full flex items-center justify-center">
-                    <img src={'Chat.svg'} alt="ResQAI" className="h-7 w-7 sm:h-8 sm:w-8" />
+                    <img src={'/Chat.svg'} alt="ResQAI" className="h-7 w-7 sm:h-8 sm:w-8" />
                   </div>
                 )}
                 <div 
@@ -334,7 +334,7 @@ const LandingChatAssistant = () => {
           onClick={() => setIsOpen(true)}
           className="bg-white text-black border-4 border-blue-600 p-3 sm:p-4 rounded-full shadow-2xl hover:bg-gray-200 transition-all transform hover:scale-110 active:scale-95 group"
         >
-          <img src={'bot.svg'} alt="Chat Icon" className="h-10 w-10" />
+          <img src={'/bot.svg'} alt="Chat Icon" className="h-10 w-10" />
         </button>
       )}
     </div>
