@@ -65,10 +65,10 @@ export default function Nav() {
             </li>
             <li className="astro-ES6RJE63">
               <a
-                href="/#reviews"
+                href="/awareness"
                 className="hover:text-purple-500 block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
-                <span className="astro-ES6RJE63">Reviews</span>
+                <span className="astro-ES6RJE63">Awareness</span>
               </a>
             </li>
             <li className="astro-ES6RJE63">
