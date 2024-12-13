@@ -13,7 +13,7 @@ export default function Home() {
     {
         name: "Abhay Dixit",
         img: "https://ayurguru.vercel.app/assets/w3-D2UE32XB.png",
-        role: "AI Developer",
+        role: "AI/ML Developer",
         // description: "Visionary leader driving innovation and strategic growth.",
         linkedin: "https://www.linkedin.com/in/abhay-dixit-546b85254/",
         github: "https://github.com/abhaydixit07",
@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <div>
-      <LandingChatAssistant />
+      
       <div>
         <Nav/>
        
