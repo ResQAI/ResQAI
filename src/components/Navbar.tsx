@@ -11,7 +11,7 @@ export default function Nav() {
         >
           <div aria-hidden="true" className="flex space-x-1 astro-ES6RJE63">
             <div className="h-4 w-4 rounded-full bg-gray-900 ddkkbg-white astro-ES6RJE63" />
-            <div className="h-6 w-2 bg-purple-500 astro-ES6RJE63" />
+            <div className="h-6 w-2 bg-primary astro-ES6RJE63" />
           </div>
           <span className="text-2xl font-bold text-gray-900 ddkktext-white astro-ES6RJE63">
             Astrolus
@@ -50,7 +50,7 @@ export default function Nav() {
             <li className="astro-ES6RJE63">
               <a
                 href="/#features"
-                className="hover:text-purple-500 block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
+                className="hover:text-primary block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
                 <span className="astro-ES6RJE63">Features</span>
               </a>
@@ -58,7 +58,7 @@ export default function Nav() {
             <li className="astro-ES6RJE63">
               <a
                 href="/#solution"
-                className="hover:text-purple-500 block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
+                className="hover:text-primary block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
                 <span className="astro-ES6RJE63">Solution</span>
               </a>
@@ -66,7 +66,7 @@ export default function Nav() {
             <li className="astro-ES6RJE63">
               <a
                 href="/#reviews"
-                className="hover:text-purple-500 block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
+                className="hover:text-primary block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
                 <span className="astro-ES6RJE63">Reviews</span>
               </a>
@@ -75,7 +75,7 @@ export default function Nav() {
               <a
                 href="https://tailus.gumroad.com/l/astls-premium"
                 target="_blank"
-                className="flex gap-2 font-semibold text-gray-700 transition hover:text-purple-500 ddkktext-white ddkkhover:text-white md:px-4 astro-ES6RJE63"
+                className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary ddkktext-white ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
                 <span className="astro-ES6RJE63">Premium</span>
                 
@@ -86,7 +86,7 @@ export default function Nav() {
         <div className="mt-12 lg:mt-0 astro-ES6RJE63">
           <a
             href="/register"
-            className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-purple-500 transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
+            className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-primary transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
           >
             <span className="relative text-sm font-semibold text-white astro-ES6RJE63">
               {" "}
