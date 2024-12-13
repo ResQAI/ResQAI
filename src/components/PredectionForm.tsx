@@ -336,13 +336,11 @@ const Prediction = () => {
   };
 
   return (
-    <div className="flex h-screen items-start justify-center">
+    <div className="flex items-start justify-center bg-slate-50">
       <>
-        <link
-          href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-          rel="stylesheet"
-        />
-        <div className="relative min-h-screen flex items-center justify-center bg-center py-12 px-4 sm:px-6 lg:px-8 bg-no-repeat bg-cover relative items-center">
+      <h2 className="text-2xl font-bold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus mr-3 w-6 h-6 text-blue-600"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>Predict </h2>
+        
+        <div className=" flex items-center justify-center bg-center py-12 px-4 sm:px-6 lg:px-8 bg-no-repeat  bg-cover relative items-center">
           <div className="absolute inset-0 z-0" />
           <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg z-10">
             <div className="grid gap-8 grid-cols-1">

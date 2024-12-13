@@ -53,19 +53,20 @@ export default function Home() {
        
         <div
           aria-hidden="true"
-          className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 ddkkopacity-20"
+          className="absolute inset-0 grid grid-cols-2 space-x-24 opacity-40 "
         >
-        <div className="blur-[106px] h-56 bg-gradient-to-r from-purple-400 to-purple-500 " />
-          {/* <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-[#c084fc] " /> */}
-          <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 " />
+          <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-primary " />
+        <div className="blur-[100px] h-56 bg-primary " />
+          
+          {/* <div className="blur-[100px] h-32 bg-indigo-500 " /> */}
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
+        <div className="max-w-7xl  mx-auto px-6 md:px-12 xl:px-6">
           <div className="relative pt-36 ml-auto">
             <div className="lg:w-2/3 text-center mx-auto">
               <h1 className="text-gray-900 ddkktext-white font-bold text-5xl md:text-6xl xl:text-7xl">
                 Destroying a world with{" "}
-                <span className="text-[#9333ea] ddkktext-white">ResQAI</span>
+                <span className="text-primary ddkktext-white">ResQAI</span>
               </h1>
               <p className="mt-8 text-gray-700 ddkktext-gray-300">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio incidunt
@@ -75,7 +76,7 @@ export default function Home() {
               <div className="mt-16 flex flex-wrap  justify-center gap-y-4 gap-x-6">
                 <a
                   href="#"
-                  className="relative flex h-11 w-full items-center justify-center px-6 rounded-full  transition duration-300 hover:scale-105 bg-purple-500  sm:w-max"
+                  className="relative flex h-11 w-full items-center justify-center px-6 rounded-full  transition duration-300 hover:scale-105 bg-primary  sm:w-max"
                 >
                   <span className="relative text-white  font-semibold text-white">
                     Get started
@@ -85,12 +86,12 @@ export default function Home() {
                   href="#"
                   className="relative flex h-11 w-full items-center justify-center px-6 absolute inset-0 rounded-full border border-transparent bg-purple-50  transition duration-300 hover:scale-105 active:duration-75 active:scale-95 ddkkborder-gray-700 ddkkbg-gray-800 sm:w-max"
                 >
-                  <span className="relative text-base font-semibold text-purple-500 ddkktext-white">
+                  <span className="relative text-base font-semibold text-primary ddkktext-white">
                     Learn more
                   </span>
                 </a>
               </div>
-              <div className="hidden py-8 mt-16 border-y border-gray-100 ddkkborder-gray-800 sm:flex justify-between">
+              <div className="hidden py-8 mt-10 border-y border-gray-100 ddkkborder-gray-800 sm:flex justify-between">
                 <div className="text-left">
                   <h6 className="text-lg font-semibold text-gray-700 ddkktext-white">
                     The lowest price
@@ -111,83 +112,27 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            {/* <div className="mt-12 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
-              <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
-                <img
-                  src="./images/clients/microsoft.svg"
-                  className="h-12 w-auto mx-auto"
-                  loading="lazy"
-                  alt="client logo"
-                  width=""
-                  height=""
-                />
-              </div>
-              <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
-                <img
-                  src="./images/clients/airbnb.svg"
-                  className="h-12 w-auto mx-auto"
-                  loading="lazy"
-                  alt="client logo"
-                  width=""
-                  height=""
-                />
-              </div>
-              <div className="p-4 flex grayscale transition duration-200 hover:grayscale-0">
-                <img
-                  src="./images/clients/google.svg"
-                  className="h-9 w-auto m-auto"
-                  loading="lazy"
-                  alt="client logo"
-                  width=""
-                  height=""
-                />
-              </div>
-              <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
-                <img
-                  src="./images/clients/ge.svg"
-                  className="h-12 w-auto mx-auto"
-                  loading="lazy"
-                  alt="client logo"
-                  width=""
-                  height=""
-                />
-              </div>
-              <div className="p-4 flex grayscale transition duration-200 hover:grayscale-0">
-                <img
-                  src="./images/clients/netflix.svg"
-                  className="h-8 w-auto m-auto"
-                  loading="lazy"
-                  alt="client logo"
-                  width=""
-                  height=""
-                />
-              </div>
-              <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
-                <img
-                  src="./images/clients/google-cloud.svg"
-                  className="h-12 w-auto mx-auto"
-                  loading="lazy"
-                  alt="client logo"
-                  width=""
-                  height=""
-                />
-              </div>
-            </div> */}
+            
           </div>
         </div>
 
-
-          <>
+        <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="text-center space-y-12"
+                >
+          <div className="mt-24">
             {/* component */}
             <h1 className="xl:text-5xl md:text-4xl text-2xl font-semibold leading-tight text-center text-gray-800 sm:mb-0 mb-12">
               More Than 10 Years We Provide Service <br className="md:block hidden" />
-              in Real State Industry
+              in <span className="text-primary">Real State Industry</span>
             </h1>
             <div className="md:mt-14 m-4 relative sm:flex items-center justify-center">
               <img
                 src="https://i.ibb.co/KjrPCyW/map.png"
                 alt="world map image"
-                className=" xl:h-full h-96 object-cover object-fill sm:block hidden"
+                className="  h-96 object-cover object-fill sm:block hidden"
               />
               <img
                 src="https://i.ibb.co/SXKj9Mf/map-bg.png"
@@ -195,26 +140,27 @@ export default function Home() {
                 className="sm:hidden -mt-10 block w-full h-96 object-cover object-fill absolute z-0"
               />
               <div className="shadow-lg xl:p-6 p-4 sm:w-auto w-full bg-white sm:absolute relative z-20 sm:mt-0 mt-4 left-0 xl:ml-56 sm:ml-12 xl:-mt-40 sm:-mt-12">
-                <p className="text-3xl font-semibold text-gray-800">20K+</p>
-                <p className="text-base leading-4 xl:mt-4 mt-2 text-gray-600">
+                <p className="text-3xl font-semibold text-primary">20K+</p>
+                <p className="text-base leading-4 xl:mt-4 mt-2 text-primary">
                   Recently Property Listed
                 </p>
               </div>
               <div className="shadow-lg xl:p-6 p-4 w-48 sm:w-auto w-full bg-white sm:absolute relative z-20 sm:mt-0 mt-4 xl:mt-80 sm:mt-56 xl:-ml-0 sm:-ml-12">
-                <p className="text-3xl font-semibold text-gray-800">8K+</p>
-                <p className="text-base leading-4 xl:mt-4 mt-2 text-gray-600">
+                <p className="text-3xl font-semibold text-primary">8K+</p>
+                <p className="text-base leading-4 xl:mt-4 mt-2 text-primary">
                   Active Listening
                 </p>
               </div>
               <div className="shadow-lg xl:p-6 p-4 sm:w-auto w-full bg-white sm:absolute relative z-20 md:mt-0 sm:-mt-5 mt-4 right-0 xl:mr-56 sm:mr-24">
-                <p className="text-3xl font-semibold text-gray-800">15K+</p>
-                <p className="text-base leading-4 xl:mt-4 mt-2 text-gray-600">
+                <p className="text-3xl font-semibold text-primary">15K+</p>
+                <p className="text-base leading-4 xl:mt-4 mt-2 text-primary">
                   Recently Sold Lands
                 </p>
               </div>
               {/*- more free and premium Tailwind CSS components at https://tailwinduikit.com/ -*/}
             </div>
-          </>
+          </div>
+          </motion.div>
 
 
           <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
@@ -222,7 +168,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="flex items-center justify-center w-10 h-10 mx-auto mb-3 rounded-full bg-indigo-50 sm:w-12 sm:h-12">
                   <svg
-                    className="w-8 h-8 text-deep-purple-accent-400 sm:w-10 sm:h-10"
+                    className="w-8 h-8 text-primary sm:w-10 sm:h-10"
                     stroke="currentColor"
                     viewBox="0 0 52 52"
                   >
@@ -235,9 +181,9 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h6 className="text-4xl font-bold text-deep-purple-accent-400">819</h6>
-                <p className="mb-2 font-bold text-md">Downloads</p>
-                <p className="text-gray-700">
+                <h6 className="text-4xl font-bold text-primary">819</h6>
+                <p className="mb-2 font-bold text-primary text-md">Downloads</p>
+                <p className="">
                   It’s something that’s many of the wisest people in history have kept in
                   mind.
                 </p>
@@ -245,7 +191,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="flex items-center justify-center w-10 h-10 mx-auto mb-3 rounded-full bg-indigo-50 sm:w-12 sm:h-12">
                   <svg
-                    className="w-8 h-8 text-deep-purple-accent-400 sm:w-10 sm:h-10"
+                    className="w-8 h-8 text-primary sm:w-10 sm:h-10"
                     stroke="currentColor"
                     viewBox="0 0 52 52"
                   >
@@ -258,8 +204,8 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h6 className="text-4xl font-bold text-deep-purple-accent-400">1.3K</h6>
-                <p className="mb-2 font-bold text-md">Users</p>
+                <h6 className="text-4xl font-bold text-primary">1.3K</h6>
+                <p className="mb-2 font-bold text-primary text-md">Users</p>
                 <p className="text-gray-700">
                   For many men, the acquisition of wealth does not end their troubles, it
                   only changes them.
@@ -268,7 +214,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="flex items-center justify-center w-10 h-10 mx-auto mb-3 rounded-full bg-indigo-50 sm:w-12 sm:h-12">
                   <svg
-                    className="w-8 h-8 text-deep-purple-accent-400 sm:w-10 sm:h-10"
+                    className="w-8 h-8 text-primary sm:w-10 sm:h-10"
                     stroke="currentColor"
                     viewBox="0 0 52 52"
                   >
@@ -281,8 +227,8 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h6 className="text-4xl font-bold text-deep-purple-accent-400">91</h6>
-                <p className="mb-2 font-bold text-md">Subscribers</p>
+                <h6 className="text-4xl font-bold text-primary">91</h6>
+                <p className="mb-2 font-bold text-md text-primary">Subscribers</p>
                 <p className="text-gray-700">
                   It's a helluva start, being able to recognize what makes you happy
                   today, in this moment.
@@ -291,7 +237,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="flex items-center justify-center w-10 h-10 mx-auto mb-3 rounded-full bg-indigo-50 sm:w-12 sm:h-12">
                   <svg
-                    className="w-8 h-8 text-deep-purple-accent-400 sm:w-10 sm:h-10"
+                    className="w-8 h-8 text-primary sm:w-10 sm:h-10"
                     stroke="currentColor"
                     viewBox="0 0 52 52"
                   >
@@ -304,8 +250,8 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h6 className="text-4xl font-bold text-deep-purple-accent-400">52</h6>
-                <p className="mb-2 font-bold text-md">Products</p>
+                <h6 className="text-4xl font-bold text-primary">52</h6>
+                <p className="mb-2 font-bold text-md text-primary">Products</p>
                 <p className="text-gray-700">
                   Happiness is when what you think, what you say, and what you do are in
                   harmony.
@@ -437,7 +383,7 @@ export default function Home() {
               style={{ visibility: "visible", animationDelay: "0.2s" }}
             >
               <h2 className="mb-4 text-3xl font-bold text-black ddkktext-white sm:text-4xl md:text-[44px] md:leading-tight">
-                Amazing features for to make your work easier
+                Amazing features for to make your <span className="text-primary"> work easier</span>
               </h2>
               <p className="text-base text-body">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis
@@ -447,15 +393,15 @@ export default function Home() {
             </div>
           </div>
           <div className="">
-            <div className="rounded-2xl bg-white px-5 mx-14 pt-14 pb-14 shadow-card ddkkbg-dark ddkkshadow-card-dark md:pb-1 lg:pt-20 lg:pb-5 xl:px-10">
+            <div className="rounded-2xl bg-white px-5 mx-14 pt-5 pb-14 shadow-card d md:pb-1   xl:px-10">
               <div className="-mx-4 flex flex-wrap">
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl  group mx-auto mb-[50px] max-w-[310px] text-center"
                     data-wow-delay=".2s"
                     style={{ visibility: "visible", animationDelay: "0.2s" }}
                   >
-                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white ddkkbg-[#2A2E44] ddkktext-white ddkkgroup-hover:bg-primary">
+                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray  duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                       <svg
                         width={44}
                         height={44}
@@ -485,13 +431,15 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
+
+
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl   fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
                     data-wow-delay=".3s"
                     style={{ visibility: "visible", animationDelay: "0.3s" }}
                   >
-                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white ddkkbg-[#2A2E44] ddkktext-white ddkkgroup-hover:bg-primary">
+                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white  ">
                       <svg
                         width={44}
                         height={44}
@@ -516,7 +464,7 @@ export default function Home() {
                         </defs>
                       </svg>
                     </div>
-                    <h3 className="mb-4 text-xl font-semibold text-black ddkktext-white sm:text-[22px] xl:text-[26px]">
+                    <h3 className="mb-4 text-xl font-semibold  ddkktext-white sm:text-[22px] xl:text-[26px]">
                       High-quality Design
                     </h3>
                     <p className="text-base text-body">
@@ -525,13 +473,14 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
+
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
                     data-wow-delay=".4s"
                     style={{ visibility: "visible", animationDelay: "0.4s" }}
                   >
-                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white ddkkbg-[#2A2E44] ddkktext-white ddkkgroup-hover:bg-primary">
+                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                       <svg
                         width={44}
                         height={44}
@@ -565,13 +514,15 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
+
+
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
                     data-wow-delay=".2s"
                     style={{ visibility: "visible", animationDelay: "0.2s" }}
                   >
-                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white ddkkbg-[#2A2E44] ddkktext-white ddkkgroup-hover:bg-primary">
+                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                       <svg
                         width={44}
                         height={44}
@@ -605,13 +556,15 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
+
+
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
                     data-wow-delay=".3s"
                     style={{ visibility: "visible", animationDelay: "0.3s" }}
                   >
-                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white ddkkbg-[#2A2E44] ddkktext-white ddkkgroup-hover:bg-primary">
+                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                       <svg
                         width={40}
                         height={40}
@@ -641,13 +594,15 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
+
+
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
                     data-wow-delay=".4s"
                     style={{ visibility: "visible", animationDelay: "0.4s" }}
                   >
-                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white ddkkbg-[#2A2E44] ddkktext-white ddkkgroup-hover:bg-primary">
+                    <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                       <svg
                         width={44}
                         height={44}
@@ -784,7 +739,7 @@ export default function Home() {
         </section>
 
 
-        <section className=" flex item-center justify-center bg-white py-16 md:mt-10">
+        {/* <section className=" flex item-center justify-center bg-white py-16 md:mt-10">
           <div className="container max-w-screen-xl mx-auto px-4">
             <p className="font-light text-gray-500 text-lg md:text-xl text-center uppercase mb-6">
               Our features
@@ -944,16 +899,16 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* container.// */}
-        </section>
+          {/* container.// 
+        </section> */}
 
 
 
-        <section className="bg-white py-16">
+        {/* <section className="bg-white py-16">
           <div className="container max-w-screen-xl mx-auto px-4">
             <div className="flex flex-col lg:flex-row justify-between space-x-16">
-              <div className="flex justify-center lg:justify-start">
-                <img src="https://mercy-html.boxmodel.dev/img/feature-img.png" alt="Image" />
+              <div className="flex justify-center w-[600px] lg:justify-start">
+                <img src="https://img.freepik.com/free-vector/volunteers-collecting-goods-charity-into-huge-donation-box-donating-coins-into-jar-donation-charity-donation-funds-gift-kind-concept-pinkish-coral-bluevector-isolated-illustration_335657-1387.jpg?t=st=1734072181~exp=1734075781~hmac=4213e375b4a9972199cd17533446f215961bfaa9314d6f9b65244c93e9257f9c&w=900" alt="Image" />
               </div>
               <div className="mt-16">
                 <h1 className="font-semibold text-gray-900 text-xl md:text-4xl mb-20">
@@ -1080,8 +1035,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* container.// */}
-        </section>
+          {/* container.// 
+        </section> */}
 
 
         
@@ -1115,7 +1070,7 @@ export default function Home() {
                     </p>
                   </div>
                   <div className="w-full sm:w-1/2 p-6">
-                    <svg
+                    {/* <svg
                       className="w-full sm:h-64 mx-auto"
                       viewBox="0 0 1177 598.5"
                       xmlns="http://www.w3.org/2000/svg"
@@ -1379,12 +1334,13 @@ export default function Home() {
                         d="M998.23,509.4A15.27,15.27,0,0,1,1014,512c5.47,4.88,6.57,12.85,8,20s4.17,15.21,11,18a28.35,28.35,0,0,1-9.19-.27l10.25,9.19-17.27-5.63c-5.42-1.77-11.11-3.56-16.72-2.56-9.3,1.65-15.78,10.4-24.71,13.47l1-4.85-6,0a11.75,11.75,0,0,0,3.43-4,3.27,3.27,0,0,0-2.29-1.2c-2.5-15.59,6.76-31,18.81-41.17,2.38-2,5-3.92,8.06-4.42s6.64.87,7.71,3.78"
                         fill="#3c354c"
                       />
-                    </svg>
+                    </svg> */}
+                    <img src="https://cdn-icons-png.flaticon.com/512/2641/2641457.png" className=" sm:h-64 mx-auto"/>
                   </div>
                 </div>
                 <div className="flex flex-wrap flex-col-reverse sm:flex-row">
-                  <div className="w-full sm:w-1/2 p-6 ">
-                  <svg
+                  <div className="w-full sm:w-1/2 ">
+                  {/* <svg
                       className="w-full sm:h-64 mx-auto"
                       viewBox="0 0 1177 598.5"
                       xmlns="http://www.w3.org/2000/svg"
@@ -1648,7 +1604,8 @@ export default function Home() {
                         d="M998.23,509.4A15.27,15.27,0,0,1,1014,512c5.47,4.88,6.57,12.85,8,20s4.17,15.21,11,18a28.35,28.35,0,0,1-9.19-.27l10.25,9.19-17.27-5.63c-5.42-1.77-11.11-3.56-16.72-2.56-9.3,1.65-15.78,10.4-24.71,13.47l1-4.85-6,0a11.75,11.75,0,0,0,3.43-4,3.27,3.27,0,0,0-2.29-1.2c-2.5-15.59,6.76-31,18.81-41.17,2.38-2,5-3.92,8.06-4.42s6.64.87,7.71,3.78"
                         fill="#3c354c"
                       />
-                    </svg>
+                    </svg> */}
+                    <img src="https://static.vecteezy.com/system/resources/previews/011/153/690/non_2x/question-and-answer-education-3d-illustrations-png.png" className=" sm:h-64 mx-auto"/>
                   </div>
                   <div className="w-full sm:w-1/2 p-6 mt-6">
                     <div className="align-middle">
@@ -1686,7 +1643,7 @@ export default function Home() {
                     className="text-center space-y-12"
                 >
                     <h2 className="text-5xl font-black text-gray-900">
-                        Meet <span className="text-emerald-600">Our Team</span>
+                        Meet <span className="text-primary">Our Team</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-16">
                         {teamMembers.map((member, index) => (
