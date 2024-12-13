@@ -12,6 +12,7 @@ import {
   Battery, 
   Loader2
 } from 'lucide-react';
+import Nav from './Navbar';
 
 // Disaster Preparedness Measures Component
 const PreparednessGuide = () => {
@@ -50,19 +51,39 @@ const PreparednessGuide = () => {
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md mb-6">
-      <h2 className="text-2xl font-bold text-center mb-6 flex items-center justify-center text-blue-800">
-        <Shield className="mr-3 text-blue-600" /> 
+      <h2 className="text-2xl font-bold text-center mb-6 flex items-center justify-center text-primary">
+        <Shield className="mr-3 text-primary" /> 
         Disaster Preparedness: Essential Measures
       </h2>
-      <div className="grid md:grid-cols-2 gap-4">
+      <>
+ 
+    
+</>
+
+      <div className="grid md:grid-cols-3 gap-4">
         {disasterPreparednessSteps.map((step, index) => (
-          <div key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex items-start space-x-4">
-            <step.icon className="text-blue-500 mt-1 flex-shrink-0" size={24} />
-            <div>
-              <h3 className="font-semibold mb-2 text-blue-900">{step.title}</h3>
-              <p className="text-sm text-gray-600">{step.description}</p>
-            </div>
-          </div>
+          // <div  className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex items-start space-x-4">
+
+
+            <div key={index} className="group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10">
+      <span className="absolute top-10 z-0 h-20 w-20 rounded-full bg-primary transition-all duration-300 group-hover:scale-[10]" />
+      <div className="relative z-10 mx-auto max-w-md">
+        <div className='flex gap-5'>
+        <span className="grid h-20 w-20 place-items-center rounded-full bg-primary transition-all duration-300 group-hover:bg-primary">
+        
+           <step.icon className="h-10 w-10 text-white transition-all" size={24} />
+        </span>
+        <h3 className="font-bold text-xl mb-2 group-hover:text-white/90 text-primary">{step.title}</h3>
+        </div>
+        <div className="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
+          <p>
+          {step.description}
+          </p>
+        </div>
+        
+      </div>
+    </div>
+         
         ))}
       </div>
     </div>
@@ -170,9 +191,10 @@ const readOutLoud = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-r from-indigo-100 via-blue-200 to-indigo-100 p-8">
-      <div className="bg-white max-w-7xl mx-auto p-8 rounded-3xl shadow-2xl">
-        <div className="bg-orange-50 border-b-2 border-orange-100 p-5 flex items-center space-x-4">
+    <div className="w-full min-h-screen  ">
+      <Nav/>
+      <div className="bg-white   mx-auto p-8 ">
+        <div className=" border-b-2  mt-16  flex items-center space-x-4">
           <AlertTriangle className="text-orange-500 w-8 h-8" />
           <h2 className="text-2xl font-bold text-gray-800">Disaster Readiness Challenge</h2>
         </div>
@@ -185,7 +207,7 @@ const readOutLoud = () => {
           <div className="text-center">
             <button 
               onClick={generateCaseStudy} 
-              className="mx-auto flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-300 disabled:opacity-50 shadow-md hover:shadow-lg"
+              className="mx-auto   flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-300 disabled:opacity-50 shadow-md hover:shadow-lg"
               disabled={isLoading}
             >
               {isLoading ? (

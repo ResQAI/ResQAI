@@ -3,13 +3,25 @@
 
 import React, { useState } from "react";
 import { TriangleAlert } from "lucide-react";
+interface PredictionResult {
+  ml_output: {
+    PREDICTION: string; // Can be 'YES' or 'NO'
+    SUBDIVISIONS: string; // Name of the subdivision/city
+    YEAR: number; // Year of prediction
+  };
+  response: string; // The detailed formatted response
+}
+
+
 
 const Prediction = () => {
-  const [predictionResult, setPredictionResult] = useState<string | null>(null);
+  const [predictionResult, setPredictionResult] = useState<PredictionResult | null>(null);;
   const [activeTab, setActiveTab] = useState("earthquake");
   const [loading, setLoading] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState<string[]>([]);
   const [timer, setTimer] = useState<number>(10);
+
+  
   const [floodData, setFloodData] = useState({
     SUBDIVISIONS: "",
     YEAR: 2024,
@@ -74,7 +86,7 @@ const Prediction = () => {
     setPredictionResult(null);
   };
 
-  const handleFloodSubmit = (): void => {
+  const handleFloodSubmit = async(): void => {
     
     const filledMonths = Object.values(floodData).filter(
       (value) => typeof value === "number" && value > 0
@@ -121,36 +133,41 @@ const Prediction = () => {
       "Running simulations...",
       "Finalizing predictions...",
     ];
-    setLoadingMessages(messages);
-    
-    let currentStep = 0;
-    const messageInterval = setInterval(() => {
-      if (currentStep < messages.length) {
-        setLoadingMessages([messages[currentStep]]);
-        currentStep++;
-      }
-    }, 2000);
+    let messageIndex = 0;
+    let intervalId = null;
 
-    const timerInterval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev > 1) return prev - 1;
-        clearInterval(timerInterval);
-        return 0;
+    try {
+      setLoading(true);
+      // Start the loader messages
+      intervalId = setInterval(() => {
+        setLoadingMessages([messages[messageIndex]]);
+        messageIndex = (messageIndex + 1) % messages.length;
+      }, 1000); // Change message every second
+
+      // Make the API call
+      const response = await fetch('/api/your-endpoint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ /* Your payload here */ }),
       });
-    }, 1000);
 
-    setTimeout(() => {
-      clearInterval(messageInterval);
-      clearInterval(timerInterval);
-      const disasterDetected = Math.random() < 0.5; // Simulated logic
-      setPredictionResult(
-        disasterDetected
-          ? "Disaster detected! Monitor the disaster."
-          : "No disaster detected. All is safe."
-      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const data = await response.json();
+      setPredictionResult(data);
+
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      // Stop the loader and cleanup
+      // clearInterval(intervalId);
       setLoading(false);
-    }, 10000);
+      setLoadingMessages([]);
+    }
   };
+
 
   //   const annual = Object.values(completedData)
   //     .filter((value) => typeof value === "number")
@@ -199,10 +216,49 @@ const Prediction = () => {
                 <p>Time remaining: {timer} seconds</p>
               </div>
             </div>
-          ) : predictionResult ? (
-            <div className="mt-5 text-center">
-              <p className="text-lg font-semibold">{predictionResult}</p>
-              {predictionResult.includes("Disaster") && (
+          ) :predictionResult ? (
+            <div className="mt-5 p-5 bg-white rounded-lg shadow-md">
+              <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">
+                Flood Prediction Insights for {predictionResult.ml_output.SUBDIVISIONS} ({predictionResult.ml_output.YEAR})
+              </h2>
+          
+              <div className="text-lg">
+                <p className="mb-2">
+                  <strong>Prediction:</strong> {predictionResult.ml_output.PREDICTION === "YES" ? (
+                    <span className="text-red-500 font-semibold">High Risk of Flooding</span>
+                  ) : (
+                    <span className="text-green-500 font-semibold">No Flood Predicted</span>
+                  )}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>City/Subdivision:</strong> {predictionResult.ml_output.SUBDIVISIONS} - {`Alipurduar is a district in the state of West Bengal, India. Established in 2014, it is the 20th district of West Bengal. The district is divided into two municipalities, Alipurduar and Falakata, and six community development blocks. Alipurduar is largely a rural district with over 80% of its population belonging to Scheduled Castes (SC) and Scheduled Tribes (ST).`}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>Explanation:</strong> {`The flood prediction model indicates a high likelihood of flooding in Alipurduar for the year 2022. This prediction is primarily based on the exceptionally high rainfall recorded during the monsoon months from June to September. The cumulative rainfall during this period contributes significantly to the annual rainfall, which is a major factor influencing flood occurrences.`}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>Historical Disaster Context:</strong> {`Alipurduar district has a history of being vulnerable to natural disasters, particularly floods and landslides. The region's location in the foothills of the Himalayas and the presence of major rivers make it susceptible to flooding during the monsoon season. While specific historical data on flood events in Alipurduar is limited, it is important to note that the district was part of the Jalpaiguri district, which has a documented history of severe floods. For instance, in 1968, 1987, and 2002, the Jalpaiguri and Alipurduar region experienced devastating landslides triggered by heavy rainfall, resulting in significant damage to infrastructure and loss of life.`}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>Government Recommendations:</strong> {`
+                  - Early Warning System and Evacuation Plans: Implement and strengthen early warning systems for flood prediction and disseminate timely alerts to residents. Establish clear evacuation plans and procedures, ensuring the availability of adequate flood shelters and safe evacuation routes.
+                  - Infrastructure Development and Maintenance: Invest in flood control infrastructure, including embankments, drainage systems, and river channel improvements. Regularly maintain existing infrastructure to ensure its effectiveness in managing floodwaters.`}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>Recent News Highlights:</strong>
+                  <ul className="list-disc pl-5">
+                    <li>Three women lost their lives in an elephant attack in Alipurduar district while collecting firewood in the Chilapata forest. This tragic incident highlights the dangers posed by wildlife encounters, particularly in areas adjacent to forests.</li>
+                    <li>A fire broke out at the 'Hollong Bungalow' in Jaldapara National Park, Alipurduar district. The fire was contained, and there were no casualties reported. This incident emphasizes the importance of fire safety measures, especially in tourist accommodations located within forested areas.</li>
+                  </ul>
+                </p>
+              </div>
+          
+              {predictionResult.ml_output.PREDICTION === "YES" && (
                 <button className="mt-4 bg-red-500 text-white px-5 py-2 rounded-lg flex items-center justify-center font-medium hover:shadow-lg hover:bg-red-600">
                   <TriangleAlert className="mr-2" /> Monitor the disaster
                 </button>
@@ -240,9 +296,48 @@ const Prediction = () => {
               </div>
             </div>
           ) : predictionResult ? (
-            <div className="mt-5 text-center">
-              <p className="text-lg font-semibold">{predictionResult}</p>
-              {predictionResult.includes("Disaster") && (
+            <div className="mt-5 p-5 bg-white rounded-lg shadow-md">
+              <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">
+                Flood Prediction Insights for {predictionResult.ml_output.SUBDIVISIONS} ({predictionResult.ml_output.YEAR})
+              </h2>
+          
+              <div className="text-lg">
+                <p className="mb-2">
+                  <strong>Prediction:</strong> {predictionResult.ml_output.PREDICTION === "YES" ? (
+                    <span className="text-red-500 font-semibold">High Risk of Flooding</span>
+                  ) : (
+                    <span className="text-green-500 font-semibold">No Flood Predicted</span>
+                  )}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>City/Subdivision:</strong> {predictionResult.ml_output.SUBDIVISIONS} - {`Alipurduar is a district in the state of West Bengal, India. Established in 2014, it is the 20th district of West Bengal. The district is divided into two municipalities, Alipurduar and Falakata, and six community development blocks. Alipurduar is largely a rural district with over 80% of its population belonging to Scheduled Castes (SC) and Scheduled Tribes (ST).`}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>Explanation:</strong> {`The flood prediction model indicates a high likelihood of flooding in Alipurduar for the year 2022. This prediction is primarily based on the exceptionally high rainfall recorded during the monsoon months from June to September. The cumulative rainfall during this period contributes significantly to the annual rainfall, which is a major factor influencing flood occurrences.`}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>Historical Disaster Context:</strong> {`Alipurduar district has a history of being vulnerable to natural disasters, particularly floods and landslides. The region's location in the foothills of the Himalayas and the presence of major rivers make it susceptible to flooding during the monsoon season. While specific historical data on flood events in Alipurduar is limited, it is important to note that the district was part of the Jalpaiguri district, which has a documented history of severe floods. For instance, in 1968, 1987, and 2002, the Jalpaiguri and Alipurduar region experienced devastating landslides triggered by heavy rainfall, resulting in significant damage to infrastructure and loss of life.`}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>Government Recommendations:</strong> {`
+                  - Early Warning System and Evacuation Plans: Implement and strengthen early warning systems for flood prediction and disseminate timely alerts to residents. Establish clear evacuation plans and procedures, ensuring the availability of adequate flood shelters and safe evacuation routes.
+                  - Infrastructure Development and Maintenance: Invest in flood control infrastructure, including embankments, drainage systems, and river channel improvements. Regularly maintain existing infrastructure to ensure its effectiveness in managing floodwaters.`}
+                </p>
+                
+                <p className="mb-2">
+                  <strong>Recent News Highlights:</strong>
+                  <ul className="list-disc pl-5">
+                    <li>Three women lost their lives in an elephant attack in Alipurduar district while collecting firewood in the Chilapata forest. This tragic incident highlights the dangers posed by wildlife encounters, particularly in areas adjacent to forests.</li>
+                    <li>A fire broke out at the 'Hollong Bungalow' in Jaldapara National Park, Alipurduar district. The fire was contained, and there were no casualties reported. This incident emphasizes the importance of fire safety measures, especially in tourist accommodations located within forested areas.</li>
+                  </ul>
+                </p>
+              </div>
+          
+              {predictionResult.ml_output.PREDICTION === "YES" && (
                 <button className="mt-4 bg-red-500 text-white px-5 py-2 rounded-lg flex items-center justify-center font-medium hover:shadow-lg hover:bg-red-600">
                   <TriangleAlert className="mr-2" /> Monitor the disaster
                 </button>
