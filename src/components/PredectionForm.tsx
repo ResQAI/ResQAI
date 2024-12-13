@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -6,6 +7,9 @@ import { TriangleAlert } from "lucide-react";
 const Prediction = () => {
   const [predictionResult, setPredictionResult] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("earthquake");
+  const [loading, setLoading] = useState(false);
+  const [loadingMessages, setLoadingMessages] = useState<string[]>([]);
+  const [timer, setTimer] = useState<number>(10);
   const [floodData, setFloodData] = useState({
     SUBDIVISIONS: "",
     YEAR: 2024,
@@ -25,12 +29,45 @@ const Prediction = () => {
   });
 
   const handlePredict = (): void => {
-    const disasterDetected = Math.random() < 0.5; // Simulated logic
-    if (disasterDetected) {
-      setPredictionResult("Disaster detected! Monitor the disaster.");
-    } else {
-      setPredictionResult("No disaster detected. All is safe.");
-    }
+    setPredictionResult(null);
+    setLoading(true);
+    setTimer(10);
+    const messages = [
+      "Initializing prediction model",
+      "Loading data",
+      "Analyzing patterns",
+      "Running simulations",
+      "Finalizing predictions",
+    ];
+    setLoadingMessages([messages[0]]);
+
+    let currentStep = 0;
+    const messageInterval = setInterval(() => {
+      if (currentStep < messages.length) {
+        setLoadingMessages([messages[currentStep]]);
+        currentStep++;
+      }
+    }, 2000);
+
+    const timerInterval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev > 1) return prev - 1;
+        clearInterval(timerInterval);
+        return 0;
+      });
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(messageInterval);
+      clearInterval(timerInterval);
+      const disasterDetected = Math.random() < 0.5; // Simulated logic
+      setPredictionResult(
+        disasterDetected
+          ? "Disaster detected! Monitor the disaster."
+          : "No disaster detected. All is safe."
+      );
+      setLoading(false);
+    }, 10000);
   };
 
   const handleCancel = (): void => {
@@ -38,45 +75,90 @@ const Prediction = () => {
   };
 
   const handleFloodSubmit = (): void => {
-    const filledMonths = Object.entries(floodData)
-      .filter(([key, value]) =>
-        ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"].includes(key) &&
-        typeof value === "number" &&
-        value > 0
-      )
-      .map(([_, value]) => value);
+    
+    const filledMonths = Object.values(floodData).filter(
+      (value) => typeof value === "number" && value > 0
+    );
 
     if (filledMonths.length < 5) {
       alert("Please fill at least 5 months of data.");
       return;
     }
-
+    setPredictionResult(null);
+    setLoading(true);
+    setTimer(10);
     const avg =
       filledMonths.reduce((sum, value) => sum + value, 0) / filledMonths.length;
 
     const completedData = Object.fromEntries(
       Object.entries(floodData).map(([key, value]) => {
         if (
-          ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"].includes(
-            key
-          ) && value === 0
+          [
+            "JAN",
+            "FEB",
+            "MAR",
+            "APR",
+            "MAY",
+            "JUN",
+            "JUL",
+            "AUG",
+            "SEP",
+            "OCT",
+            "NOV",
+            "DEC",
+          ].includes(key) && value === 0
         ) {
           return [key, avg];
         }
         return [key, value];
       })
     );
+    console.log(loading)
+    const messages = [
+      "Initializing prediction model...",
+      "Loading data...",
+      "Analyzing patterns...",
+      "Running simulations...",
+      "Finalizing predictions...",
+    ];
+    setLoadingMessages(messages);
+    
+    let currentStep = 0;
+    const messageInterval = setInterval(() => {
+      if (currentStep < messages.length) {
+        setLoadingMessages([messages[currentStep]]);
+        currentStep++;
+      }
+    }, 2000);
 
-    const annual = Object.entries(completedData)
-      .filter(([key, value]) =>
-        ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"].includes(key) &&
-        typeof value === "number"
-      )
-      .reduce((sum, [_, value]) => sum + value, 0);
+    const timerInterval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev > 1) return prev - 1;
+        clearInterval(timerInterval);
+        return 0;
+      });
+    }, 1000);
 
-    setFloodData({ ...completedData, ANNUAL: annual });
-    alert("Flood data submitted successfully.");
+    setTimeout(() => {
+      clearInterval(messageInterval);
+      clearInterval(timerInterval);
+      const disasterDetected = Math.random() < 0.5; // Simulated logic
+      setPredictionResult(
+        disasterDetected
+          ? "Disaster detected! Monitor the disaster."
+          : "No disaster detected. All is safe."
+      );
+      setLoading(false);
+    }, 10000);
   };
+
+  //   const annual = Object.values(completedData)
+  //     .filter((value) => typeof value === "number")
+  //     .reduce((sum, value) => sum + value, 0);
+
+  //   setFloodData({ ...completedData, ANNUAL: annual });
+  //   alert("Flood data submitted successfully.");
+  // };
 
   return (
     <div className="p-5">
@@ -102,13 +184,22 @@ const Prediction = () => {
       {activeTab === "earthquake" && (
         <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
           <h2 className="text-lg font-semibold">Earthquake Prediction</h2>
-          <button
-            className="mb-2 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500"
-            onClick={handlePredict}
-          >
-            Predict
-          </button>
-          {predictionResult && (
+          {loading ? (
+            <div className="mt-5">
+              <ul className="text-sm space-y-2">
+                {loadingMessages.map((message, index) => (
+                  <li key={index}> <div className="flex flex-row  gap-2 text-xl font-bold text-blue-500 place-items-baseline"> {message}
+                  <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce"></div>
+                  <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:-.3s]"></div>
+                  <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:-.5s]"></div>
+                </div></li>
+                ))}
+              </ul>
+              <div className="mt-3 text-center">
+                <p>Time remaining: {timer} seconds</p>
+              </div>
+            </div>
+          ) : predictionResult ? (
             <div className="mt-5 text-center">
               <p className="text-lg font-semibold">{predictionResult}</p>
               {predictionResult.includes("Disaster") && (
@@ -117,15 +208,48 @@ const Prediction = () => {
                 </button>
               )}
             </div>
+          ) : (
+            <button
+              className="mb-2 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500"
+              onClick={handlePredict}
+            >
+              Predict
+            </button>
           )}
         </div>
       )}
 
       {activeTab === "flood" && (
-        <div className="max-w w-full space-y-8 p-10 bg-white rounded-xl shadow-xl">
+        
+<div className="max-w w-full space-y-8 p-10 bg-white rounded-xl shadow-xl">
           <h2 className="text-lg font-bold">Flood Data</h2>
           <div className="flex flex-col space-y-4">
-            
+          {loading ? (
+            <div className="mt-5">
+              <ul className="text-sm space-y-2">
+                {loadingMessages.map((message, index) => (
+                  <li key={index}>{message} <div className="flex flex-row gap-2">
+                  <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
+                  <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
+                  <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
+                </div></li>
+                ))}
+              </ul>
+              <div className="mt-3 text-center">
+                <p>Time remaining: {timer} seconds</p>
+              </div>
+            </div>
+          ) : predictionResult ? (
+            <div className="mt-5 text-center">
+              <p className="text-lg font-semibold">{predictionResult}</p>
+              {predictionResult.includes("Disaster") && (
+                <button className="mt-4 bg-red-500 text-white px-5 py-2 rounded-lg flex items-center justify-center font-medium hover:shadow-lg hover:bg-red-600">
+                  <TriangleAlert className="mr-2" /> Monitor the disaster
+                </button>
+              )}
+            </div>
+          ) : (
+            <>
             <div className="mb-3 space-y-2 w-full text-xs">
                         <label className="font-semibold text-gray-600 py-2">
                           Year <abbr title="required">*</abbr>
@@ -141,7 +265,7 @@ const Prediction = () => {
                 }
                         />
                       </div>
-                    </div>
+                    
 
 
 
@@ -213,16 +337,17 @@ const Prediction = () => {
           </div>
           <div className="flex item-center justify-center">
           <button
-            className="mb-2 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500"
+            className="mb-2 bg-primary px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500"
             onClick={handleFloodSubmit}
           >
             Submit
           </button>
         </div>
+        </>)};
+        
         </div>
-      )}
-    </div>
-  );
-};
+</div>)}
+
+</div>);}
 
 export default Prediction;
