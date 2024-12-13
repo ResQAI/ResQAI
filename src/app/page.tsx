@@ -21,7 +21,7 @@ export default function Home() {
     {
         name: "Khagesh Sharma",
         img: "https://ayurguru.vercel.app/assets/w2--Nxxim4A.png",
-        role: "Full Stack Developer",
+        role: "DevOps Expert ",
         // description: "Technical mastermind transforming complex challenges.",
         linkedin: "https://www.linkedin.com/in/khageshsharma",
         github: "https://github.com/khagesh2409",
@@ -36,11 +36,11 @@ export default function Home() {
     },
     {
       name: "Shreyas Dharmvans",
-      img: "https://ayurguru.vercel.app/assets/w2--Nxxim4A.png",
+      img: "https://media.licdn.com/dms/image/v2/D5603AQGTmqFzsyxRzg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1720636262644?e=1739404800&v=beta&t=D7rH-59ouPkgFsid1Z-Q7HvDuI-1gsGKW6lKzvuNlMk",
       role: "Full Stack Developer",
       // description: "Innovation catalyst with a passion for user-centric design.",
-      linkedin: "https://www.linkedin.com/in/shaurya--gupta",
-      github: "https://github.com/CodeByShaurya",
+      linkedin: "https://www.linkedin.com/in/shreyas-d20/",
+      github: "https://github.com/shreyasD-24",
   },
 ];
 
