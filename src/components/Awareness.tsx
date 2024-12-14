@@ -50,7 +50,7 @@ const PreparednessGuide = () => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md mb-6">
+    <div className="bg-white p-6 rounded-xl  mb-6">
       <h2 className="text-2xl font-bold text-center mb-6 flex items-center justify-center text-primary">
         <Shield className="mr-3 text-primary" /> 
         Disaster Preparedness: Essential Measures
@@ -193,16 +193,109 @@ const readOutLoud = () => {
   return (
     <div className="w-full min-h-screen  ">
       <Nav/>
-      <div className="bg-white   mx-auto p-8 ">
-        <div className=" border-b-2  mt-16  flex items-center space-x-4">
-          <AlertTriangle className="text-orange-500 w-8 h-8" />
-          <h2 className="text-2xl font-bold text-gray-800">Disaster Readiness Challenge</h2>
-        </div>
-        
-        <div className="p-6 space-y-6">
-          {/* Preparedness Guide */}
-          <PreparednessGuide />
+      <div className="bg-white mx-auto p-8 space-y-8">
+  {/* Header Section */}
+  <div className="border-b-2 mt-16 flex items-center space-x-4">
+    <AlertTriangle className="text-orange-500 w-8 h-8" />
+    <h2 className="text-2xl font-bold text-gray-800">
+      Disaster Readiness Challenge
+    </h2>
+  </div>
 
+  {/* Why Preparedness Section */}
+  <div className="bg-blue-50 p-6 rounded-lg shadow-md space-y-6">
+    <h3 className="text-xl font-bold text-blue-500">
+      Why Should We Be Prepared?
+    </h3>
+    <p className="text-gray-700">
+      Disasters, both natural and man-made, are inevitable, but their impact
+      can be mitigated through proper planning and preparedness. Whether it is
+      a flood, earthquake, wildfire, or a technological disaster, being ready
+      ensures that we can respond effectively, save lives, and protect
+      property. Without a preparedness mindset, communities are left
+      vulnerable to significant losses and prolonged recovery periods.
+    </p>
+    <p className="text-gray-700">
+      Learning from real-world case studies provides invaluable insights into
+      past mistakes, successful strategies, and innovative approaches. By
+      studying these examples, we can identify gaps in current systems and
+      improve disaster management practices. Here’s why disaster preparedness
+      matters:
+    </p>
+    <ul className="list-disc list-inside space-y-2 text-gray-700">
+      <li>
+        <strong>Risk Reduction:</strong> Preparedness helps identify potential
+        risks and take proactive steps to reduce their likelihood or impact.
+      </li>
+      <li>
+        <strong>Community Resilience:</strong> A well-prepared community can
+        recover faster, minimizing disruptions to daily life and the economy.
+      </li>
+      <li>
+        <strong>Life-Saving Measures:</strong> Preparedness ensures quick and
+        effective responses, saving lives during critical moments.
+      </li>
+      <li>
+        <strong>Efficient Resource Management:</strong> Preparedness helps in
+        allocating resources like food, water, and medical supplies efficiently
+        to avoid shortages.
+      </li>
+      <li>
+        <strong>Learning from Failures:</strong> Case studies teach us what
+        went wrong and how to avoid repeating those mistakes in the future.
+      </li>
+    </ul>
+  </div>
+
+  {/* Learning from Case Studies Section */}
+  <div className="bg-blue-50 p-6 rounded-lg shadow-md space-y-6">
+    <h3 className="text-xl font-bold text-blue-500">
+      Learning from Case Studies
+    </h3>
+    <p className="text-gray-700">
+      Case studies are a treasure trove of knowledge for improving disaster
+      readiness. They provide real-world examples of how different communities
+      and organizations responded to crises. These stories reveal not only
+      their successes but also the challenges they faced and how they overcame
+      them. Here are some key takeaways from studying past disasters:
+    </p>
+    <ul className="list-disc list-inside space-y-2 text-gray-700">
+      <li>
+        <strong>Adapting to Local Context:</strong> Each disaster is unique,
+        and understanding the local geographical, social, and economic
+        conditions is crucial for effective planning.
+      </li>
+      <li>
+        <strong>Role of Communication:</strong> Case studies highlight the
+        importance of clear, timely, and accurate communication during a
+        disaster.
+      </li>
+      <li>
+        <strong>Collaboration is Key:</strong> Multi-agency coordination,
+        involving governments, NGOs, and local communities, leads to better
+        outcomes.
+      </li>
+      <li>
+        <strong>Importance of Early Warning Systems:</strong> Early warnings
+        have proven to significantly reduce loss of life, especially in cases
+        of tsunamis and hurricanes.
+      </li>
+      <li>
+        <strong>Innovative Technology:</strong> The use of advanced
+        technologies like AI, drones, and real-time mapping has transformed
+        disaster management.
+      </li>
+    </ul>
+    <p className="text-gray-700">
+      By learning from these examples, we can build a robust disaster
+      management framework that minimizes risks and ensures preparedness at
+      every level—individual, community, and national.
+    </p>
+  </div>
+
+  {/* Preparedness Guide Component */}
+  <div className="p-6 bg-white border-t-4 border-blue-500 rounded-lg shadow-md">
+    <PreparednessGuide />
           {/* Case Study Generation */}
           <div className="text-center">
             <button 

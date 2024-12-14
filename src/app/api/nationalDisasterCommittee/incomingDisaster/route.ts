@@ -9,7 +9,7 @@ import {
 import { db } from "@/utils/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { validateRequest } from "@/utils/validateRequest";
-import { Disaster as IncomingDisaster } from "@/models/nationalDisasterCommittee";
+import { IncomingDisaster } from "@/models/nationalDisasterCommittee";
 
 // Add a new incoming disaster
 export async function POST(req: Request) {
@@ -18,9 +18,16 @@ export async function POST(req: Request) {
     const { isValid, errors } = validateRequest(body, [
       "name",
       "tags",
+      "exactLocation",
       "level",
-      "location",
-      "reportedAt",
+      "peopleAffected",
+      "estimatedEconomicImpact",
+      "startTime",
+      "endTime",
+      "status",
+      "causativeFactors",
+      "geologicalData",
+      "weatherData",
     ]);
 
     if (!isValid) {

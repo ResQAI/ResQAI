@@ -75,7 +75,7 @@ export default function Home() {
               </p>
               <div className="mt-16 flex flex-wrap  justify-center gap-y-4 gap-x-6">
                 <a
-                  href="#"
+                  href="/login"
                   className="relative flex h-11 w-full items-center justify-center px-6 rounded-full  transition duration-300 hover:scale-105 bg-primary  sm:w-max"
                 >
                   <span className="relative text-white  font-semibold text-white">
@@ -83,7 +83,7 @@ export default function Home() {
                   </span>
                 </a>
                 <a
-                  href="#"
+                  href="#features"
                   className="relative flex h-11 w-full items-center justify-center px-6 absolute inset-0 rounded-full border border-transparent bg-purple-50  transition duration-300 hover:scale-105 active:duration-75 active:scale-95 ddkkborder-gray-700 ddkkbg-gray-800 sm:w-max"
                 >
                   <span className="relative text-base font-semibold text-primary ddkktext-white">
@@ -121,8 +121,9 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                     className="text-center space-y-12"
+                    
                 >
-          <div className="mt-24">
+          <div className="mt-24" id="stats">
             {/* component */}
             <h1 className="xl:text-5xl md:text-4xl text-2xl font-semibold leading-tight text-center text-gray-800 sm:mb-0 mb-12">
               More Than 10 Years We Provide Service <br className="md:block hidden" />
@@ -374,7 +375,7 @@ export default function Home() {
           </div>
         </div> */}
 
-        <section className=" flex item-center justify-center  pt-[110px]">
+        <section className=" flex item-center justify-center  pt-[110px]" id="features">
           <div className=" ">
           <div className="">
             <div
@@ -1047,8 +1048,8 @@ export default function Home() {
  
             <section className="bg-white py-8">
               <div className="container max-w-5xl mx-auto m-8">
-                <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
-                  Quiz
+                <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-primary">
+                  Learn
                 </h2>
                 <div className="w-full mb-4">
                   <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
@@ -1063,9 +1064,14 @@ export default function Home() {
                       ipsum eu nunc commodo posuere et sit amet ligula.
                       <br />
                       <br />
-                      Images from:
-                      <a className="text-pink-500 underline" href="http://localhost:3000/quiz/options">
-                        undraw.co
+                      <a
+                        href="/quiz"
+                        className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-primary transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
+                      >
+                        <span className="relative text-sm font-semibold text-white astro-ES6RJE63">
+                          {" "}
+                          Take Quiz
+                        </span>
                       </a>
                     </p>
                   </div>
@@ -1605,7 +1611,7 @@ export default function Home() {
                         fill="#3c354c"
                       />
                     </svg> */}
-                    <img src="https://static.vecteezy.com/system/resources/previews/011/153/690/non_2x/question-and-answer-education-3d-illustrations-png.png" className=" sm:h-64 mx-auto"/>
+                    <img src="https://cdn-icons-png.flaticon.com/512/8238/8238753.png" className=" sm:h-64 mx-auto"/>
                   </div>
                   <div className="w-full sm:w-1/2 p-6 mt-6">
                     <div className="align-middle">
@@ -1617,9 +1623,14 @@ export default function Home() {
                         at ipsum eu nunc commodo posuere et sit amet ligula.
                         <br />
                         <br />
-                        Images from:
-                        <a className="text-pink-500 underline" href="http://localhost:3000/quiz/answer">
-                          undraw.co
+                        <a
+                          href="/awareness"
+                          className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-primary transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
+                        >
+                          <span className="relative text-sm font-semibold text-white astro-ES6RJE63">
+                            {" "}
+                            Learn from Case studies
+                          </span>
                         </a>
                       </p>
                     
@@ -1681,153 +1692,42 @@ export default function Home() {
 
 
   {/*Footer*/}
-              <footer className="bg-white mt-24">
-                <div className="container mx-auto px-8">
-                  <div className="w-full flex flex-col md:flex-row py-6">
-                    <div className="flex-1 mb-6 text-black">
-                      <a
-                        className="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
-                        href="#"
-                      >
-                        {/*Icon from: http://www.potlabicons.com/ */}
-                        <svg
-                          className="h-8 fill-current inline"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 512.005 512.005"
-                        >
-                          <rect
-                            fill="#2a2a31"
-                            x="16.539"
-                            y="425.626"
-                            width="479.767"
-                            height="50.502"
-                            transform="matrix(1,0,0,1,0,0)"
-                          />
-                          <path
-                            className="plane-take-off"
-                            d=" M 510.7 189.151 C 505.271 168.95 484.565 156.956 464.365 162.385 L 330.156 198.367 L 155.924 35.878 L 107.19 49.008 L 211.729 230.183 L 86.232 263.767 L 36.614 224.754 L 0 234.603 L 45.957 314.27 L 65.274 347.727 L 105.802 336.869 L 240.011 300.886 L 349.726 271.469 L 483.935 235.486 C 504.134 230.057 516.129 209.352 510.7 189.151 Z "
-                          />
-                        </svg>
-                        LANDING
-                      </a>
-                    </div>
-                    <div className="flex-1">
-                      <p className="uppercase text-gray-500 md:mb-6">Links</p>
-                      <ul className="list-reset mb-6">
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            FAQ
-                          </a>
-                        </li>
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Help
-                          </a>
-                        </li>
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Support
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="flex-1">
-                      <p className="uppercase text-gray-500 md:mb-6">Legal</p>
-                      <ul className="list-reset mb-6">
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Terms
-                          </a>
-                        </li>
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Privacy
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="flex-1">
-                      <p className="uppercase text-gray-500 md:mb-6">Social</p>
-                      <ul className="list-reset mb-6">
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Facebook
-                          </a>
-                        </li>
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Linkedin
-                          </a>
-                        </li>
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Twitter
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="flex-1">
-                      <p className="uppercase text-gray-500 md:mb-6">Company</p>
-                      <ul className="list-reset mb-6">
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Official Blog
-                          </a>
-                        </li>
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            About Us
-                          </a>
-                        </li>
-                        <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                          <a
-                            href="#"
-                            className="no-underline hover:underline text-gray-800 hover:text-pink-500"
-                          >
-                            Contact
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                {/* <a
-                  href="https://www.freepik.com/free-photos-vectors/background"
-                  className="text-gray-500"
-                >
-                  Background vector created by freepik - www.freepik.com
-                </a> */}
-              </footer>
+  <footer className="mt-20 xl:mt-32 mx-auto w-full relative text-center bg-blue-600 text-white">
+  <div className="px-6 py-8 md:py-14 xl:pt-20 xl:pb-12">
+    <h2 className="font-bold text-3xl xl:text-4xl leading-snug">
+      Ready to get your productivity back?
+      <br />
+      Start your free trial today.
+    </h2>
+    <a
+      className="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-blue-800 rounded-full shadow-xl border border-transparent hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-999 focus:ring-sky-500"
+      href="/login"
+    >
+      Get started
+    </a>
+    <div className="mt-14 xl:mt-20">
+      <nav className="flex flex-wrap justify-center text-lg font-medium">
+        <div className="px-5 py-2">
+          <a href="#">Contact</a>
+        </div>
+        <div className="px-5 py-2">
+          <a href="#">Pricing</a>
+        </div>
+        <div className="px-5 py-2">
+          <a href="#">Privacy</a>
+        </div>
+        <div className="px-5 py-2">
+          <a href="#">Terms</a>
+        </div>
+        <div className="px-5 py-2">
+          <a href="#">Twitter</a>
+        </div>
+      </nav>
+      <p className="mt-7 text-base">© 2024 ResqAI</p>
+    </div>
+  </div>
+</footer>
+
 </>
 
       </div>

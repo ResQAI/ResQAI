@@ -3,35 +3,33 @@ import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { validateRequest } from "@/utils/validateRequest";
-import { Task as ResponsePlan } from "@/models/nationalDisasterCommittee";
+import { Notification } from "@/models/nationalDisasterCommittee";
 
-// Add a new response plan
+// Add a notification
 export async function POST(req: Request) {
   try {
-    const body: Partial<ResponsePlan> = await req.json();
+    const body: Partial<Notification> = await req.json();
     const { isValid, errors } = validateRequest(body, [
-      "name",
-      "status",
-      "departmentConcerned",
-      "priority",
-      "completedByTime",
-      "description",
-      "currentProgress",
-      "startTime",
-      "assignedTo",
-      "dependencies",
-      "resourcesRequired",
       "disasterId",
+      "type",
+      "departmentsConcerned",
+      "urgency",
+      "dateIssued",
+      "status",
+      "title",
+      "message",
+      "attachedFiles",
     ]);
 
     if (!isValid) {
       return NextResponse.json({ success: false, errors }, { status: 400 });
     }
 
-    const newResponsePlan = { ...body, id: uuidv4() };
+    const notification = { ...body, id: uuidv4() };
 
-    const planRef = doc(db, "nationalDisasterCommittee", "main");
-    const docSnap = await getDoc(planRef);
+    const docRef = doc(db, "nationalDisasterCommittee", "main");
+
+    const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
       return NextResponse.json(
@@ -39,10 +37,9 @@ export async function POST(req: Request) {
         { status: 404 }
       );
     }
-
     const data = docSnap.data();
-
     const declaredDisasters = data?.declaredDisasters || [];
+
     const disasterIndex = declaredDisasters.findIndex(
       (disaster: any) => disaster.id === body.disasterId
     );
@@ -54,16 +51,16 @@ export async function POST(req: Request) {
       );
     }
 
-    declaredDisasters[disasterIndex].responsePlans = [
-      ...(declaredDisasters[disasterIndex].responsePlans || []),
-      newResponsePlan,
-    ];
+    declaredDisasters[disasterIndex].notifications = arrayUnion(
+      ...(declaredDisasters[disasterIndex].notifications || []),
+      notification
+    );
 
-    await updateDoc(planRef, { declaredDisasters });
+    await updateDoc(docRef, { declaredDisasters });
 
     return NextResponse.json({
       success: true,
-      message: "Response plan added successfully",
+      message: "Notification added successfully",
     });
   } catch (error: any) {
     return NextResponse.json(
@@ -73,8 +70,8 @@ export async function POST(req: Request) {
   }
 }
 
-// Get all response plans
-export async function getAllResponsePlans(req: Request) {
+// Get all notifications
+export async function getAllNotifications(req: Request) {
   try {
     const body: { disasterId: string } = await req.json();
     const docRef = doc(db, "nationalDisasterCommittee", "main");
@@ -95,7 +92,7 @@ export async function getAllResponsePlans(req: Request) {
 
     return NextResponse.json({
       success: true,
-      responsePlans: disaster?.responsePlan || [],
+      notifications: disaster?.notifications || [],
     });
   } catch (error: any) {
     return NextResponse.json(
@@ -105,60 +102,7 @@ export async function getAllResponsePlans(req: Request) {
   }
 }
 
-// Update a specific response plan
-export async function PUT(req: Request) {
-  try {
-    const body: {
-      disasterId: string;
-      id: string;
-      updatedFields: Partial<ResponsePlan>;
-    } = await req.json();
-
-    const docRef = doc(db, "nationalDisasterCommittee", "main");
-    const docSnap = await getDoc(docRef);
-
-    if (!docSnap.exists()) {
-      return NextResponse.json(
-        { success: false, message: "No data found" },
-        { status: 404 }
-      );
-    }
-
-    const data = docSnap.data();
-
-    const declaredDisasters = data?.declaredDisasters || [];
-    const disasterIndex = declaredDisasters.findIndex(
-      (disaster: any) => disaster.id === body.disasterId
-    );
-
-    if (disasterIndex === -1) {
-      return NextResponse.json(
-        { success: false, message: "Disaster not found" },
-        { status: 404 }
-      );
-    }
-
-    declaredDisasters[disasterIndex].responsePlans = declaredDisasters[
-      disasterIndex
-    ].responsePlans.map((plan: ResponsePlan) =>
-      plan.id === body.id ? { ...plan, ...body.updatedFields } : plan
-    );
-
-    await updateDoc(docRef, { declaredDisasters });
-
-    return NextResponse.json({
-      success: true,
-      message: "Response plan updated successfully",
-    });
-  } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
-}
-
-// Delete a specific response plan
+// Delete a notification
 export async function DELETE(req: Request) {
   try {
     const body: { disasterId: string; id: string } = await req.json();
@@ -188,15 +132,17 @@ export async function DELETE(req: Request) {
       );
     }
 
-    declaredDisasters[disasterIndex].responsePlans = declaredDisasters[
-      disasterIndex
-    ].responsePlans.filter((plan: ResponsePlan) => plan.id !== body.id);
+    const updatedNotifications = (
+      declaredDisasters[disasterIndex].notifications || []
+    ).filter((notification: any) => notification.id !== body.id);
+
+    declaredDisasters[disasterIndex].notifications = updatedNotifications;
 
     await updateDoc(docRef, { declaredDisasters });
 
     return NextResponse.json({
       success: true,
-      message: "Response plan deleted successfully",
+      message: "Notification deleted successfully",
     });
   } catch (error: any) {
     return NextResponse.json(
@@ -206,8 +152,62 @@ export async function DELETE(req: Request) {
   }
 }
 
-// Get a specific response plan
-export async function getSpecificResponsePlan(req: Request) {
+// Mark notification as read
+export async function PATCH(req: Request) {
+  try {
+    const body: { disasterId: string; id: string } = await req.json();
+
+    const docRef = doc(db, "nationalDisasterCommittee", "main");
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      return NextResponse.json(
+        { success: false, message: "No data found" },
+        { status: 404 }
+      );
+    }
+
+    const data = docSnap.data();
+
+    const declaredDisasters = data?.declaredDisasters || [];
+
+    const disasterIndex = declaredDisasters.findIndex(
+      (disaster: any) => disaster.id === body.disasterId
+    );
+
+    if (disasterIndex === -1) {
+      return NextResponse.json(
+        { success: false, message: "Disaster not found" },
+        { status: 404 }
+      );
+    }
+
+    const updatedNotifications = (
+      declaredDisasters[disasterIndex].notifications || []
+    ).map((notification: any) =>
+      notification.id === body.id
+        ? { ...notification, status: "read" }
+        : notification
+    );
+
+    declaredDisasters[disasterIndex].notifications = updatedNotifications;
+
+    await updateDoc(docRef, { declaredDisasters });
+
+    return NextResponse.json({
+      success: true,
+      message: "Notification marked as read successfully",
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+// Get a specific notification
+export async function getSpecificNotification(req: Request) {
   try {
     const body: { disasterId: string; id: string } = await req.json();
     const docRef = doc(db, "nationalDisasterCommittee", "main");
@@ -226,13 +226,63 @@ export async function getSpecificResponsePlan(req: Request) {
       (disaster: any) => disaster.id === body.disasterId
     );
 
-    const responsePlan = disaster?.responsePlans.find(
-      (plan: ResponsePlan) => plan.id === body.id
+    const notification = (disaster?.notifications || []).find(
+      (notification: any) => notification.id === body.id
     );
 
     return NextResponse.json({
       success: true,
-      responsePlan,
+      notification,
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+// Mark all notifications as read
+export async function markAllNotificationsAsRead(req: Request) {
+  try {
+    const body: { disasterId: string } = await req.json();
+
+    const docRef = doc(db, "nationalDisasterCommittee", "main");
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      return NextResponse.json(
+        { success: false, message: "No data found" },
+        { status: 404 }
+      );
+    }
+
+    const data = docSnap.data();
+
+    const declaredDisasters = data?.declaredDisasters || [];
+
+    const disasterIndex = declaredDisasters.findIndex(
+      (disaster: any) => disaster.id === body.disasterId
+    );
+
+    if (disasterIndex === -1) {
+      return NextResponse.json(
+        { success: false, message: "Disaster not found" },
+        { status: 404 }
+      );
+    }
+
+    const updatedNotifications = (
+      declaredDisasters[disasterIndex].notifications || []
+    ).map((notification: any) => ({ ...notification, status: "read" }));
+
+    declaredDisasters[disasterIndex].notifications = updatedNotifications;
+
+    await updateDoc(docRef, { declaredDisasters });
+
+    return NextResponse.json({
+      success: true,
+      message: "All notifications marked as read successfully",
     });
   } catch (error: any) {
     return NextResponse.json(

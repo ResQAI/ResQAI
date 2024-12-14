@@ -74,12 +74,13 @@ function AIAnswerPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <button
+      <a
         className="absolute top-4 left-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-        // onClick={() => router.push("/")}
+        // onClick={() => router.push("/")
+        href="/"
       >
         Go Back
-      </button>
+      </a>
       <div className="w-full max-w-4xl p-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-4">Submit Your Answer</h1>
         {isSubmitted ? (
