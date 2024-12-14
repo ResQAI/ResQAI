@@ -1,27 +1,35 @@
 "use client";
 
+import React, { useState } from "react";
+import axios from "axios";
+
 interface PredictionResult {
     ml_output: {
-      lower_bound: number;
-      upper_bound: number;
-      value: number;
+        lower_bound: number;
+        upper_bound: number;
+        value: number;
     };
     response: string;
-  }
-  
-
-import React, { useState } from "react";
-import { TriangleAlert } from "lucide-react";
-import axios from "axios";
+}
 
 const Earthquake = () => {
     const [formData, setFormData] = useState({
-        Timestamp: "",
+        Timestamp: formatToCustomISO(new Date()),
         Latitude: "",
         Longitude: "",
         Depth: "",
         Location: "",
     });
+
+    // Helper function to format to `YYYY-MM-DDTHH:mm:ss+00:00`
+    function formatToCustomISO(date) {
+        const pad = (num) => String(num).padStart(2, "0");
+
+        return (
+            `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}` +
+            `T${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}+00:00`
+        );
+    }
     const [predictionResult, setPredictionResult] = useState<PredictionResult | null>(null);
 
     const [loading, setLoading] = useState(false);
@@ -64,7 +72,12 @@ const Earthquake = () => {
         }, 1000);
 
         try {
-            const response = await axios.post("/api/predict", formData);
+            // API call to Flask backend
+            const response = await axios.post("http://localhost:5000/predict", formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
             clearInterval(messageInterval);
             clearInterval(timerInterval);
             setPredictionResult(response.data);
@@ -80,9 +93,6 @@ const Earthquake = () => {
         <div className="flex h-screen items-start justify-center">
             <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
                 <h2 className="text-lg font-semibold">Earthquake Prediction</h2>
-
-                
-
 
                 {loading ? (
                     <div className="mt-5">
@@ -119,65 +129,59 @@ const Earthquake = () => {
                 ) : (
                     <div>
                         <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Timestamp</label>
-                        <input
-                            type="datetime-local"
-                            name="Timestamp"
-                            value={formData.Timestamp}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Latitude</label>
-                        <input
-                            type="number"
-                            name="Latitude"
-                            step="any"
-                            value={formData.Latitude}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Longitude</label>
-                        <input
-                            type="number"
-                            name="Longitude"
-                            step="any"
-                            value={formData.Longitude}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Depth</label>
-                        <input
-                            type="number"
-                            name="Depth"
-                            value={formData.Depth}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Location</label>
-                        <input
-                            type="text"
-                            name="Location"
-                            value={formData.Location}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
-                </div>
-                    <button
-                        className="mb-2 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500"
-                        onClick={handlePredict}
-                    >
-                        Predict
-                    </button>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Timestamp</label>
+                                
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Latitude</label>
+                                <input
+                                    type="number"
+                                    name="Latitude"
+                                    step="any"
+                                    value={formData.Latitude}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Longitude</label>
+                                <input
+                                    type="number"
+                                    name="Longitude"
+                                    step="any"
+                                    value={formData.Longitude}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Depth</label>
+                                <input
+                                    type="number"
+                                    name="Depth"
+                                    value={formData.Depth}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Location</label>
+                                <input
+                                    type="text"
+                                    name="Location"
+                                    value={formData.Location}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
+                        </div>
+                        <button
+                            className="mb-2 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500"
+                            onClick={handlePredict}
+                        >
+                            Predict
+                        </button>
                     </div>
                 )}
             </div>
