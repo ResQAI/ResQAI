@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       "exactLocation",
       "estimatedEconomicImpact",
       "status",
-      "geologicalData",
+      "exactLocation",
     ]);
 
     if (!isValid) {

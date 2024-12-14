@@ -345,7 +345,7 @@ const ResponsePlan = () => {
           {/* Task Detail Overlay - Moved inside timeline container */}
 
           {/* Timeline content - Remove blur effect since we're using backdrop-blur */}
-          <div className="absolute top-0 left-[48%] w-0.5 h-full bg-blue-700 transform -translate-x-1/2 pointer-events-none" />
+          <div className="absolute top-0 left-[49.5%] w-0.5 h-full bg-blue-700 transform -translate-x-1/2 pointer-events-none" />
           {/* Scrollable content wrapper */}
           <div className="absolute inset-0 overflow-y-auto">
             {/* Content container with padding */}

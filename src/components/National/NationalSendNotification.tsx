@@ -6,22 +6,36 @@ import {
   Edit2,
   Trash2,
   Send,
-  FileText,
-  Filter,
-  Search,
+  FileText
 } from "lucide-react";
 import axios from "axios";
 
-
+interface Notification {
+  // id: string;
+  type: string;
+  title: string;
+  message: string;
+  urgency: string;
+  departmentsConcerned: string[];
+  dateIssued: string;
+  status: string;
+  // attachedFiles: any[];
+  disasterId?: string; // Optional for overall notifications
+}
+interface Disaster {
+  id: string;
+  name: string;
+}
 
 
 const AlertNotificationPage = () => {
-  const [selectionType, setSelectionType] = useState(""); // "Overall" or "Specific"
+  const [selectionType, setSelectionType] = useState("Overall"); // "Overall" or "Specific"
   const [disasters, setDisasters] = useState([]); // List of disasters from the API
-  const [selectedDisaster, setSelectedDisaster] = useState(""); // Selected disaster
+  const [selectedDisaster, setSelectedDisaster] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("createAlert");
+  const [notifications, setNotifications] = useState([]);
   const [alerts, setAlerts] = useState([
     {
       id: 1,
@@ -44,6 +58,7 @@ const AlertNotificationPage = () => {
       audience: ["Organizations"],
     },
   ]);
+
   // Fetch disasters from the API
   const fetchDisasters = async () => {
     try {
@@ -56,7 +71,7 @@ const AlertNotificationPage = () => {
         setError(response.data.message || "Failed to fetch disasters");
       }
     } catch (err) {
-      setError(err.message || "An error occurred while fetching disasters");
+      console.log(err.message || "An error occurred while fetching disasters");
     } finally {
       setLoading(false);
     }
@@ -66,7 +81,7 @@ const AlertNotificationPage = () => {
   const handleSelectionTypeChange = (e) => {
     const value = e.target.value;
     setSelectionType(value);
-    setSelectedDisaster(""); // Reset selected disaster
+    setSelectedDisaster(null); // Reset selected disaster
 
     if (value === "Specific") {
       fetchDisasters(); // Fetch disasters only for "Specific"
@@ -76,10 +91,11 @@ const AlertNotificationPage = () => {
   const [newAlert, setNewAlert] = useState({
     title: "",
     message: "",
-    urgency: "Medium",
+    urgency: "low",
     audience: [],
-    states: [], // Ensure this is initialized as an empty array
-    districts: [], // Same for districts if required
+    states: [],
+    districts: [],
+    // attachedFiles: [],
   });
 
   const [filters, setFilters] = useState({
@@ -87,40 +103,71 @@ const AlertNotificationPage = () => {
     status: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewAlert((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleAudienceChange = (audience: any) => {
-    setNewAlert((prev) => ({
-      ...prev,
-      audience: prev.audience.includes(audience)
-        ? prev.audience.filter((a) => a !== audience)
-        : [...prev.audience, audience],
-    }));
-  };
-
-  const handleCreateAlert = (e) => {
+  const handleCreateAlert = async (e) => {
     e.preventDefault();
-    const newAlertItem = {
-      ...newAlert,
-      id: alerts.length + 1,
-      date: new Date().toISOString().split("T")[0],
-      status: "Draft",
+    if (selectionType.toLowerCase()!='overall' && selectedDisaster === "") {
+      alert("Please select a disaster before creating the alert.");
+      return;
+    }
+    console.log(newAlert)
+    const departmentConcerned = [
+      ...newAlert.districts,
+      ...newAlert.states,
+      ...newAlert.audience,
+    ];
+
+    const notification: Notification = {
+      // id: uuidv4(),
+      type: "alert",
+      departmentsConcerned: departmentConcerned,
+      urgency: newAlert.urgency.toLowerCase(),
+      dateIssued: new Date().toISOString(),
+      status: "unread",
+      // departmentsConcerned:departmentConcerned,
+      title: newAlert.title,
+      // attachedFiles: newAlert.attachedFiles,
+      message: newAlert.message,
+      ...(selectionType.toLowerCase()!== "overall" && {
+        disasterId: selectedDisaster,
+      }),
+      
+      
     };
-    setAlerts([...alerts, newAlertItem]);
-    // Reset form
-    setNewAlert({
-      title: "",
-      message: "",
-      urgency: "Medium",
-      audience: [],
-      attachments: null,
-    });
+    const apiUrl =
+    selectionType === "Overall"
+      ? "/api/nationalDisasterCommittee/overallNotifications"
+      : "/api/nationalDisasterCommittee/disasterNotifications";
+
+        // if (selectionType.toLowerCase() === "overall") {
+        //   apiUrl = "/api/nationalDisasterCommittee/overallNotifications";
+        // } else {
+        //   apiUrl = "/api/nationalDisasterCommittee/disasterNotifications";
+        //   notification.selectedDisasterId = selectedDisaster.id; // Attach the disaster ID
+        // }
+      console.log(notification,apiUrl,selectedDisaster)
+    try {
+      const response = await axios.post(apiUrl,
+        notification
+      );
+
+      if (response.data.success) {
+        alert("Notification added successfully");
+        setNewAlert({
+          title: "",
+          message: "",
+          urgency: "low",
+          audience: [],
+          states: [],
+          districts: [],
+          attachedFiles: [],
+        });
+      } else {
+        alert(response.data.message || "Failed to add notification");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while adding the notification");
+    }
   };
 
   const filteredAlerts = alerts.filter(
@@ -153,25 +200,41 @@ const AlertNotificationPage = () => {
     "District 3",
   ]); // Replace with dynamic district data
 
+  
+
   const [allStatesSelected, setAllStatesSelected] = useState(false);
   const [allDistrictsSelected, setAllDistrictsSelected] = useState(false);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewAlert((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAudienceChange = (audience) => {
+    setNewAlert((prev) => {
+      const newAudience = prev.audience.includes(audience)
+        ? prev.audience.filter((a) => a !== audience)
+        : [...prev.audience, audience];
+      return { ...prev, audience: newAudience };
+    });
+  };
+
   const handleStateChange = (state) => {
-    setNewAlert((prev) => ({
-      ...prev,
-      states: prev.states.includes(state)
+    setNewAlert((prev) => {
+      const newStates = prev.states.includes(state)
         ? prev.states.filter((s) => s !== state)
-        : [...prev.states, state],
-    }));
+        : [...prev.states, state];
+      return { ...prev, states: newStates };
+    });
   };
 
   const handleDistrictChange = (district) => {
-    setNewAlert((prev) => ({
-      ...prev,
-      districts: prev.districts.includes(district)
+    setNewAlert((prev) => {
+      const newDistricts = prev.districts.includes(district)
         ? prev.districts.filter((d) => d !== district)
-        : [...prev.districts, district],
-    }));
+        : [...prev.districts, district];
+      return { ...prev, districts: newDistricts };
+    });
   };
 
   const toggleAllStates = () => {
@@ -189,6 +252,122 @@ const AlertNotificationPage = () => {
       districts: !allDistrictsSelected ? districts : [],
     }));
   };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const attachedFiles = files.map((file) => ({
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      url: URL.createObjectURL(file), // Replace with actual URL after upload
+    }));
+    setNewAlert((prev) => ({
+      ...prev,
+      attachedFiles: [...prev.attachedFiles, ...attachedFiles],
+    }));
+  };
+
+
+  const fetchNotifications = async () => {
+    let apiUrl = "";
+    
+    if (selectionType === "Overall") {
+      apiUrl = "/api/nationalDisasterCommittee/overallNotifications";
+      try {
+        const response = await fetch( "/api/nationalDisasterCommittee/overallNotifications");
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data.notifications);
+          console.log(data.notifications) 
+        } else {
+          console.error("Failed to fetch notifications", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    } else if (selectionType === "Specific" && selectedDisaster !== "") {
+      const response = await fetch("http://localhost:3000/api/nationalDisasterCommittee/disasterNotifications", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selectedDisaster }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Notifications:", data.notifications);
+      } else {
+        console.error("Failed to fetch notifications", response.statusText);
+      }
+      apiUrl = `/api/nationalDisasterCommittee/disasterNotifications?${selectedDisaster}`;
+    }
+
+    if (apiUrl) {
+      try {
+        const response = await fetch(apiUrl);
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data.notifications);
+          console.log(data.notifications) 
+        } else {
+          console.error("Failed to fetch notifications", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    }
+  };
+
+
+  const handleEditNotification = async (notificationId: string, updatedData: any) => {
+    try {
+      const response = await fetch(`/api/nationalDisasterCommittee/editNotification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationId, updatedData }),
+      });
+
+      if (response.ok) {
+        // Re-fetch notifications after edit
+        fetchNotifications();
+      } else {
+        console.error("Failed to edit notification", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error editing notification:", error);
+    }
+  };
+
+  // Function to handle delete notification
+  const handleDeleteNotification = async (notificationId: string) => {
+    try {
+      const response = await fetch(`/api/nationalDisasterCommittee/deleteNotification`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationId }),
+      });
+
+      if (response.ok) {
+        // Re-fetch notifications after delete
+        fetchNotifications();
+      } else {
+        console.error("Failed to delete notification", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+    }
+  };
+
+
+
+  // Call the fetch function when selectionType or selectedDisaster changes
+  // useEffect(() => {
+  //   fetchNotifications();
+  // }, [selectionType, selectedDisaster]);
 
   return (
     <div className="min-h-screen w-full bg-white font-sans p-4">
@@ -280,7 +459,11 @@ const AlertNotificationPage = () => {
             {tabs.map((tab) => (
               <button
                 key={tab.name}
-                onClick={() => setActiveTab(tab.name)}
+                onClick={() => {
+                  setActiveTab(tab.name); 
+                  if (tab.name === "manageAlerts") {
+                    fetchNotifications(); // Call fetchNotifications if "manageAlerts" tab is clicked
+                  }}}
                 className={`
                   flex items-center justify-center text-md w-full py-4 transition-all duration-300
                   ${
@@ -301,37 +484,48 @@ const AlertNotificationPage = () => {
         <div className="bg-white rounded-xl shadow-lg p-6">
           {/* Create Alert Tab */}
           {activeTab === "createAlert" && (
-            <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-gray-800 flex items-center">
               <PlusCircle className="mr-3 w-6 h-6 text-blue-600" />
               Create New Alert
             </h2>
-            <form onSubmit={handleCreateAlert} className="space-y-5">
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Alert Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={newAlert.title}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all"
-                  placeholder="Enter alert title"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Message</label>
-                <textarea
-                  name="message"
-                  value={newAlert.message}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all"
-                  placeholder="Detailed alert message"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
-              <div className="grid grid-cols-1 gap-6">
+                <form onSubmit={handleCreateAlert} className="space-y-5">
+                  {/* Title */}
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Alert Title
+                    </label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={newAlert.title}
+                      onChange={handleInputChange}
+                      className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all"
+                      placeholder="Enter alert title"
+                      required
+                    />
+                  </div>
+                  {/* Message */}
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      value={newAlert.message}
+                      onChange={handleInputChange}
+                      className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all"
+                      placeholder="Detailed alert message"
+                      rows="4"
+                      required
+                    ></textarea>
+                  </div>
+                  {/* Audience */}
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Target Audience
+                    </label>
+                    <div className="grid grid-cols-1 gap-6">
                 <div>
                   <label className="block text-gray-700 font-semibold mb-2">Urgency</label>
                   <select
@@ -413,29 +607,34 @@ const AlertNotificationPage = () => {
                             />
                             <span>{district}</span>
                           </label>
-                        ))}
+                          ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
+                  {/* Attachments */}
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Attachments
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={handleFileChange}
+                      className="block text-gray-700 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 hover:file:bg-blue-100"
+                    />
+                  </div>
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center"
+                  >
+                    Send Alert
+                  </button>
+                </form>
               </div>
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Attachments</label>
-                <div className="flex items-center space-x-4">
-                  <input
-                    type="file"
-                    className="block text-gray-700 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 hover:file:bg-blue-100"
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center"
-              >
-                <Send className="mr-2 w-5 h-5" /> Send Alert
-              </button>
-            </form>
-          </div>
           
           )}
 
@@ -492,7 +691,7 @@ const AlertNotificationPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredAlerts.map((alert) => (
+                    {notifications.map((alert) => (
                       <tr
                         key={alert.id}
                         className="border-b hover:bg-gray-50 transition-colors"
@@ -503,11 +702,11 @@ const AlertNotificationPage = () => {
                             className={`
                             px-2 py-1 rounded-full text-xs font-semibold
                             ${
-                              alert.urgency === "Critical"
+                              alert.urgency === "critical"
                                 ? "bg-red-100 text-red-800"
-                                : alert.urgency === "High"
+                                : alert.urgency === "high"
                                 ? "bg-orange-100 text-orange-800"
-                                : alert.urgency === "Medium"
+                                : alert.urgency === "medium"
                                 ? "bg-yellow-100 text-yellow-800"
                                 : "bg-green-100 text-green-800"
                             }
@@ -516,7 +715,7 @@ const AlertNotificationPage = () => {
                             {alert.urgency}
                           </span>
                         </td>
-                        <td className="p-3">{alert.date}</td>
+                        <td className="p-3">{alert.dateIssued.split('T')[0]}</td>
                         <td className="p-3">
                           <span
                             className={`
@@ -532,10 +731,10 @@ const AlertNotificationPage = () => {
                           </span>
                         </td>
                         <td className="p-3 flex space-x-2">
-                          <button className="text-blue-600 hover:text-blue-800">
+                          <button className="text-blue-600 hover:text-blue-800" onClick={() => handleEditNotification(alert.id)}>
                             <Edit2 className="w-5 h-5" />
                           </button>
-                          <button className="text-red-600 hover:text-red-800">
+                          <button className="text-red-600 hover:text-red-800"  onClick={() => handleDeleteNotification(alert.id)}>
                             <Trash2 className="w-5 h-5" />
                           </button>
                         </td>
