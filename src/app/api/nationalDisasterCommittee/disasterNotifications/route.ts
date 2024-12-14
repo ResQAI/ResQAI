@@ -71,25 +71,28 @@ export async function POST(req: Request) {
 }
 
 // Get all notifications
-export async function getAllNotifications(req: Request) {
+export async function GET(req: Request) {
   try {
-    const body: { disasterId: string } = await req.json();
+    const { searchParams } = new URL(req.url);
+    const disasterId = searchParams.get("disasterId");
+    if (!disasterId) {
+      return NextResponse.json(
+        { success: false, message: "Disaster ID is required" },
+        { status: 400 }
+      );
+    }
     const docRef = doc(db, "nationalDisasterCommittee", "main");
     const docSnap = await getDoc(docRef);
-
     if (!docSnap.exists()) {
       return NextResponse.json(
         { success: false, message: "No data found" },
         { status: 404 }
       );
     }
-
     const data = docSnap.data();
-
     const disaster = (data?.declaredDisasters || []).find(
-      (disaster: any) => disaster.id === body.disasterId
+      (disaster: any) => disaster.id === disasterId
     );
-
     return NextResponse.json({
       success: true,
       notifications: disaster?.notifications || [],
