@@ -44,7 +44,7 @@ export default function NationalHeader() {
             <a
               href="/"
               aria-label="logo"
-              className="flex items-center space-x-2 astro-ES6RJE63"
+              className="flex items-center space-x-2 astro-ES6RJE63 h-8 mr-3"
             >
               <div aria-hidden="true" className="flex space-x-1 astro-ES6RJE63">
                 <div className="h-4 w-4 rounded-full bg-gray-900 ddkkbg-white astro-ES6RJE63" />
@@ -214,7 +214,7 @@ export default function NationalHeader() {
                   </div>
                 </a>
                 <a
-                  href="#"
+                  href="/profile"
                   className="flex px-4 py-3 border-b hover:bg-gray-100"
                 >
                   <div className="flex-shrink-0">

@@ -19,15 +19,9 @@ export async function POST(req: Request) {
       "name",
       "tags",
       "exactLocation",
-      "level",
-      "peopleAffected",
       "estimatedEconomicImpact",
-      "startTime",
-      "endTime",
       "status",
-      "causativeFactors",
-      "geologicalData",
-      "weatherData",
+      "geologicalData"
     ]);
 
     if (!isValid) {
