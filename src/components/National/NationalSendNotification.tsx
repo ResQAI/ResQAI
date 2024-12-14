@@ -35,6 +35,7 @@ const AlertNotificationPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("createAlert");
+  const [notifications, setNotifications] = useState([]);
   const [alerts, setAlerts] = useState([
     {
       id: 1,
@@ -101,23 +102,6 @@ const AlertNotificationPage = () => {
     urgency: "",
     status: "",
   });
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setNewAlert((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
-
-  // const handleAudienceChange = (audience: any) => {
-  //   setNewAlert((prev) => ({
-  //     ...prev,
-  //     audience: prev.audience.includes(audience)
-  //       ? prev.audience.filter((a) => a !== audience)
-  //       : [...prev.audience, audience],
-  //   }));
-  // };
 
   const handleCreateAlert = async (e) => {
     e.preventDefault();
@@ -283,6 +267,108 @@ const AlertNotificationPage = () => {
     }));
   };
 
+
+  const fetchNotifications = async () => {
+    let apiUrl = "";
+    
+    if (selectionType === "Overall") {
+      apiUrl = "/api/nationalDisasterCommittee/overallNotifications";
+      try {
+        const response = await fetch( "/api/nationalDisasterCommittee/overallNotifications");
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data.notifications);
+          console.log(data.notifications) 
+        } else {
+          console.error("Failed to fetch notifications", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    } else if (selectionType === "Specific" && selectedDisaster !== "") {
+      const response = await fetch("http://localhost:3000/api/nationalDisasterCommittee/disasterNotifications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selectedDisaster }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Notifications:", data.notifications);
+      } else {
+        console.error("Failed to fetch notifications", response.statusText);
+      }
+      apiUrl = `/api/nationalDisasterCommittee/disasterNotifications?disasterId=${selectedDisaster}`;
+    }
+
+    if (apiUrl) {
+      try {
+        const response = await fetch(apiUrl);
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data.notifications);
+          console.log(data.notifications) 
+        } else {
+          console.error("Failed to fetch notifications", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    }
+  };
+
+
+  const handleEditNotification = async (notificationId: string, updatedData: any) => {
+    try {
+      const response = await fetch(`/api/nationalDisasterCommittee/editNotification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationId, updatedData }),
+      });
+
+      if (response.ok) {
+        // Re-fetch notifications after edit
+        fetchNotifications();
+      } else {
+        console.error("Failed to edit notification", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error editing notification:", error);
+    }
+  };
+
+  // Function to handle delete notification
+  const handleDeleteNotification = async (notificationId: string) => {
+    try {
+      const response = await fetch(`/api/nationalDisasterCommittee/deleteNotification`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationId }),
+      });
+
+      if (response.ok) {
+        // Re-fetch notifications after delete
+        fetchNotifications();
+      } else {
+        console.error("Failed to delete notification", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+    }
+  };
+
+
+
+  // Call the fetch function when selectionType or selectedDisaster changes
+  // useEffect(() => {
+  //   fetchNotifications();
+  // }, [selectionType, selectedDisaster]);
+
   return (
     <div className="min-h-screen w-full bg-white font-sans p-4">
       <div className="grid md:grid-cols-2 ">
@@ -373,7 +459,11 @@ const AlertNotificationPage = () => {
             {tabs.map((tab) => (
               <button
                 key={tab.name}
-                onClick={() => setActiveTab(tab.name)}
+                onClick={() => {
+                  setActiveTab(tab.name); 
+                  if (tab.name === "manageAlerts") {
+                    fetchNotifications(); // Call fetchNotifications if "manageAlerts" tab is clicked
+                  }}}
                 className={`
                   flex items-center justify-center text-md w-full py-4 transition-all duration-300
                   ${
@@ -601,7 +691,7 @@ const AlertNotificationPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredAlerts.map((alert) => (
+                    {notifications.map((alert) => (
                       <tr
                         key={alert.id}
                         className="border-b hover:bg-gray-50 transition-colors"
@@ -612,11 +702,11 @@ const AlertNotificationPage = () => {
                             className={`
                             px-2 py-1 rounded-full text-xs font-semibold
                             ${
-                              alert.urgency === "Critical"
+                              alert.urgency === "critical"
                                 ? "bg-red-100 text-red-800"
-                                : alert.urgency === "High"
+                                : alert.urgency === "high"
                                 ? "bg-orange-100 text-orange-800"
-                                : alert.urgency === "Medium"
+                                : alert.urgency === "medium"
                                 ? "bg-yellow-100 text-yellow-800"
                                 : "bg-green-100 text-green-800"
                             }
@@ -625,7 +715,7 @@ const AlertNotificationPage = () => {
                             {alert.urgency}
                           </span>
                         </td>
-                        <td className="p-3">{alert.date}</td>
+                        <td className="p-3">{alert.dateIssued.split('T')[0]}</td>
                         <td className="p-3">
                           <span
                             className={`
@@ -641,10 +731,10 @@ const AlertNotificationPage = () => {
                           </span>
                         </td>
                         <td className="p-3 flex space-x-2">
-                          <button className="text-blue-600 hover:text-blue-800">
+                          <button className="text-blue-600 hover:text-blue-800" onClick={() => handleEditNotification(alert.id)}>
                             <Edit2 className="w-5 h-5" />
                           </button>
-                          <button className="text-red-600 hover:text-red-800">
+                          <button className="text-red-600 hover:text-red-800"  onClick={() => handleDeleteNotification(alert.id)}>
                             <Trash2 className="w-5 h-5" />
                           </button>
                         </td>
