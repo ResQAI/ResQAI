@@ -3,7 +3,6 @@ import {
   collection,
   doc,
   updateDoc,
-  arrayUnion,
   getDoc,
 } from "firebase/firestore";
 import { db } from "@/utils/firebase";
@@ -21,7 +20,7 @@ export async function POST(req: Request) {
       "exactLocation",
       "estimatedEconomicImpact",
       "status",
-      "geologicalData"
+      "geologicalData",
     ]);
 
     if (!isValid) {
@@ -34,9 +33,21 @@ export async function POST(req: Request) {
 
     const newIncomingDisaster = { ...body, id: uuidv4() };
 
-    await updateDoc(disasterRef, {
-      incomingDisasters: arrayUnion(newIncomingDisaster),
-    });
+    const docSnap = await getDoc(disasterRef);
+    if (!docSnap.exists()) {
+      return NextResponse.json(
+        { success: false, message: "No data found" },
+        { status: 404 }
+      );
+    }
+
+    const data = docSnap.data();
+    const updatedDisasters = [
+      ...(data?.incomingDisasters || []),
+      newIncomingDisaster,
+    ];
+
+    await updateDoc(disasterRef, { incomingDisasters: updatedDisasters });
 
     return NextResponse.json({
       success: true,

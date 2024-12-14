@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { validateRequest } from "@/utils/validateRequest";
@@ -37,7 +37,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const updatedOverallNotifications = arrayUnion(notification);
+    const data = docSnap.data();
+    const overallNotifications = data?.overallNotifications || [];
+    const updatedOverallNotifications = [...overallNotifications, notification];
 
     await updateDoc(docRef, {
       overallNotifications: updatedOverallNotifications,
