@@ -5,7 +5,7 @@ export default function Nav() {
     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 md:gap-0 md:py-4 astro-ES6RJE63">
       <div className="relative z-20 flex w-full justify-between md:px-0 lg:w-max astro-ES6RJE63">
         <a
-          href="/#home"
+          href="/"
           aria-label="logo"
           className="flex items-center space-x-2 astro-ES6RJE63"
         >
@@ -57,10 +57,10 @@ export default function Nav() {
             </li>
             <li className="astro-ES6RJE63">
               <a
-                href="/#solution"
+                href="/#stats"
                 className="hover:text-primary block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
-                <span className="astro-ES6RJE63">Solution</span>
+                <span className="astro-ES6RJE63">Statistics</span>
               </a>
             </li>
             <li className="astro-ES6RJE63">
@@ -73,11 +73,11 @@ export default function Nav() {
             </li>
             <li className="astro-ES6RJE63">
               <a
-                href="https://tailus.gumroad.com/l/astls-premium"
-                target="_blank"
+                href="/quiz"
+                // target="_blank"
                 className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary ddkktext-white ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
-                <span className="astro-ES6RJE63">Premium</span>
+                <span className="astro-ES6RJE63">Quiz</span>
                 
               </a>
             </li>
