@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   FileText,
   Eye,
@@ -35,6 +35,7 @@ const PreviousReports = () => {
 
   useEffect(() => {
     const convertTimes = (reports) => {
+      if (typeof reports === "undefined" || reports.length === 0) return [];
       return reports.map((report) => {
         const convertTime = (time) => new Date(time);
         return {
@@ -68,10 +69,9 @@ const PreviousReports = () => {
     setAnalysisError(null);
 
     try {
-      
-      const PROMPT = `Analyze and provide a collective overview of the following disaster reports: ${JSON.stringify(reports)}. Focus on identifying key patterns, summarizing critical observations, recommended actions, team responses, casualties, material flows, and disaster status. Highlight any overlapping details and provide actionable recommendations based on the aggregated data.`;
-
-      
+      const PROMPT = `Analyze and provide a collective overview of the following disaster reports: ${JSON.stringify(
+        reports
+      )}. Focus on identifying key patterns, summarizing critical observations, recommended actions, team responses, casualties, material flows, and disaster status. Highlight any overlapping details and provide actionable recommendations based on the aggregated data.`;
 
       const response = await fetch("http://localhost:5000/pro-model", {
         method: "POST",
@@ -80,9 +80,6 @@ const PreviousReports = () => {
         },
         body: JSON.stringify({ query: PROMPT }),
       });
-      
-
-      
 
       if (!response.ok) {
         throw new Error("Failed to analyze reports");
@@ -445,13 +442,15 @@ const PreviousReports = () => {
       element.click();
       document.body.removeChild(element);
     };
-  
+
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-white rounded-lg w-11/12 max-w-3xl max-h-[90vh] overflow-hidden shadow-xl">
           {/* Modal Header */}
           <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h2 className="text-xl font-bold text-gray-800">AI Analysis Results</h2>
+            <h2 className="text-xl font-bold text-gray-800">
+              AI Analysis Results
+            </h2>
             <button
               onClick={onClose}
               className="text-gray-500 hover:text-gray-800 p-2 hover:bg-gray-200 rounded-full transition-colors"
@@ -460,7 +459,7 @@ const PreviousReports = () => {
               ×
             </button>
           </div>
-  
+
           {/* Modal Content */}
           <div className="p-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
             <ReactMarkdown
@@ -491,13 +490,15 @@ const PreviousReports = () => {
                 h3: ({ children }) => (
                   <h3 className="text-lg font-medium mb-2">{children}</h3>
                 ),
-                p: ({ children }) => <p className="mb-4 text-gray-700">{children}</p>,
+                p: ({ children }) => (
+                  <p className="mb-4 text-gray-700">{children}</p>
+                ),
               }}
             >
               {data.response || "No analysis data available."}
             </ReactMarkdown>
           </div>
-  
+
           {/* Modal Footer */}
           <div className="px-6 py-4 border-t border-gray-200 flex justify-end items-center gap-4">
             <button
@@ -519,10 +520,10 @@ const PreviousReports = () => {
   };
   function generatePDF(data) {
     const doc = new jsPDF();
-  
+
     // Utility function to format timestamps
     const formatDate = (timestamp) => new Date(timestamp).toLocaleString();
-  
+
     // Add Header
     const addHeader = () => {
       doc.setFontSize(22);
@@ -532,14 +533,14 @@ const PreviousReports = () => {
       doc.setLineWidth(0.5);
       doc.line(10, 20, 200, 20);
     };
-  
+
     // Add Footer
     const addFooter = (pageNumber) => {
       doc.setFontSize(10);
       doc.setFont("helvetica", "normal");
       doc.text(`Page ${pageNumber}`, 105, 285, { align: "center" });
     };
-  
+
     // Add Section Title
     const addSectionTitle = (title, yPosition) => {
       doc.setFontSize(16);
@@ -547,7 +548,7 @@ const PreviousReports = () => {
       doc.text(title, 10, yPosition);
       return yPosition + 8;
     };
-  
+
     // Add Content
     const addContent = (content, yPosition, lineHeight = 6) => {
       doc.setFontSize(12);
@@ -558,77 +559,107 @@ const PreviousReports = () => {
       });
       return yPosition;
     };
-  
+
     let y = 25;
-  
+
     addHeader();
-  
+
     // Overview Section
     y = addSectionTitle("Overview", y);
     y = addContent([data.summary.overview || "N/A"], y);
-  
+
     // Critical Observations Section
     y = addSectionTitle("Critical Observations", y + 5);
     y = addContent(
-      (data.summary.criticalObservations || []).map((item, i) => `${i + 1}. ${item}`),
+      (data.summary.criticalObservations || []).map(
+        (item, i) => `${i + 1}. ${item}`
+      ),
       y
     );
-  
+
     // Recommended Actions Section
     y = addSectionTitle("Recommended Actions", y + 5);
     y = addContent(
-      (data.summary.recommendedActions || []).map((item, i) => `${i + 1}. ${item}`),
+      (data.summary.recommendedActions || []).map(
+        (item, i) => `${i + 1}. ${item}`
+      ),
       y
     );
-  
+
     // Casualties Section
     y = addSectionTitle("Casualties", y + 5);
     y = addContent(
-      (data.casualties.types || []).map((c, i) => `${i + 1}. ${c.category}: ${c.count}`),
+      (data.casualties.types || []).map(
+        (c, i) => `${i + 1}. ${c.category}: ${c.count}`
+      ),
       y
     );
-  
+
     // Team Arrivals Section
     y = addSectionTitle("Team Arrivals", y + 5);
     const teamDetails = [];
     (data.teamArrival.centralTeams || []).forEach((team, i) => {
-      teamDetails.push(`Central Team ${i + 1}: ${team.name} - ${team.personnelCount} personnel`);
+      teamDetails.push(
+        `Central Team ${i + 1}: ${team.name} - ${team.personnelCount} personnel`
+      );
     });
     (data.teamArrival.internationalTeams || []).forEach((team, i) => {
-      teamDetails.push(`International Team ${i + 1}: ${team.organizationName} (${team.country}) - ${team.personnelCount} personnel`);
+      teamDetails.push(
+        `International Team ${i + 1}: ${team.organizationName} (${
+          team.country
+        }) - ${team.personnelCount} personnel`
+      );
     });
     (data.teamArrival.others || []).forEach((team, i) => {
       teamDetails.push(`Other Team ${i + 1}: ${team.name} (${team.type})`);
     });
     y = addContent(teamDetails, y);
-  
+
     // Material Flow Section
     y = addSectionTitle("Material Flow", y + 5);
     const materialDetails = [];
     (data.materialFlow.foodMaterials || []).forEach((item, i) => {
-      materialDetails.push(`${i + 1}. Food: ${item.type} - Quantity: ${item.quantity} - Distribution: ${item.distributionMethod}`);
+      materialDetails.push(
+        `${i + 1}. Food: ${item.type} - Quantity: ${
+          item.quantity
+        } - Distribution: ${item.distributionMethod}`
+      );
     });
     (data.materialFlow.medicalAid || []).forEach((item, i) => {
-      materialDetails.push(`${i + 1}. Medical Aid: ${item.type} - Quantity: ${item.quantity} - Destination: (${item.destination.latitude}, ${item.destination.longitude})`);
+      materialDetails.push(
+        `${i + 1}. Medical Aid: ${item.type} - Quantity: ${
+          item.quantity
+        } - Destination: (${item.destination.latitude}, ${
+          item.destination.longitude
+        })`
+      );
     });
     y = addContent(materialDetails, y);
-  
+
     // Disaster Status Section
     y = addSectionTitle("Disaster Status", y + 5);
     const statusDetails = [
-      `Affected Population: ${data.disasterStatus.affectedPopulation.total || "N/A"}`,
-      `Weather Condition: ${data.disasterStatus.weatherCondition.primary || "N/A"}`
+      `Affected Population: ${
+        data.disasterStatus.affectedPopulation.total || "N/A"
+      }`,
+      `Weather Condition: ${
+        data.disasterStatus.weatherCondition.primary || "N/A"
+      }`,
     ];
     y = addContent(statusDetails, y);
-  
+
     // Affected Areas
     y = addSectionTitle("Affected Areas", y + 5);
     const areaDetails = (data.disasterStatus.affectedAreas || []).map(
       (area, i) =>
-        `${i + 1}. ${area.name} - Impact Level: ${area.impactLevel} - Coordinates: (${area.coordinates.latitude}, ${area.coordinates.longitude})`
+        `${i + 1}. ${area.name} - Impact Level: ${
+          area.impactLevel
+        } - Coordinates: (${area.coordinates.latitude}, ${
+          area.coordinates.longitude
+        })`
     );
     y = addContent(areaDetails, y);
-  
+
     // Add Timestamp
     if (y > 270) {
       addFooter(1);
@@ -637,9 +668,9 @@ const PreviousReports = () => {
     }
     y = addSectionTitle("Report Timestamp", y + 10);
     y = addContent([`Generated: ${formatDate(data.submissionTime)}`], y);
-  
+
     addFooter(1);
-  
+
     // Save the PDF
     doc.save("Disaster_Report.pdf");
   }

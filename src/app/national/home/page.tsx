@@ -6,121 +6,105 @@ import { useEffect } from "react";
 const page = () => {
   // useEffect(() => {
   //   async function addData() {
-  //     const payload = {
-  //       disasterId: "106d3dd6-901b-4d6d-b66e-c53769273601",
-  //       disasterStatus: {
-  //         weatherCondition: {
-  //           primary: "rain",
-  //           details: ["heavy rain", "thunderstorms"],
-  //           severity: 3,
-  //         },
-  //         affectedAreas: [
-  //           {
-  //             name: "Area 1",
-  //             coordinates: { latitude: 12.34, longitude: 56.78 },
-  //             impactLevel: 2,
-  //           },
-  //         ],
-  //         affectedPopulation: {
-  //           total: 1000,
-  //           demographics: {
-  //             children: 200,
-  //             adults: 600,
-  //             elderly: 200,
-  //           },
-  //           vulnerableGroups: ["elderly", "children"],
-  //         },
-  //       },
-  //       casualties: {
-  //         types: [
-  //           { category: "injured", count: 50 },
-  //           { category: "deceased", count: 5 },
-  //         ],
-  //         firstAid: [
-  //           {
-  //             treatmentType: "basic",
-  //             treatmentLocation: "local hospital",
-  //             personnelInvolved: 10,
-  //           },
-  //         ],
-  //         communication: {
-  //           status: "limited",
-  //           methods: ["radio", "satellite phone"],
-  //         },
-  //       },
-  //       materialFlow: {
-  //         foodMaterials: [
-  //           {
-  //             type: "canned food",
-  //             quantity: 500,
-  //             distributionMethod: "trucks",
-  //           },
-  //         ],
-  //         airDropping: {
-  //           active: true,
-  //           frequency: 2,
-  //           locations: [{ latitude: 12.34, longitude: 56.78 }],
-  //         },
-  //         transport: [
-  //           {
-  //             type: "trucks",
-  //             capacity: 10,
-  //             activeVehicles: 5,
-  //           },
-  //         ],
-  //         medicalAid: [
-  //           {
-  //             type: "first aid kits",
-  //             quantity: 100,
-  //             destination: { latitude: 12.34, longitude: 56.78 },
-  //           },
-  //         ],
-  //       },
-  //       teamArrival: {
-  //         centralTeams: [
-  //           {
-  //             name: "Team A",
-  //             arrivalTime: Date.now(),
-  //             personnelCount: 20,
-  //           },
-  //         ],
-  //         internationalTeams: [
-  //           {
-  //             country: "Country X",
-  //             organizationName: "Org X",
-  //             arrivalTime: Date.now(),
-  //             personnelCount: 15,
-  //           },
-  //         ],
-  //         others: [
-  //           {
-  //             name: "Volunteer Group",
-  //             type: "NGO",
-  //             arrivalTime: Date.now(),
-  //           },
-  //         ],
-  //       },
-  //       summary: {
-  //         overview: "Heavy rain causing floods",
-  //         criticalObservations: ["Roads blocked", "Power outage"],
-  //         recommendedActions: [
-  //           "Evacuate affected areas",
-  //           "Provide medical aid",
-  //         ],
-  //       },
-  //       submissionTime: Date.now(),
-  //     };
-
-  //     const res = await fetch(
-  //       "http://localhost:3000/api/nationalDisasterCommittee/situationshipReports",
+  //     const sampleIncomingDisasters = [
   //       {
-  //         method: "POST",
-  //         body: JSON.stringify(payload),
-  //       }
-  //     );
-  //     const data = await res.json();
-  //     console.log(data);
-  //     console.log("Response Plan added successfully");
+  //         id: "INC001",
+  //         name: "Coastal Cyclone Alert",
+  //         tags: ["cyclone", "coastal", "high-wind"],
+  //         exactLocation: {
+  //           latitude: 13.0827,
+  //           longitude: 80.2707,
+  //           address: "Chennai Coastal Region",
+  //           affectedArea: "Marina Beach Coast",
+  //         },
+  //         level: "High",
+  //         peopleAffected: 50000,
+  //         estimatedEconomicImpact: 1000000,
+  //         startTime: Date.now(),
+  //         status: "Potential",
+  //         weatherData: {
+  //           windSpeed: 120,
+  //           precipitation: 250,
+  //           temperature: 27,
+  //         },
+  //       },
+  //       {
+  //         id: "INC002",
+  //         name: "Himalayan Earthquake",
+  //         tags: ["earthquake", "landslide", "mountain"],
+  //         exactLocation: {
+  //           latitude: 30.7333,
+  //           longitude: 79.0666,
+  //           address: "Uttarakhand Himalayan Region",
+  //           affectedArea: "Chamoli District",
+  //         },
+  //         level: "Critical",
+  //         peopleAffected: 25000,
+  //         estimatedEconomicImpact: 2000000,
+  //         startTime: Date.now(),
+  //         status: "Active",
+  //         geologicalData: {
+  //           magnitude: 6.8,
+  //           depth: 15,
+  //           richterScale: 6.8,
+  //         },
+  //       },
+  //       {
+  //         id: "INC003",
+  //         name: "Kerala Flood Warning",
+  //         tags: ["flood", "rain", "dam-overflow"],
+  //         exactLocation: {
+  //           latitude: 9.9312,
+  //           longitude: 76.2673,
+  //           address: "Ernakulam District",
+  //           affectedArea: "Periyar River Basin",
+  //         },
+  //         level: "Medium",
+  //         peopleAffected: 35000,
+  //         estimatedEconomicImpact: 800000,
+  //         startTime: Date.now(),
+  //         status: "Potential",
+  //         weatherData: {
+  //           windSpeed: 45,
+  //           precipitation: 350,
+  //           temperature: 24,
+  //         },
+  //       },
+  //       {
+  //         name: "Rajasthan Drought Alert",
+  //         tags: ["drought", "heatwave", "water-scarcity"],
+  //         exactLocation: {
+  //           latitude: 26.9124,
+  //           longitude: 75.7873,
+  //           address: "Jaipur Region",
+  //           affectedArea: "Western Rajasthan",
+  //         },
+  //         level: "Low",
+  //         peopleAffected: 100000,
+  //         estimatedEconomicImpact: 1500000,
+  //         startTime: Date.now(),
+  //         weatherData: {
+  //           temperature: 45,
+  //           precipitation: 0,
+  //           windSpeed: 15,
+  //         },
+  //         status: "Active",
+  //       },
+  //     ];
+
+  //     for (let i = 0; i < sampleIncomingDisasters.length; i++) {
+  //       const res = await fetch(
+  //         "http://localhost:3000/api/nationalDisasterCommittee/incomingDisaster",
+  //         {
+  //           method: "POST",
+  //           body: JSON.stringify(sampleIncomingDisasters[i]),
+  //         }
+  //       );
+
+  //       const data = await res.json();
+  //       console.log(data);
+  //       console.log("Response Plan added successfully");
+  //     }
   //   }
 
   //   addData();
