@@ -14,7 +14,7 @@ export async function POST(req: Request) {
       "casualties",
       "materialFlow",
       "teamArrival",
-      "summary",
+      "quickResponse",
       "disasterId",
       "submissionTime",
     ]);

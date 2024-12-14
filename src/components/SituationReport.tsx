@@ -1,9 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FileText, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
 import jsPDF from "jspdf";
 
 const DisasterSituationReport = () => {
+  const [disasterData, setDisasterData] = useState<
+    { id: string; name: string }[]
+  >([]);
+  const [selectedDisaster, setSelectedDisaster] = useState(null);
   const [formData, setFormData] = useState({
     disasterStatus: {
       weatherCondition: "",
@@ -39,7 +43,7 @@ const DisasterSituationReport = () => {
   });
 
   // Toggle section expansion
-  const toggleSection = (section) => {
+  const toggleSection = (section: any) => {
     setExpandedSections((prev) => ({
       ...prev,
       [section]: !prev[section],
@@ -47,7 +51,7 @@ const DisasterSituationReport = () => {
   };
 
   // Handle input changes
-  const handleChange = (section, field, value) => {
+  const handleChange = (section: any, field: any, value: any) => {
     setFormData((prev) => ({
       ...prev,
       [section]: {
@@ -308,29 +312,138 @@ const DisasterSituationReport = () => {
     );
   };
 
+  const handleStoreReport = async (valueDisaster: string) => {
+    // Check for empty fields
+    const isEmptyField = Object.values(formData).some((section) =>
+      typeof section === "object"
+        ? Object.values(section).some((field) => field === "")
+        : section === ""
+    );
+
+    if (isEmptyField) {
+      alert("Please fill in all fields before storing the report.");
+      return;
+    }
+
+    const id = findIdUsingName(valueDisaster);
+
+    // Create JSON data
+    const reportData = {
+      ...formData,
+      submissionTime: new Date().toISOString(),
+      disasterId: id,
+    };
+
+    // Send data to API
+    try {
+      const response = await fetch(
+        "/api/nationalDisasterCommittee/situationshipReports",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reportData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to store the report");
+      }
+
+      alert("Report stored successfully!");
+    } catch (error) {
+      console.error("Error storing the report:", error);
+      alert("An error occurred while storing the report.");
+    }
+  };
+
+  const findIdUsingName = (name: string): string | undefined => {
+    for (const disaster of disasterData) {
+      if (disaster.name === name) {
+        return disaster.id;
+      }
+    }
+    return undefined;
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(
+        "/api/nationalDisasterCommittee/declaredDisasters"
+      );
+      const data = await res.json();
+      setDisasterData(data.declaredDisasters);
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="min-h-screen w-full bg-white flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-8xl mx-auto px-4 py-6 flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <FileText className="text-blue-600" size={32} />
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Disaster Situation Report
-              </h1>
-              <p className="text-gray-500 text-sm">
-                Comprehensive disaster management tool
-              </p>
+          <div className="flex items-center justify-center gap-8">
+            <div className="flex items-center space-x-4">
+              <FileText className="text-blue-600" size={32} />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Disaster Situation Report
+                </h1>
+                <p className="text-gray-500 text-sm">
+                  Comprehensive disaster management tool
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-8">
+              <select
+                onChange={(e) => {
+                  const selectedDisaster = disasterData.find(
+                    (disaster) => disaster.name === e.target.value
+                  );
+                  if (selectedDisaster) {
+                    setSelectedDisaster(selectedDisaster.name);
+                  } else {
+                    setSelectedDisaster(null);
+                  }
+                }}
+                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select a disaster</option>
+                {disasterData.map((disaster) => (
+                  <option key={disaster.id} value={disaster.name}>
+                    {disaster.name}
+                  </option>
+                ))}
+              </select>
+              {selectedDisaster != null ? (
+                <button
+                  onClick={() => handleStoreReport(selectedDisaster)}
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                >
+                  Store Report
+                </button>
+              ) : (
+                <button className="px-4 py-2 bg-green-300 text-white rounded-lg cursor-not-allowed transition-colors">
+                  Store Report
+                </button>
+              )}
             </div>
           </div>
-          <button
-            onClick={handleAIAutofill}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            <Sparkles size={16} />
-            <span className="text-lg">AI Autofill</span>
-          </button>
+          {selectedDisaster != null ? (
+            <button
+              onClick={handleAIAutofill}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              <Sparkles size={16} />
+              <span className="text-lg">AI Autofill</span>
+            </button>
+          ) : (
+            <button className="flex cursor-not-allowed items-center space-x-2 px-4 py-2 bg-blue-300 text-white rounded-lg transition-colors">
+              <Sparkles size={16} />
+              <span className="text-lg">AI Autofill</span>
+            </button>
+          )}
         </div>
       </header>
 
@@ -387,14 +500,20 @@ const DisasterSituationReport = () => {
               />
             )}
           </div>
-
-          <button
-            onClick={generatePDF}
-            className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center space-x-2"
-          >
-            <FileText />
-            <span>Generate Detailed PDF Report</span>
-          </button>
+          {selectedDisaster != null ? (
+            <button
+              onClick={generatePDF}
+              className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center space-x-2"
+            >
+              <FileText />
+              <span>Generate Detailed PDF Report</span>
+            </button>
+          ) : (
+            <button className="w-full cursor-not-allowed bg-blue-300 text-white py-3 rounded-lg transition-colors flex items-center justify-center space-x-2">
+              <FileText />
+              <span>Generate Detailed PDF Report</span>
+            </button>
+          )}
         </div>
       </main>
     </div>
