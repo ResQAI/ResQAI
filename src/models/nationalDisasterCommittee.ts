@@ -32,7 +32,6 @@ export interface BaseDisaster {
   startTime: Timestamp;
   endTime?: Timestamp;
   status: DisasterStatus;
-  causativeFactors: string[];
   geologicalData?: {
     magnitude?: number;
     depth?: number;
