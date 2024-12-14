@@ -299,7 +299,7 @@ const AlertNotificationPage = () => {
       } else {
         console.error("Failed to fetch notifications", response.statusText);
       }
-      apiUrl = `/api/nationalDisasterCommittee/disasterNotifications?${selectedDisaster}`;
+      apiUrl = `/api/nationalDisasterCommittee/disasterNotifications?disasterId=${selectedDisaster}`;
     }
 
     if (apiUrl) {
