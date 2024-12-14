@@ -13,6 +13,7 @@ import {
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Modal from "./AddToMonitorModal";
+import DisasterModal from "./AddToMonitorModal";
 
 interface FloodData {
   SUBDIVISIONS: string;
@@ -279,12 +280,7 @@ const FloodPredictionForm: React.FC = () => {
               {predictionResult.ml_output.PREDICTION === "YES" ? (
                 <>
                   <TriangleAlert className="text-red-500 w-8 h-8 animate-bounce" />
-                  <button
-                    className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
-                    onClick={handleAddToMonitorClick}
-                  >
-                    Add to Monitor
-                  </button>
+                  <DisasterModal />
                 </>
               ) : (
                 <Check className="text-green-500 w-8 h-8" />
@@ -292,11 +288,7 @@ const FloodPredictionForm: React.FC = () => {
             </div>
           </div>
           {/* Modal Component */}
-          <Modal
-            isOpen={isModalOpen}
-            onClose={handleCloseModal}
-            title="Monitor Settings"
-          />
+          
 
           <div className="mb-6">
             <div
