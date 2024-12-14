@@ -1,7 +1,15 @@
-"use client";
-
-import React, { useState } from "react";
-import { TriangleAlert } from "lucide-react";
+"use client"
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Check, 
+  TriangleAlert, 
+  CloudRain, 
+  MapPin, 
+  Calendar, 
+  LoaderCircle, 
+  Waves 
+} from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -32,29 +40,75 @@ interface PredictionResult {
   response: string;
 }
 
+const LoadingStage = ({ stage }: { stage: number }) => {
+  const stages = [
+    { icon: MapPin, text: "Collecting Subdivision Data" },
+    { icon: Calendar, text: "Processing Yearly Rainfall" },
+    { icon: CloudRain, text: "Analyzing Monthly Precipitation" },
+    { icon: LoaderCircle, text: "Training Generative Model" },
+    { icon: Waves, text: "Predicting Flood Risk" }
+  ];
+
+  return (
+    <div className="space-y-4 p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg">
+      {stages.map((stageItem, index) => (
+        <motion.div 
+          key={index}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ 
+            opacity: index < stage ? 1 : 0.4, 
+            x: 0,
+            transition: { delay: index * 0.2 }
+          }}
+          className="flex items-center space-x-4"
+        >
+          <stageItem.icon 
+            className={`w-6 h-6 ${
+              index < stage 
+                ? "text-green-500 animate-pulse" 
+                : "text-gray-400"
+            }`} 
+          />
+          <span className={`
+            ${index < stage ? "font-bold text-blue-800" : "text-gray-600"}
+            transition-all duration-300
+          `}>
+            {stageItem.text}
+          </span>
+          {index < stage && (
+            <Check className="text-green-500 ml-auto" />
+          )}
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
 const FloodPredictionForm: React.FC = () => {
   const [floodData, setFloodData] = useState<FloodData>({
     SUBDIVISIONS: "",
     YEAR: new Date().getFullYear(),
-    JAN: 0,
-    FEB: 0,
-    MAR: 0,
-    APR: 0,
-    MAY: 0,
-    JUN: 0,
-    JUL: 0,
-    AUG: 0,
-    SEP: 0,
-    OCT: 0,
-    NOV: 0,
-    DEC: 0,
+    JAN: 0, FEB: 0, MAR: 0, APR: 0, MAY: 0, JUN: 0, 
+    JUL: 0, AUG: 0, SEP: 0, OCT: 0, NOV: 0, DEC: 0, 
     ANNUAL: 0,
   });
 
-  const [predictionResult, setPredictionResult] =
-    useState<PredictionResult | null>(null);
+  const [predictionResult, setPredictionResult] = useState<PredictionResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadingStage, setLoadingStage] = useState(0);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let stageInterval: NodeJS.Timeout;
+    if (loading) {
+      stageInterval = setInterval(() => {
+        setLoadingStage(prev => 
+          prev < 4 ? prev + 1 : prev
+        );
+      }, 1500);
+    }
+    return () => clearInterval(stageInterval);
+  }, [loading]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -66,18 +120,8 @@ const FloodPredictionForm: React.FC = () => {
 
   const validateData = (): boolean => {
     const monthKeys = [
-      "JAN",
-      "FEB",
-      "MAR",
-      "APR",
-      "MAY",
-      "JUN",
-      "JUL",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC",
+      "JAN", "FEB", "MAR", "APR", "MAY", "JUN", 
+      "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
     ];
     const filledMonths = monthKeys.filter(
       (key) => floodData[key as keyof FloodData] > 0
@@ -104,22 +148,12 @@ const FloodPredictionForm: React.FC = () => {
     if (!validateData()) return;
 
     setLoading(true);
+    setLoadingStage(0);
 
     try {
-      // Calculate average for missing months
       const monthKeys = [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEP",
-        "OCT",
-        "NOV",
-        "DEC",
+        "JAN", "FEB", "MAR", "APR", "MAY", "JUN", 
+        "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
       ];
       const filledMonths = monthKeys.filter(
         (key) => floodData[key as keyof FloodData] > 0
@@ -130,7 +164,6 @@ const FloodPredictionForm: React.FC = () => {
           0
         ) / filledMonths.length;
 
-      // Create completed data object
       const completedData = {
         ...floodData,
         ...monthKeys.reduce((acc, key) => {
@@ -156,6 +189,7 @@ const FloodPredictionForm: React.FC = () => {
 
       const result = await response.json();
       setPredictionResult(result);
+      console.log(predictionResult?.response)
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unexpected error occurred"
@@ -163,150 +197,176 @@ const FloodPredictionForm: React.FC = () => {
     } finally {
       setLoading(false);
     }
+
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-center">Flood Prediction</h2>
+    <div className="max-w-3xl mx-auto p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-2xl">
+      <motion.h2 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-3xl font-bold mb-8 text-center text-blue-900"
+      >
+        Flood Risk Prediction
+      </motion.h2>
 
-      {error && (
-        <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-          role="alert"
-        >
-          {error}
-        </div>
-      )}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-lg"
+            role="alert"
+          >
+            <div className="flex items-center">
+              <TriangleAlert className="mr-3 text-red-500" />
+              <p>{error}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {loading ? (
-        <div className="flex justify-center items-center space-x-2">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500"></div>
-          <p>Predicting flood risk...</p>
-        </div>
+        <LoadingStage stage={loadingStage} />
       ) : predictionResult ? (
-        <div className="bg-gray-100 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold mb-4">
-            Flood Prediction for {predictionResult.ml_output.SUBDIVISIONS} (
-            {predictionResult.ml_output.YEAR})
-          </h3>
-
-          <div
-            className={`mb-4 p-3 rounded ${
-              predictionResult.ml_output.PREDICTION === "YES"
-                ? "bg-red-200 text-red-800"
-                : "bg-green-200 text-green-800"
-            }`}
-          >
-            <strong>Prediction:</strong>{" "}
-            {predictionResult.ml_output.PREDICTION === "YES"
-              ? "High Flood Risk"
-              : "Low Flood Risk"}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl shadow-xl"
+        >
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-2xl font-bold text-blue-900">
+              Prediction Results
+            </h3>
+            {predictionResult.ml_output.PREDICTION === "YES" ? (
+              <TriangleAlert className="text-red-500 w-8 h-8 animate-bounce" />
+            ) : (
+              <Check className="text-green-500 w-8 h-8" />
+            )}
           </div>
 
-          <div className="prose">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                a: ({ href, children }) => (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-400 underline hover:text-blue-600"
-                  >
-                    {children}
-                  </a>
-                ),
-                ul: ({ children }) => (
-                  <ul className="list-disc list-outside ml-4">{children}</ul>
-                ),
-                ol: ({ children }) => (
-                  <ol className="list-decimal list-outside ml-4">{children}</ol>
-                ),
-                h1: ({ children }) => (
-                  <h1 className="text-xl font-bold">{children}</h1>
-                ),
-                h2: ({ children }) => (
-                  <h2 className="text-lg font-bold">{children}</h2>
-                ),
-                h3: ({ children }) => (
-                  <h3 className="text-md font-bold">{children}</h3>
-                ),
-                p: ({ children }) => <p className="mb-2">{children}</p>,
-              }}
+          <div className="mb-6">
+            <div 
+              className={`p-4 rounded-lg text-center font-bold text-xl ${
+                predictionResult.ml_output.PREDICTION === "YES"
+                  ? "bg-red-200 text-red-800"
+                  : "bg-green-200 text-green-800"
+              }`}
             >
-              {predictionResult.response}
-            </ReactMarkdown>
+              {predictionResult.ml_output.SUBDIVISIONS} ({predictionResult.ml_output.YEAR}):{" "}
+              {predictionResult.ml_output.PREDICTION === "YES"
+                ? "High Flood Risk"
+                : "Low Flood Risk"}
+            </div>
           </div>
-        </div>
+
+          <div className="prose max-w-none">
+          <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      a: ({ href, children }) => (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 underline hover:text-blue-600"
+                        >
+                          {children}
+                        </a>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="list-disc list-outside ml-4">{children}</ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="list-decimal list-outside ml-4">{children}</ol>
+                      ),
+                      h1: ({ children }) => (
+                        <h1 className="text-xl font-bold">{children}</h1>
+                      ),
+                      h2: ({ children }) => (
+                        <h2 className="text-lg font-bold">{children}</h2>
+                      ),
+                      h3: ({ children }) => (
+                        <h3 className="text-md font-bold">{children}</h3>
+                      ),
+                      p: ({ children }) => (
+                        <p className="mb-2">{children}</p>
+                      ),
+                    }}
+                  >
+                    {predictionResult.response}
+                  </ReactMarkdown>
+          </div>
+        </motion.div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block mb-2 font-semibold">Subdivision</label>
-            <input
-              type="text"
-              name="SUBDIVISIONS"
-              value={floodData.SUBDIVISIONS}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded-lg"
-              placeholder="Enter subdivision name"
-              required
-            />
+        <motion.form 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onSubmit={handleSubmit} 
+          className="space-y-6"
+        >
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label className="block mb-2 font-semibold text-blue-900">Subdivision</label>
+              <input
+                type="text"
+                name="SUBDIVISIONS"
+                value={floodData.SUBDIVISIONS}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                placeholder="Enter subdivision name"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-2 font-semibold text-blue-900">Year</label>
+              <input
+                type="number"
+                name="YEAR"
+                value={floodData.YEAR}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                min={2000}
+                max={new Date().getFullYear()}
+                required
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block mb-2 font-semibold">Year</label>
-            <input
-              type="number"
-              name="YEAR"
-              value={floodData.YEAR}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded-lg"
-              min={2000}
-              max={new Date().getFullYear()}
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-4 gap-4">
             {(
               [
-                "JAN",
-                "FEB",
-                "MAR",
-                "APR",
-                "MAY",
-                "JUN",
-                "JUL",
-                "AUG",
-                "SEP",
-                "OCT",
-                "NOV",
-                "DEC",
+                "JAN", "FEB", "MAR", "APR", 
+                "MAY", "JUN", "JUL", "AUG", 
+                "SEP", "OCT", "NOV", "DEC"
               ] as const
             ).map((month) => (
               <div key={month}>
-                <label className="block mb-1">{month}</label>
+                <label className="block mb-1 text-sm text-blue-800">{month}</label>
                 <input
                   type="number"
                   name={month}
                   value={floodData[month]}
                   onChange={handleInputChange}
-                  className="w-full px-2 py-1 border rounded"
+                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
                   min={0}
                   step={0.1}
+                  placeholder="mm"
                 />
               </div>
             ))}
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform shadow-lg"
           >
             Predict Flood Risk
-          </button>
-        </form>
+          </motion.button>
+        </motion.form>
       )}
     </div>
   );

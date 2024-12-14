@@ -7,7 +7,7 @@ import Flood from "./Flood";
 
 const Prediction = () => {
 
-  const [activeTab, setActiveTab] = useState("earthquake");
+  const [activeTab, setActiveTab] = useState("flood");
 
   return (
     <div className="p-5">
