@@ -226,11 +226,10 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h6 className="text-4xl font-bold text-primary">91</h6>
-                <p className="mb-2 font-bold text-md text-primary">Subscribers</p>
+                <h6 className="text-4xl font-bold text-primary">10K+</h6>
+                <p className="mb-2 font-bold text-md text-primary"> Agencies Expected</p>
                 <p className="text-gray-700">
-                  It's a helluva start, being able to recognize what makes you happy
-                  today, in this moment.
+                Unifying efforts across governments, NGOs, and volunteers worldwide
                 </p>
               </div>
               <div className="text-center">
@@ -249,8 +248,8 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h6 className="text-4xl font-bold text-primary">52</h6>
-                <p className="mb-2 font-bold text-md text-primary">Products</p>
+                <h6 className="text-4xl font-bold text-primary">6</h6>
+                <p className="mb-2 font-bold text-md text-primary">ML and AI Models working</p>
                 <p className="text-gray-700">
                   Happiness is when what you think, what you say, and what you do are in
                   harmony.
