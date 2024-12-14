@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import { validateRequest } from "@/utils/validateRequest";
-import { Disaster } from "@/models/nationalDisasterCommittee";
+import { DeclaredDisaster } from "@/models/nationalDisasterCommittee";
 import { v4 as uuidv4 } from "uuid";
 
 // Add a new disaster
 export async function POST(req: Request) {
   try {
-    const body: Partial<Disaster> = await req.json();
+    const body: Partial<DeclaredDisaster> = await req.json();
     const requiredFields = [
       "name",
       "tags",
@@ -21,6 +21,10 @@ export async function POST(req: Request) {
       "status",
       "geologicalData",
       "weatherData",
+      "responsePlan",
+      "notifications",
+      "resourceRequests",
+      "situationReports",
     ];
     const { isValid, errors } = validateRequest(body, requiredFields);
     if (!isValid) {
@@ -89,7 +93,7 @@ export async function GET() {
 // Update a specific disaster
 export async function PUT(req: Request) {
   try {
-    const body: { id: string; updatedFields: Partial<Disaster> } =
+    const body: { id: string; updatedFields: Partial<DeclaredDisaster> } =
       await req.json();
 
     const docRef = doc(db, "nationalDisasterCommittee", "main");
@@ -104,7 +108,7 @@ export async function PUT(req: Request) {
 
     const data = docSnap.data();
     const updatedDisasters = (data?.declaredDisasters || []).map(
-      (disaster: Disaster) =>
+      (disaster: DeclaredDisaster) =>
         disaster.id === body.id
           ? { ...disaster, ...body.updatedFields }
           : disaster
@@ -141,7 +145,7 @@ export async function DELETE(req: Request) {
 
     const data = docSnap.data();
     const filteredDisasters = (data?.declaredDisasters || []).filter(
-      (disaster: Disaster) => disaster.id !== body.id
+      (disaster: DeclaredDisaster) => disaster.id !== body.id
     );
 
     await updateDoc(docRef, { declaredDisasters: filteredDisasters });

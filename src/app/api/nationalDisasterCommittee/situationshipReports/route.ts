@@ -15,6 +15,7 @@ export async function POST(req: Request) {
       "materialFlow",
       "teamArrival",
       "summary",
+      "disasterId",
     ]);
 
     if (!isValid) {
@@ -24,9 +25,25 @@ export async function POST(req: Request) {
     const newReport = { ...body, id: uuidv4() };
 
     const reportRef = doc(db, "nationalDisasterCommittee", "main");
-    await updateDoc(reportRef, {
-      situationshipReports: arrayUnion(newReport),
-    });
+
+    const docSnap = await getDoc(reportRef);
+
+    if (!docSnap.exists()) {
+      return NextResponse.json(
+        { success: false, message: "No data found" },
+        { status: 404 }
+      );
+    }
+
+    const data = docSnap.data();
+    const updatedDisasters = (data?.declaredDisasters || []).map(
+      (disaster: any) =>
+        disaster.id === body.disasterId
+          ? { ...disaster, situationshipReports: arrayUnion(newReport) }
+          : disaster
+    );
+
+    await updateDoc(reportRef, { declaredDisasters: updatedDisasters });
 
     return NextResponse.json({
       success: true,
@@ -41,8 +58,9 @@ export async function POST(req: Request) {
 }
 
 // Get all situationship reports
-export async function GET() {
+export async function getAllSituationshipReports(req: Request) {
   try {
+    const body: { disasterId: string } = await req.json();
     const docRef = doc(db, "nationalDisasterCommittee", "main");
     const docSnap = await getDoc(docRef);
 
@@ -54,9 +72,14 @@ export async function GET() {
     }
 
     const data = docSnap.data();
+
+    const disaster = (data?.declaredDisasters || []).find(
+      (disaster: any) => disaster.id === body.disasterId
+    );
+
     return NextResponse.json({
       success: true,
-      situationshipReports: data?.situationshipReports || [],
+      situationshipReports: disaster?.situationshipReports || [],
     });
   } catch (error: any) {
     return NextResponse.json(
@@ -69,8 +92,11 @@ export async function GET() {
 // Update a specific situationship report
 export async function PUT(req: Request) {
   try {
-    const body: { id: string; updatedFields: Partial<SituationshipReport> } =
-      await req.json();
+    const body: {
+      disasterId: string;
+      id: string;
+      updatedFields: Partial<SituationshipReport>;
+    } = await req.json();
 
     const docRef = doc(db, "nationalDisasterCommittee", "main");
     const docSnap = await getDoc(docRef);
@@ -83,12 +109,22 @@ export async function PUT(req: Request) {
     }
 
     const data = docSnap.data();
-    const updatedReports = (data?.situationshipReports || []).map(
-      (report: SituationshipReport) =>
-        report.id === body.id ? { ...report, ...body.updatedFields } : report
+    const updatedDisasters = (data?.declaredDisasters || []).map(
+      (disaster: any) =>
+        disaster.id === body.disasterId
+          ? {
+              ...disaster,
+              situationshipReports: disaster.situationshipReports.map(
+                (report: SituationshipReport) =>
+                  report.id === body.id
+                    ? { ...report, ...body.updatedFields }
+                    : report
+              ),
+            }
+          : disaster
     );
 
-    await updateDoc(docRef, { situationshipReports: updatedReports });
+    await updateDoc(docRef, { declaredDisasters: updatedDisasters });
 
     return NextResponse.json({
       success: true,
@@ -105,7 +141,7 @@ export async function PUT(req: Request) {
 // Delete a specific situationship report
 export async function DELETE(req: Request) {
   try {
-    const body: { id: string } = await req.json();
+    const body: { disasterId: string; id: string } = await req.json();
 
     const docRef = doc(db, "nationalDisasterCommittee", "main");
     const docSnap = await getDoc(docRef);
@@ -118,15 +154,59 @@ export async function DELETE(req: Request) {
     }
 
     const data = docSnap.data();
-    const filteredReports = (data?.situationshipReports || []).filter(
-      (report: SituationshipReport) => report.id !== body.id
+    const updatedDisasters = (data?.declaredDisasters || []).map(
+      (disaster: any) =>
+        disaster.id === body.disasterId
+          ? {
+              ...disaster,
+              situationshipReports: disaster.situationshipReports.filter(
+                (report: SituationshipReport) => report.id !== body.id
+              ),
+            }
+          : disaster
     );
 
-    await updateDoc(docRef, { situationshipReports: filteredReports });
+    await updateDoc(docRef, { declaredDisasters: updatedDisasters });
 
     return NextResponse.json({
       success: true,
       message: "Situationship report deleted successfully",
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+// Get a specific situationship report
+export async function getSpecificSituationshipReport(req: Request) {
+  try {
+    const body: { disasterId: string; id: string } = await req.json();
+    const docRef = doc(db, "nationalDisasterCommittee", "main");
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      return NextResponse.json(
+        { success: false, message: "No data found" },
+        { status: 404 }
+      );
+    }
+
+    const data = docSnap.data();
+
+    const disaster = (data?.declaredDisasters || []).find(
+      (disaster: any) => disaster.id === body.disasterId
+    );
+
+    const report = disaster?.situationshipReports.find(
+      (report: SituationshipReport) => report.id === body.id
+    );
+
+    return NextResponse.json({
+      success: true,
+      report,
     });
   } catch (error: any) {
     return NextResponse.json(

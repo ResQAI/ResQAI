@@ -21,7 +21,7 @@ export enum DisasterStatus {
   RESOLVED = "resolved",
 }
 
-export interface Disaster {
+export interface BaseDisaster {
   id: string;
   name: string;
   tags: string[];
@@ -45,8 +45,18 @@ export interface Disaster {
   };
 }
 
+export interface IncomingDisaster extends BaseDisaster {}
+
+export interface DeclaredDisaster extends BaseDisaster {
+  responsePlan: Task[];
+  notifications: Notification[];
+  resourceRequests: ResourceRequest[];
+  situationReports: SituationReport[];
+}
+
 export interface Task {
   id: string;
+  disasterId: string;
   name: string;
   status: "pending" | "in-progress" | "completed" | "on-hold";
   departmentConcerned: string;
@@ -66,6 +76,7 @@ export interface Task {
 
 export interface SituationReport {
   id: string;
+  disasterId: string;
   disasterStatus: {
     weatherCondition: {
       primary: string;
@@ -151,6 +162,25 @@ export interface SituationReport {
 
 export interface Notification {
   id: string;
+  disasterId: string;
+  type: "incoming" | "sent" | "alert" | "update";
+  departmentsConcerned: string[];
+  urgency: "low" | "medium" | "high" | "critical";
+  dateIssued: Timestamp;
+  status: "read" | "unread" | "archived";
+  title: string;
+  message: string;
+  attachedFiles: {
+    name: string;
+    url: string;
+    type: "pdf" | "doc" | "image" | "other";
+    size: number;
+  }[];
+  relatedDisasterId?: string;
+}
+
+export interface OverallNotification {
+  id: string;
   type: "incoming" | "sent" | "alert" | "update";
   departmentsConcerned: string[];
   urgency: "low" | "medium" | "high" | "critical";
@@ -231,11 +261,9 @@ export interface NationalDisasterCommittee {
   username: string;
   password: string;
   numberOfPeopleWorking: number;
-  declaredDisasters: Disaster[];
-  responsePlan: Task[];
-  situationshipReports: SituationReport[];
-  notifications: Notification[];
-  incomingDisaster: Disaster | null;
+  incomingDisaster: IncomingDisaster | null;
+  declaredDisasters: DeclaredDisaster[];
+  overallNotifications: OverallNotification[];
   chats: {
     groups: Group[];
     resourceRequests: ResourceRequest[];
