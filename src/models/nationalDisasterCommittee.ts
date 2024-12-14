@@ -63,15 +63,9 @@ export interface Task {
   priority: "low" | "medium" | "high" | "critical";
   completedByTime: Timestamp;
   description: string;
-  currentProgress: number;
   startTime: Timestamp;
-  assignedTo: string[];
-  dependencies?: string[];
-  resourcesRequired?: {
-    personnel: number;
-    equipment: string[];
-    budget: number;
-  };
+  estimedEndTime: Timestamp;
+  isFailed: boolean;
 }
 
 export interface SituationReport {
