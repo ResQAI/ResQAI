@@ -54,7 +54,7 @@ export default function NationalHeader() {
                 ResQAI
               </span>
             </a>
-            <div className="text-xl font-semibold">Welcome, UserX</div>
+            <div className="text-xl font-semibold ml-12">Welcome</div>
           </div>
           <div className="flex items-center">
             {/* <div className="hidden mr-3 -mb-1 sm:block">
@@ -70,7 +70,7 @@ export default function NationalHeader() {
                 Star
               </a>
             </div> */}
-            <form action="#" method="GET" className="hidden lg:block lg:pl-3.5">
+            {/* <form action="#" method="GET" className="hidden lg:block lg:pl-3.5">
               <label htmlFor="topbar-search" className="sr-only">
                 Search
               </label>
@@ -97,7 +97,7 @@ export default function NationalHeader() {
                   placeholder="Search"
                 />
               </div>
-            </form>
+            </form> */}
             <button
               id="toggleSidebarMobileSearch"
               type="button"
@@ -359,6 +359,7 @@ export default function NationalHeader() {
             </div>
             <div className="flex items-center">
               <div>
+                <a href="/national/profile">
                 <button
                   type="button"
                   className="flex text-sm border border-black rounded-full focus:ring-4 focus:ring-gray-300"
@@ -374,7 +375,9 @@ export default function NationalHeader() {
                   /> */}
                   <User size={24} className="m-2 stroke-black" />
                 </button>
+                 </a>
               </div>
+             
               <div
                 className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
                 id="dropdown-2"

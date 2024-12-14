@@ -287,7 +287,7 @@ const AlertNotificationPage = () => {
       }
     } else if (selectionType === "Specific" && selectedDisaster !== "") {
       const response = await fetch("http://localhost:3000/api/nationalDisasterCommittee/disasterNotifications", {
-        method: "POST",
+        method: "post",
         headers: {
           "Content-Type": "application/json",
         },
@@ -299,7 +299,7 @@ const AlertNotificationPage = () => {
       } else {
         console.error("Failed to fetch notifications", response.statusText);
       }
-      apiUrl = `/api/nationalDisasterCommittee/disasterNotifications?disasterId=${selectedDisaster}`;
+      apiUrl = `/api/nationalDisasterCommittee/disasterNotifications?${selectedDisaster}`;
     }
 
     if (apiUrl) {
