@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       "exactLocation",
       "estimatedEconomicImpact",
       "status",
-      "geologicalData"
+      "exactLocation",
     ]);
 
     if (!isValid) {
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     const newIncomingDisaster = { ...body, id: uuidv4() };
 
     await updateDoc(disasterRef, {
-      incomingDisasters: arrayUnion(newIncomingDisaster),
+      incomingDisaster: arrayUnion(newIncomingDisaster),
     });
 
     return NextResponse.json({

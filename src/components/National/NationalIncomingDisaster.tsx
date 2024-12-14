@@ -1,15 +1,16 @@
 "use client";
-import React, { useState, useMemo } from 'react';
-import { 
-  AlertCircle, 
-  Info, 
-  MapPin, 
-  Clock, 
-  Shield, 
-  Alert, 
-  X, 
-  Filter 
-} from 'lucide-react';
+import React, { useState, useMemo, useEffect } from "react";
+import {
+  AlertCircle,
+  Info,
+  MapPin,
+  Clock,
+  Shield,
+  Alert,
+  X,
+  Filter,
+} from "lucide-react";
+import { baseUrl } from "@/constants";
 
 // Enhanced Disaster Interface
 interface Disaster {
@@ -17,12 +18,12 @@ interface Disaster {
   name: string;
   location: string;
   details: string;
-  severity: 'Low' | 'Medium' | 'High' | 'Critical';
-  type: 'Hurricane' | 'Wildfire' | 'Earthquake' | 'Flood' | 'Tsunami';
+  severity: "Low" | "Medium" | "High" | "Critical";
+  type: "Hurricane" | "Wildfire" | "Earthquake" | "Flood" | "Tsunami";
   impactedPopulation: number;
   estimatedDamage: number;
   timestamp: string;
-  responseStatus: 'Monitoring' | 'Evacuating' | 'Responding' | 'Stabilizing';
+  responseStatus: "Monitoring" | "Evacuating" | "Responding" | "Stabilizing";
 }
 
 // Initial Disasters Data
@@ -31,64 +32,86 @@ const initialDisasters: Disaster[] = [
     id: 1,
     name: "Hurricane Maya",
     location: "Gulf Coast, USA",
-    details: "Category 3 hurricane with winds up to 120 mph. Predicted to make landfall in 48 hours. Mandatory evacuation for coastal regions.",
-    severity: 'High',
-    type: 'Hurricane',
+    details:
+      "Category 3 hurricane with winds up to 120 mph. Predicted to make landfall in 48 hours. Mandatory evacuation for coastal regions.",
+    severity: "High",
+    type: "Hurricane",
     impactedPopulation: 250000,
     estimatedDamage: 1500000000,
     timestamp: "2024-03-15T10:30:00Z",
-    responseStatus: 'Evacuating'
+    responseStatus: "Evacuating",
   },
   {
     id: 2,
     name: "California Wildfire Outbreak",
     location: "Sierra Nevada, California",
-    details: "Multiple wildfires spreading across dry forest regions. Over 10,000 acres currently affected. High risk of rapid expansion.",
-    severity: 'Critical',
-    type: 'Wildfire',
+    details:
+      "Multiple wildfires spreading across dry forest regions. Over 10,000 acres currently affected. High risk of rapid expansion.",
+    severity: "Critical",
+    type: "Wildfire",
     impactedPopulation: 75000,
     estimatedDamage: 750000000,
     timestamp: "2024-03-14T15:45:00Z",
-    responseStatus: 'Responding'
+    responseStatus: "Responding",
   },
   {
     id: 3,
     name: "Tokyo Seismic Event",
     location: "Tokyo, Japan",
-    details: "6.5 magnitude earthquake detected. Tsunami warning issued for coastal areas. Emergency response teams are on high alert.",
-    severity: 'High',
-    type: 'Earthquake',
+    details:
+      "6.5 magnitude earthquake detected. Tsunami warning issued for coastal areas. Emergency response teams are on high alert.",
+    severity: "High",
+    type: "Earthquake",
     impactedPopulation: 500000,
     estimatedDamage: 2200000000,
     timestamp: "2024-03-16T02:15:00Z",
-    responseStatus: 'Monitoring'
-  }
+    responseStatus: "Monitoring",
+  },
 ];
 
 const NationalDisasterTracker: React.FC = () => {
-  const [selectedDisaster, setSelectedDisaster] = useState<Disaster | null>(null);
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(
+        `${baseUrl}/api/nationalDisasterCommittee/incomingDisaster`
+      );
+      console.log(res);
+      const data = await res.json();
+      setDisasters(data);
+      console.log(data);
+    }
+
+    fetchData();
+  }, []);
+  const [selectedDisaster, setSelectedDisaster] = useState<Disaster | null>(
+    null
+  );
   const [disasters, setDisasters] = useState<Disaster[]>(initialDisasters);
   const [filter, setFilter] = useState<{
-    severity?: Disaster['severity'],
-    type?: Disaster['type']
+    severity?: Disaster["severity"];
+    type?: Disaster["type"];
   }>({});
 
   // Severity color mapping
   const severityColors = {
-    'Low': 'bg-green-100 text-green-800',
-    'Medium': 'bg-yellow-100 text-yellow-800',
-    'High': 'bg-orange-100 text-orange-800',
-    'Critical': 'bg-red-100 text-red-800'
+    Low: "bg-green-100 text-green-800",
+    Medium: "bg-yellow-100 text-yellow-800",
+    High: "bg-orange-100 text-orange-800",
+    Critical: "bg-red-100 text-red-800",
   };
 
   // Filtered and sorted disasters
   const filteredDisasters = useMemo(() => {
     return disasters
-      .filter(disaster => 
-        (!filter.severity || disaster.severity === filter.severity) &&
-        (!filter.type || disaster.type === filter.type)
+      .filter(
+        (disaster) =>
+          (!filter.severity || disaster.severity === filter.severity) &&
+          (!filter.type || disaster.type === filter.type)
       )
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      );
   }, [disasters, filter]);
 
   const handleViewInfo = (disaster: Disaster) => {
@@ -96,9 +119,9 @@ const NationalDisasterTracker: React.FC = () => {
   };
 
   const handleDeclareDisaster = (id: number) => {
-    const updatedDisasters = disasters.map(disaster => 
-      disaster.id === id 
-        ? { ...disaster, responseStatus: 'Responding' } 
+    const updatedDisasters = disasters.map((disaster) =>
+      disaster.id === id
+        ? { ...disaster, responseStatus: "Responding" }
         : disaster
     );
     setDisasters(updatedDisasters);
@@ -108,32 +131,42 @@ const NationalDisasterTracker: React.FC = () => {
     <div className="min-h-screen w-full bg-gray-50 p-6 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">
-        Incoming Disasters Information
+          Incoming Disasters Information
         </h1>
         <div className="flex space-x-2">
-          <select 
-            onChange={(e) => setFilter(prev => ({ 
-              ...prev, 
-              severity: e.target.value as Disaster['severity'] 
-            }))}
+          <select
+            onChange={(e) =>
+              setFilter((prev) => ({
+                ...prev,
+                severity: e.target.value as Disaster["severity"],
+              }))
+            }
             className="px-3 py-2 border rounded-md text-gray-700"
           >
             <option value="">All Severities</option>
-            {Object.keys(severityColors).map(severity => (
-              <option key={severity} value={severity}>{severity}</option>
+            {Object.keys(severityColors).map((severity) => (
+              <option key={severity} value={severity}>
+                {severity}
+              </option>
             ))}
           </select>
-          <select 
-            onChange={(e) => setFilter(prev => ({ 
-              ...prev, 
-              type: e.target.value as Disaster['type'] 
-            }))}
+          <select
+            onChange={(e) =>
+              setFilter((prev) => ({
+                ...prev,
+                type: e.target.value as Disaster["type"],
+              }))
+            }
             className="px-3 py-2 border rounded-md text-gray-700"
           >
             <option value="">All Types</option>
-            {['Hurricane', 'Wildfire', 'Earthquake', 'Flood', 'Tsunami'].map(type => (
-              <option key={type} value={type}>{type}</option>
-            ))}
+            {["Hurricane", "Wildfire", "Earthquake", "Flood", "Tsunami"].map(
+              (type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              )
+            )}
           </select>
         </div>
       </div>
@@ -143,13 +176,13 @@ const NationalDisasterTracker: React.FC = () => {
           <div
             key={disaster.id}
             className="bg-white shadow-md rounded-lg p-5 flex justify-between items-center border-l-4"
-            style={{ 
+            style={{
               borderColor: {
-                'Low': 'green',
-                'Medium': 'yellow',
-                'High': 'orange',
-                'Critical': 'red'
-              }[disaster.severity] 
+                Low: "green",
+                Medium: "yellow",
+                High: "orange",
+                Critical: "red",
+              }[disaster.severity],
             }}
           >
             <div className="flex-1">
@@ -157,7 +190,11 @@ const NationalDisasterTracker: React.FC = () => {
                 <h2 className="text-xl font-bold text-gray-800">
                   {disaster.name}
                 </h2>
-                <span className={`px-2 py-1 rounded text-xs font-semibold ${severityColors[disaster.severity]}`}>
+                <span
+                  className={`px-2 py-1 rounded text-xs font-semibold ${
+                    severityColors[disaster.severity]
+                  }`}
+                >
                   {disaster.severity}
                 </span>
               </div>
@@ -196,7 +233,7 @@ const NationalDisasterTracker: React.FC = () => {
       {selectedDisaster && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-8 relative">
-            <button 
+            <button
               onClick={() => setSelectedDisaster(null)}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
             >
@@ -206,7 +243,11 @@ const NationalDisasterTracker: React.FC = () => {
               <h2 className="text-3xl font-bold text-gray-900 mr-4">
                 {selectedDisaster.name}
               </h2>
-              <span className={`px-3 py-1 rounded text-sm font-semibold ${severityColors[selectedDisaster.severity]}`}>
+              <span
+                className={`px-3 py-1 rounded text-sm font-semibold ${
+                  severityColors[selectedDisaster.severity]
+                }`}
+              >
                 {selectedDisaster.severity}
               </span>
             </div>
@@ -244,7 +285,9 @@ const NationalDisasterTracker: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <strong className="text-gray-700">Impacted Population</strong>
-                <p className="text-xl font-semibold">{selectedDisaster.impactedPopulation.toLocaleString()}</p>
+                <p className="text-xl font-semibold">
+                  {selectedDisaster.impactedPopulation.toLocaleString()}
+                </p>
               </div>
               <div>
                 <strong className="text-gray-700">Estimated Damage</strong>

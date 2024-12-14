@@ -373,3 +373,5 @@ const sampleSituationReports: SituationReport[] = [
   },
   // Add more sample objects as needed
 ];
+
+export { sampleSituationReports };
