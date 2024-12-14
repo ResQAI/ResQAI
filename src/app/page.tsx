@@ -121,8 +121,9 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                     className="text-center space-y-12"
+                    
                 >
-          <div className="mt-24">
+          <div className="mt-24" id="stats">
             {/* component */}
             <h1 className="xl:text-5xl md:text-4xl text-2xl font-semibold leading-tight text-center text-gray-800 sm:mb-0 mb-12">
               More Than 10 Years We Provide Service <br className="md:block hidden" />
@@ -1623,7 +1624,7 @@ export default function Home() {
                         <br />
                         <br />
                         <a
-                          href="/quiz"
+                          href="/awareness"
                           className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-primary transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
                         >
                           <span className="relative text-sm font-semibold text-white astro-ES6RJE63">
