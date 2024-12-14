@@ -1,17 +1,18 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Check, 
-  TriangleAlert, 
-  CloudRain, 
-  MapPin, 
-  Calendar, 
-  LoaderCircle, 
-  Waves 
+import {
+  Check,
+  TriangleAlert,
+  CloudRain,
+  MapPin,
+  Calendar,
+  LoaderCircle,
+  Waves,
 } from "lucide-react";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import Modal from "./AddToMonitorModal";
 
 interface FloodData {
   SUBDIVISIONS: string;
@@ -46,38 +47,36 @@ const LoadingStage = ({ stage }: { stage: number }) => {
     { icon: Calendar, text: "Processing Yearly Rainfall" },
     { icon: CloudRain, text: "Analyzing Monthly Precipitation" },
     { icon: LoaderCircle, text: "Training Generative Model" },
-    { icon: Waves, text: "Predicting Flood Risk" }
+    { icon: Waves, text: "Predicting Flood Risk" },
   ];
 
   return (
     <div className="space-y-4 p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg">
       {stages.map((stageItem, index) => (
-        <motion.div 
+        <motion.div
           key={index}
           initial={{ opacity: 0, x: -20 }}
-          animate={{ 
-            opacity: index < stage ? 1 : 0.4, 
+          animate={{
+            opacity: index < stage ? 1 : 0.4,
             x: 0,
-            transition: { delay: index * 0.2 }
+            transition: { delay: index * 0.2 },
           }}
           className="flex items-center space-x-4"
         >
-          <stageItem.icon 
+          <stageItem.icon
             className={`w-6 h-6 ${
-              index < stage 
-                ? "text-green-500 animate-pulse" 
-                : "text-gray-400"
-            }`} 
+              index < stage ? "text-green-500 animate-pulse" : "text-gray-400"
+            }`}
           />
-          <span className={`
+          <span
+            className={`
             ${index < stage ? "font-bold text-blue-800" : "text-gray-600"}
             transition-all duration-300
-          `}>
+          `}
+          >
             {stageItem.text}
           </span>
-          {index < stage && (
-            <Check className="text-green-500 ml-auto" />
-          )}
+          {index < stage && <Check className="text-green-500 ml-auto" />}
         </motion.div>
       ))}
     </div>
@@ -88,12 +87,23 @@ const FloodPredictionForm: React.FC = () => {
   const [floodData, setFloodData] = useState<FloodData>({
     SUBDIVISIONS: "",
     YEAR: new Date().getFullYear(),
-    JAN: 0, FEB: 0, MAR: 0, APR: 0, MAY: 0, JUN: 0, 
-    JUL: 0, AUG: 0, SEP: 0, OCT: 0, NOV: 0, DEC: 0, 
+    JAN: 0,
+    FEB: 0,
+    MAR: 0,
+    APR: 0,
+    MAY: 0,
+    JUN: 0,
+    JUL: 0,
+    AUG: 0,
+    SEP: 0,
+    OCT: 0,
+    NOV: 0,
+    DEC: 0,
     ANNUAL: 0,
   });
 
-  const [predictionResult, setPredictionResult] = useState<PredictionResult | null>(null);
+  const [predictionResult, setPredictionResult] =
+    useState<PredictionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingStage, setLoadingStage] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -102,9 +112,7 @@ const FloodPredictionForm: React.FC = () => {
     let stageInterval: NodeJS.Timeout;
     if (loading) {
       stageInterval = setInterval(() => {
-        setLoadingStage(prev => 
-          prev < 4 ? prev + 1 : prev
-        );
+        setLoadingStage((prev) => (prev < 4 ? prev + 1 : prev));
       }, 1500);
     }
     return () => clearInterval(stageInterval);
@@ -120,8 +128,18 @@ const FloodPredictionForm: React.FC = () => {
 
   const validateData = (): boolean => {
     const monthKeys = [
-      "JAN", "FEB", "MAR", "APR", "MAY", "JUN", 
-      "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
     ];
     const filledMonths = monthKeys.filter(
       (key) => floodData[key as keyof FloodData] > 0
@@ -139,6 +157,15 @@ const FloodPredictionForm: React.FC = () => {
 
     return true;
   };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddToMonitorClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,8 +179,18 @@ const FloodPredictionForm: React.FC = () => {
 
     try {
       const monthKeys = [
-        "JAN", "FEB", "MAR", "APR", "MAY", "JUN", 
-        "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
       ];
       const filledMonths = monthKeys.filter(
         (key) => floodData[key as keyof FloodData] > 0
@@ -189,7 +226,7 @@ const FloodPredictionForm: React.FC = () => {
 
       const result = await response.json();
       setPredictionResult(result);
-      console.log(predictionResult?.response)
+      console.log(predictionResult?.response);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unexpected error occurred"
@@ -197,12 +234,11 @@ const FloodPredictionForm: React.FC = () => {
     } finally {
       setLoading(false);
     }
-
   };
 
   return (
     <div className="max-w-3xl mx-auto p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-2xl">
-      <motion.h2 
+      <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-bold mb-8 text-center text-blue-900"
@@ -230,7 +266,7 @@ const FloodPredictionForm: React.FC = () => {
       {loading ? (
         <LoadingStage stage={loadingStage} />
       ) : predictionResult ? (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl shadow-xl"
@@ -239,22 +275,39 @@ const FloodPredictionForm: React.FC = () => {
             <h3 className="text-2xl font-bold text-blue-900">
               Prediction Results
             </h3>
-            {predictionResult.ml_output.PREDICTION === "YES" ? (
-              <TriangleAlert className="text-red-500 w-8 h-8 animate-bounce" />
-            ) : (
-              <Check className="text-green-500 w-8 h-8" />
-            )}
+            <div className="flex items-center gap-4">
+              {predictionResult.ml_output.PREDICTION === "YES" ? (
+                <>
+                  <TriangleAlert className="text-red-500 w-8 h-8 animate-bounce" />
+                  <button
+                    className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+                    onClick={handleAddToMonitorClick}
+                  >
+                    Add to Monitor
+                  </button>
+                </>
+              ) : (
+                <Check className="text-green-500 w-8 h-8" />
+              )}
+            </div>
           </div>
+          {/* Modal Component */}
+          <Modal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            title="Monitor Settings"
+          />
 
           <div className="mb-6">
-            <div 
+            <div
               className={`p-4 rounded-lg text-center font-bold text-xl ${
                 predictionResult.ml_output.PREDICTION === "YES"
                   ? "bg-red-200 text-red-800"
                   : "bg-green-200 text-green-800"
               }`}
             >
-              {predictionResult.ml_output.SUBDIVISIONS} ({predictionResult.ml_output.YEAR}):{" "}
+              {predictionResult.ml_output.SUBDIVISIONS} (
+              {predictionResult.ml_output.YEAR}):{" "}
               {predictionResult.ml_output.PREDICTION === "YES"
                 ? "High Flood Risk"
                 : "Low Flood Risk"}
@@ -262,53 +315,53 @@ const FloodPredictionForm: React.FC = () => {
           </div>
 
           <div className="prose max-w-none">
-          <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      a: ({ href, children }) => (
-                        <a
-                          href={href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-400 underline hover:text-blue-600"
-                        >
-                          {children}
-                        </a>
-                      ),
-                      ul: ({ children }) => (
-                        <ul className="list-disc list-outside ml-4">{children}</ul>
-                      ),
-                      ol: ({ children }) => (
-                        <ol className="list-decimal list-outside ml-4">{children}</ol>
-                      ),
-                      h1: ({ children }) => (
-                        <h1 className="text-xl font-bold">{children}</h1>
-                      ),
-                      h2: ({ children }) => (
-                        <h2 className="text-lg font-bold">{children}</h2>
-                      ),
-                      h3: ({ children }) => (
-                        <h3 className="text-md font-bold">{children}</h3>
-                      ),
-                      p: ({ children }) => (
-                        <p className="mb-2">{children}</p>
-                      ),
-                    }}
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 underline hover:text-blue-600"
                   >
-                    {predictionResult.response}
-                  </ReactMarkdown>
+                    {children}
+                  </a>
+                ),
+                ul: ({ children }) => (
+                  <ul className="list-disc list-outside ml-4">{children}</ul>
+                ),
+                ol: ({ children }) => (
+                  <ol className="list-decimal list-outside ml-4">{children}</ol>
+                ),
+                h1: ({ children }) => (
+                  <h1 className="text-xl font-bold">{children}</h1>
+                ),
+                h2: ({ children }) => (
+                  <h2 className="text-lg font-bold">{children}</h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 className="text-md font-bold">{children}</h3>
+                ),
+                p: ({ children }) => <p className="mb-2">{children}</p>,
+              }}
+            >
+              {predictionResult.response}
+            </ReactMarkdown>
           </div>
         </motion.div>
       ) : (
-        <motion.form 
+        <motion.form
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          onSubmit={handleSubmit} 
+          onSubmit={handleSubmit}
           className="space-y-6"
         >
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block mb-2 font-semibold text-blue-900">Subdivision</label>
+              <label className="block mb-2 font-semibold text-blue-900">
+                Subdivision
+              </label>
               <input
                 type="text"
                 name="SUBDIVISIONS"
@@ -320,7 +373,9 @@ const FloodPredictionForm: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block mb-2 font-semibold text-blue-900">Year</label>
+              <label className="block mb-2 font-semibold text-blue-900">
+                Year
+              </label>
               <input
                 type="number"
                 name="YEAR"
@@ -337,13 +392,24 @@ const FloodPredictionForm: React.FC = () => {
           <div className="grid grid-cols-4 gap-4">
             {(
               [
-                "JAN", "FEB", "MAR", "APR", 
-                "MAY", "JUN", "JUL", "AUG", 
-                "SEP", "OCT", "NOV", "DEC"
+                "JAN",
+                "FEB",
+                "MAR",
+                "APR",
+                "MAY",
+                "JUN",
+                "JUL",
+                "AUG",
+                "SEP",
+                "OCT",
+                "NOV",
+                "DEC",
               ] as const
             ).map((month) => (
               <div key={month}>
-                <label className="block mb-1 text-sm text-blue-800">{month}</label>
+                <label className="block mb-1 text-sm text-blue-800">
+                  {month}
+                </label>
                 <input
                   type="number"
                   name={month}
