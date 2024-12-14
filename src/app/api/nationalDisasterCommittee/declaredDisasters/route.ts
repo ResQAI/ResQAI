@@ -9,23 +9,46 @@ import { v4 as uuidv4 } from "uuid";
 export async function POST(req: Request) {
   try {
     const body: Partial<Disaster> = await req.json();
-    const { isValid, errors } = validateRequest(body, [
+    const requiredFields = [
       "name",
       "tags",
+      "exactLocation",
       "level",
       "peopleAffected",
-    ]);
-
+      "estimatedEconomicImpact",
+      "startTime",
+      "endTime",
+      "status",
+      "causativeFactors",
+      "geologicalData",
+      "weatherData",
+    ];
+    const { isValid, errors } = validateRequest(body, requiredFields);
     if (!isValid) {
       return NextResponse.json({ success: false, errors }, { status: 400 });
     }
+    if (
+      !body.exactLocation ||
+      !body.exactLocation.latitude ||
+      !body.exactLocation.longitude
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          errors: ["Missing or incomplete exactLocation field"],
+        },
+        { status: 400 }
+      );
+    }
     const disasterRef = doc(db, "nationalDisasterCommittee", "main");
-    const newDisaster = { ...body, id: uuidv4() };
-
+    const newDisaster = {
+      ...body,
+      id: uuidv4(),
+      startTime: body.startTime || new Date(),
+    };
     await updateDoc(disasterRef, {
       declaredDisasters: arrayUnion(newDisaster),
     });
-
     return NextResponse.json({
       success: true,
       message: "Disaster added successfully",

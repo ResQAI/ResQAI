@@ -10,11 +10,17 @@ export async function POST(req: Request) {
   try {
     const body: Partial<ResponsePlan> = await req.json();
     const { isValid, errors } = validateRequest(body, [
-      "planTitle",
+      "name",
+      "status",
+      "departmentConcerned",
+      "priority",
+      "completedByTime",
       "description",
+      "currentProgress",
+      "startTime",
       "assignedTo",
-      "startDate",
-      "endDate",
+      "dependencies",
+      "resourcesRequired",
     ]);
 
     if (!isValid) {

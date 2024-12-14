@@ -18,9 +18,16 @@ export async function POST(req: Request) {
     const { isValid, errors } = validateRequest(body, [
       "name",
       "tags",
+      "exactLocation",
       "level",
-      "location",
-      "reportedAt",
+      "peopleAffected",
+      "estimatedEconomicImpact",
+      "startTime",
+      "endTime",
+      "status",
+      "causativeFactors",
+      "geologicalData",
+      "weatherData",
     ]);
 
     if (!isValid) {

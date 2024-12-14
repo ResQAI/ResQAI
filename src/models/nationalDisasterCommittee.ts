@@ -65,8 +65,6 @@ export interface Task {
 
 export interface SituationReport {
   id: string;
-  disasterId: string;
-  timestamp: Timestamp;
   disasterStatus: {
     weatherCondition: {
       primary: string;
