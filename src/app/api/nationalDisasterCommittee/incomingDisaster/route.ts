@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  collection,
-  doc,
-  updateDoc,
-  getDoc,
-} from "firebase/firestore";
+import { collection, doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { validateRequest } from "@/utils/validateRequest";
@@ -20,7 +15,7 @@ export async function POST(req: Request) {
       "exactLocation",
       "estimatedEconomicImpact",
       "status",
-      "geologicalData",
+      "exactLocation",
     ]);
 
     if (!isValid) {
@@ -63,16 +58,18 @@ export async function POST(req: Request) {
 
 // Get all incoming disasters
 export async function GET() {
-  const docRef = doc(collection(db, "nationalDisasterCommittee"), "main");
-  const docSnap = await getDoc(docRef);
-
   try {
+    const docRef = doc(collection(db, "nationalDisasterCommittee"), "main");
+    const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) {
       return NextResponse.json(
         { success: false, message: "No data found" },
         { status: 404 }
       );
     }
+    const data = docSnap.data();
+    const incomingDisasters = data?.incomingDisasters || [];
+    return NextResponse.json({ success: true, data: incomingDisasters });
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
