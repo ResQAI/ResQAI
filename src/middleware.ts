@@ -1,22 +1,37 @@
-import { NextResponse } from "next/server";
+// import { NextResponse } from "next/server";
 import { validateToken } from "./utils/validateToken";
+import { NextResponse } from "next/server";
 
 export async function middleware(req: Request) {
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-
-  if (!token) {
-    return NextResponse.redirect(new URL("/signin", req.url));
-  }
-
-  const { valid, error } = validateToken(token);
-
-  if (error || !valid) {
-    return NextResponse.redirect(new URL("/signin", req.url));
-  }
-
+  // Simply allow all requests to pass through without validation
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/national/:path", "/state/:path", "/citizen/:path", "/ngo/:path"],
+  matcher: [
+    "/national/:path*",
+    "/state/:path*",
+    "/citizen/:path*",
+    "/ngo/:path*",
+  ],
+// };
+
+// export async function middleware(req: Request) {
+//   const token = req.headers.get("Authorization")?.split(" ")[1];
+
+//   if (!token) {
+//     return NextResponse.redirect(new URL("/login", req.url));
+//   }
+
+//   const { valid, error } = validateToken(token);
+
+//   if (error || !valid) {
+//     return NextResponse.redirect(new URL("/login", req.url));
+//   }
+
+//   return NextResponse.next();
+// }
+
+// export const config = {
+//   matcher: ["/national/:path", "/state/:path", "/citizen/:path", "/ngo/:path"],
 };
