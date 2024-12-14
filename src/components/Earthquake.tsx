@@ -10,10 +10,14 @@ import {
   Calendar,
   LoaderCircle,
   Waves,
+  Compass,
+  Cpu,
+  Sparkles,
+  ClipboardList,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import Modal from "./AddToMonitorModal";  // Assuming you have a similar modal component
+import Modal from "./AddToMonitorModal"; // Assuming you have a similar modal component
 
 interface PredictionResult {
   ml_output: {
@@ -26,12 +30,13 @@ interface PredictionResult {
 
 const LoadingStage = ({ stage }: { stage: number }) => {
   const stages = [
-    { icon: MapPin, text: "Collecting Seismic Data" },
-    { icon: Calendar, text: "Processing Location Parameters" },
-    { icon: Waves, text: "Analyzing Geological Patterns" },
-    { icon: LoaderCircle, text: "Training Predictive Model" },
-    { icon: Calendar, text: "Generating Earthquake Forecast" },
+    { icon: MapPin, text: "Collecting Location and Geospatial Data" },
+    { icon: Compass, text: "Processing Seismic Parameters" },
+    { icon: Cpu, text: "Predicting Earthquake Magnitude Using ML Model" },
+    { icon: Sparkles, text: "Refining Insights Using Gemini 1.5 Pro Model" },
+    { icon: ClipboardList, text: "Adding Recommendations and Contextual Information" },
   ];
+  
 
   return (
     <div className="space-y-4 p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg">
@@ -79,12 +84,17 @@ const Earthquake: React.FC = () => {
     const pad = (num: number) => String(num).padStart(2, "0");
 
     return (
-      `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}` +
-      `T${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}+00:00`
+      `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(
+        date.getUTCDate()
+      )}` +
+      `T${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(
+        date.getUTCSeconds()
+      )}+00:00`
     );
   }
 
-  const [predictionResult, setPredictionResult] = useState<PredictionResult | null>(null);
+  const [predictionResult, setPredictionResult] =
+    useState<PredictionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingStage, setLoadingStage] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -138,11 +148,15 @@ const Earthquake: React.FC = () => {
     setLoadingStage(0);
 
     try {
-      const response = await axios.post("http://localhost:5000/predict", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/predict",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       setPredictionResult(response.data);
     } catch (err) {
@@ -155,7 +169,7 @@ const Earthquake: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-2xl">
+    <div className="max-w-3xl mx-auto p-8 bg-white rounded-2xl shadow-lg">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -194,11 +208,23 @@ const Earthquake: React.FC = () => {
               Prediction Results
             </h3>
             <div className="flex items-center gap-4">
-              {determineRiskLevel(predictionResult.ml_output.value) === "Severe" ? (
+              {determineRiskLevel(predictionResult.ml_output.value) ===
+              "Severe" ? (
                 <>
                   <TriangleAlert className="text-red-500 w-8 h-8 animate-bounce" />
                   <button
                     className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+                    onClick={handleAddToMonitorClick}
+                  >
+                    Add to Monitor
+                  </button>
+                </>
+              ) : determineRiskLevel(predictionResult.ml_output.value) ===
+                "Moderate" ? (
+                <>
+                  <TriangleAlert className="text-yellow-500 w-8 h-8 animate-pulse" />
+                  <button
+                    className="px-4 py-2 text-white bg-yellow-500 rounded hover:bg-yellow-600"
                     onClick={handleAddToMonitorClick}
                   >
                     Add to Monitor
@@ -219,15 +245,17 @@ const Earthquake: React.FC = () => {
           <div className="mb-6">
             <div
               className={`p-4 rounded-lg text-center font-bold text-xl ${
-                determineRiskLevel(predictionResult.ml_output.value) === "Severe"
+                determineRiskLevel(predictionResult.ml_output.value) ===
+                "Severe"
                   ? "bg-red-200 text-red-800"
-                  : determineRiskLevel(predictionResult.ml_output.value) === "Moderate"
+                  : determineRiskLevel(predictionResult.ml_output.value) ===
+                    "Moderate"
                   ? "bg-yellow-200 text-yellow-800"
                   : "bg-green-200 text-green-800"
               }`}
             >
-              Magnitude: {predictionResult.ml_output.value.toFixed(2)} - 
-              Risk Level: {determineRiskLevel(predictionResult.ml_output.value)}
+              Magnitude: {predictionResult.ml_output.value.toFixed(2)} - Risk
+              Level: {determineRiskLevel(predictionResult.ml_output.value)}
             </div>
           </div>
 
