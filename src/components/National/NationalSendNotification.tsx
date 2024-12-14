@@ -6,19 +6,32 @@ import {
   Edit2,
   Trash2,
   Send,
-  FileText,
-  Filter,
-  Search,
+  FileText
 } from "lucide-react";
 import axios from "axios";
 
-
+interface Notification {
+  // id: string;
+  type: string;
+  title: string;
+  message: string;
+  urgency: string;
+  departmentsConcerned: string[];
+  dateIssued: string;
+  status: string;
+  // attachedFiles: any[];
+  disasterId?: string; // Optional for overall notifications
+}
+interface Disaster {
+  id: string;
+  name: string;
+}
 
 
 const AlertNotificationPage = () => {
-  const [selectionType, setSelectionType] = useState(""); // "Overall" or "Specific"
+  const [selectionType, setSelectionType] = useState("Overall"); // "Overall" or "Specific"
   const [disasters, setDisasters] = useState([]); // List of disasters from the API
-  const [selectedDisaster, setSelectedDisaster] = useState(""); // Selected disaster
+  const [selectedDisaster, setSelectedDisaster] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("createAlert");
@@ -44,6 +57,7 @@ const AlertNotificationPage = () => {
       audience: ["Organizations"],
     },
   ]);
+
   // Fetch disasters from the API
   const fetchDisasters = async () => {
     try {
@@ -56,7 +70,7 @@ const AlertNotificationPage = () => {
         setError(response.data.message || "Failed to fetch disasters");
       }
     } catch (err) {
-      setError(err.message || "An error occurred while fetching disasters");
+      console.log(err.message || "An error occurred while fetching disasters");
     } finally {
       setLoading(false);
     }
@@ -66,7 +80,7 @@ const AlertNotificationPage = () => {
   const handleSelectionTypeChange = (e) => {
     const value = e.target.value;
     setSelectionType(value);
-    setSelectedDisaster(""); // Reset selected disaster
+    setSelectedDisaster(null); // Reset selected disaster
 
     if (value === "Specific") {
       fetchDisasters(); // Fetch disasters only for "Specific"
@@ -107,6 +121,10 @@ const AlertNotificationPage = () => {
 
   const handleCreateAlert = async (e) => {
     e.preventDefault();
+    if (selectionType.toLowerCase()!='overall' && selectedDisaster === "") {
+      alert("Please select a disaster before creating the alert.");
+      return;
+    }
     console.log(newAlert)
     const departmentConcerned = [
       ...newAlert.districts,
@@ -114,7 +132,7 @@ const AlertNotificationPage = () => {
       ...newAlert.audience,
     ];
 
-    const notification = {
+    const notification: Notification = {
       // id: uuidv4(),
       type: "alert",
       departmentsConcerned: departmentConcerned,
@@ -123,13 +141,28 @@ const AlertNotificationPage = () => {
       status: "unread",
       // departmentsConcerned:departmentConcerned,
       title: newAlert.title,
-      message: newAlert.message,
       // attachedFiles: newAlert.attachedFiles,
+      message: newAlert.message,
+      ...(selectionType.toLowerCase()!== "overall" && {
+        disasterId: selectedDisaster,
+      }),
+      
+      
     };
+    const apiUrl =
+    selectionType === "Overall"
+      ? "/api/nationalDisasterCommittee/overallNotifications"
+      : "/api/nationalDisasterCommittee/disasterNotifications";
 
+        // if (selectionType.toLowerCase() === "overall") {
+        //   apiUrl = "/api/nationalDisasterCommittee/overallNotifications";
+        // } else {
+        //   apiUrl = "/api/nationalDisasterCommittee/disasterNotifications";
+        //   notification.selectedDisasterId = selectedDisaster.id; // Attach the disaster ID
+        // }
+      console.log(notification,apiUrl,selectedDisaster)
     try {
-      const response = await axios.post(
-        "/api/nationalDisasterCommittee/notifications",
+      const response = await axios.post(apiUrl,
         notification
       );
 
@@ -142,7 +175,7 @@ const AlertNotificationPage = () => {
           audience: [],
           states: [],
           districts: [],
-          // attachedFiles: [],
+          attachedFiles: [],
         });
       } else {
         alert(response.data.message || "Failed to add notification");

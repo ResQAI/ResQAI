@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       "status",
       "title",
       "message",
-      "attachedFiles",
+      // "attachedFiles",
     ]);
 
     if (!isValid) {
