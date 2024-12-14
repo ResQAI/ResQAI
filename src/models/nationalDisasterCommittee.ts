@@ -24,7 +24,7 @@ export enum DisasterStatus {
 export interface BaseDisaster {
   id: string;
   name: string;
-  tags: string[];
+  tags: [];
   exactLocation: GeoLocation;
   level: DisasterLevel;
   peopleAffected: number;
