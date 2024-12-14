@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <div>
-      
+      <LandingChatAssistant />
       <div>
         <Nav/>
        

@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
   TriangleAlert,
-  CloudRain,
   MapPin,
   Calendar,
-  LoaderCircle,
-  Waves,
+  Cpu,
+  Sparkles,
+  ClipboardList,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -43,11 +43,11 @@ interface PredictionResult {
 
 const LoadingStage = ({ stage }: { stage: number }) => {
   const stages = [
-    { icon: MapPin, text: "Collecting Subdivision Data" },
+    { icon: MapPin, text: "Collecting Subdivision Data and Geospatial Data" },
     { icon: Calendar, text: "Processing Yearly Rainfall" },
-    { icon: CloudRain, text: "Analyzing Monthly Precipitation" },
-    { icon: LoaderCircle, text: "Training Generative Model" },
-    { icon: Waves, text: "Predicting Flood Risk" },
+    { icon: Cpu, text: "Predicting Flood Risk Using ML Model" },
+    { icon: Sparkles, text: "Refining Insights Using Gemini 1.5 Pro Model" },
+    { icon: ClipboardList, text: "Adding Recommendations and Contextual Information" },
   ];
 
   return (
@@ -237,7 +237,7 @@ const FloodPredictionForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-2xl">
+    <div className="max-w-3xl mx-auto p-8 bg-white rounded-2xl shadow-lg">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -408,7 +408,7 @@ const FloodPredictionForm: React.FC = () => {
             ).map((month) => (
               <div key={month}>
                 <label className="block mb-1 text-sm text-blue-800">
-                  {month}
+                  {month} (in mm)
                 </label>
                 <input
                   type="number"
@@ -416,9 +416,8 @@ const FloodPredictionForm: React.FC = () => {
                   value={floodData[month]}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
-                  min={0}
-                  step={0.1}
-                  placeholder="mm"
+                  step="any"
+                  placeholder="in mm"
                 />
               </div>
             ))}
