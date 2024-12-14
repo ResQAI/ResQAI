@@ -16,12 +16,10 @@ export async function POST(req: Request) {
       "priority",
       "completedByTime",
       "description",
-      "currentProgress",
       "startTime",
-      "assignedTo",
-      "dependencies",
-      "resourcesRequired",
       "disasterId",
+      "estimedEndTime",
+      "isFailed"
     ]);
 
     if (!isValid) {

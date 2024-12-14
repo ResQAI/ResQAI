@@ -24,7 +24,7 @@ export enum DisasterStatus {
 export interface BaseDisaster {
   id: string;
   name: string;
-  tags: string[];
+  tags: [];
   exactLocation: GeoLocation;
   level: DisasterLevel;
   peopleAffected: number;
@@ -63,15 +63,9 @@ export interface Task {
   priority: "low" | "medium" | "high" | "critical";
   completedByTime: Timestamp;
   description: string;
-  currentProgress: number;
   startTime: Timestamp;
-  assignedTo: string[];
-  dependencies?: string[];
-  resourcesRequired?: {
-    personnel: number;
-    equipment: string[];
-    budget: number;
-  };
+  estimedEndTime: Timestamp;
+  isFailed: boolean;
 }
 
 export interface SituationReport {
@@ -255,7 +249,6 @@ export interface ResourceRequest {
 }
 
 export interface NationalDisasterCommittee {
-  id: string;
   name: string;
   userId: string;
   username: string;
@@ -274,5 +267,4 @@ export interface NationalDisasterCommittee {
     emergencyContactName: string;
     emergencyContactNumber: string;
   };
-  lastUpdated: Timestamp;
 }
