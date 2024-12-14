@@ -17,16 +17,16 @@ export async function POST(req: Request) {
       "peopleAffected",
       "estimatedEconomicImpact",
       "startTime",
-      "endTime",
       "status",
       "geologicalData",
       "weatherData",
-      "responsePlan",
+      "responsePlans",
       "notifications",
       "resourceRequests",
-      "situationReports",
+      "situationshipReports",
     ];
     const { isValid, errors } = validateRequest(body, requiredFields);
+    console.log(errors);
     if (!isValid) {
       return NextResponse.json({ success: false, errors }, { status: 400 });
     }

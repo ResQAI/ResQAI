@@ -32,18 +32,59 @@ interface WeatherData {
   temperature: number;
 }
 
+interface Tag {
+  type: string;
+  label: string;
+}
+
+interface SituationReport {
+  id: string;
+  time: string;
+  summary: string;
+}
+
+interface ResourceRequest {
+  id: string;
+  resourceType: string;
+  quantity: number;
+}
+
+interface ResponsePlanTask {
+  id: string;
+  status: string;
+  description: string;
+}
+
+interface Notification {
+  id: string;
+  message: string;
+  time?: string;
+  title?: string;
+  status?: string;
+  departmentsConcerned?: string[];
+  type?: string;
+  disasterId?: string;
+  urgency?: string;
+  dateIssued?: string;
+}
+
 interface Disaster {
   id: string;
   name: string;
   status: string;
   level: string;
-  tags: string[];
+  tags: Tag[];
   startTime: number;
   peopleAffected: number;
   estimatedEconomicImpact: number;
   exactLocation: ExactLocation;
   geologicalData?: GeologicalData;
   weatherData?: WeatherData;
+  notifications?: Notification[];
+  responsePlan?: ResponsePlanTask[];
+  situationReports?: SituationReport[];
+  resourceRequests?: ResourceRequest[];
+  endTime?: string;
 }
 
 const NationalDisasterTracker: React.FC = () => {
@@ -68,6 +109,9 @@ const NationalDisasterTracker: React.FC = () => {
     severity?: Disaster["level"];
     type?: string;
   }>({});
+  const [showDeclarationForm, setShowDeclarationForm] = useState(false);
+  const [declarationData, setDeclarationData] = useState<Partial<Disaster>>({});
+  const [activeDisaster, setActiveDisaster] = useState<Disaster | null>(null);
 
   // Severity color mapping
   const severityColors = {
@@ -83,7 +127,10 @@ const NationalDisasterTracker: React.FC = () => {
       .filter(
         (disaster) =>
           (!filter.severity || disaster.level === filter.severity) &&
-          (!filter.type || disaster.tags.includes(filter.type.toLowerCase()))
+          (!filter.type ||
+            disaster.tags.some(
+              (tag) => tag.type.toLowerCase() === filter.type.toLowerCase()
+            ))
       )
       .sort((a, b) => b.startTime - a.startTime);
   }, [disasters, filter]);
@@ -92,11 +139,60 @@ const NationalDisasterTracker: React.FC = () => {
     setSelectedDisaster(disaster);
   };
 
-  const handleDeclareDisaster = (id: string) => {
-    const updatedDisasters = disasters.map((disaster) =>
-      disaster.id === id ? { ...disaster, status: "Responding" } : disaster
-    );
-    setDisasters(updatedDisasters);
+  const handleDeclareDisaster = (disaster: Disaster) => {
+    setDeclarationData({
+      name: disaster.name,
+      level: disaster.level,
+      exactLocation: disaster.exactLocation,
+      startTime: disaster.startTime,
+      geologicalData: disaster.geologicalData,
+      weatherData: disaster.weatherData,
+      peopleAffected: disaster.peopleAffected,
+      estimatedEconomicImpact: disaster.estimatedEconomicImpact,
+      tags: disaster.tags.map((tag) => ({
+        label: tag,
+        type: tag.type,
+      })),
+    });
+    setActiveDisaster(disaster);
+    setShowDeclarationForm(true);
+  };
+
+  const handleSubmitDeclaration = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      console.log(declarationData);
+      const response = await fetch(
+        `${baseUrl}/api/nationalDisasterCommittee/declaredDisasters`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...declarationData,
+            responsePlans: [],
+            situationshipReports: [],
+            status: "Active",
+            notifications: [],
+            resourceRequests: [],
+            geologicalData: declarationData.geologicalData || {},
+          }),
+        }
+      );
+      if (response.ok) {
+        setShowDeclarationForm(false);
+        setDisasters(disasters.filter((d) => d.id !== activeDisaster?.id));
+        await fetch(
+          `${baseUrl}/api/nationalDisasterCommittee/incomingDisaster`,
+          {
+            method: "DELETE",
+            body: JSON.stringify({ id: activeDisaster?.id }),
+          }
+        );
+        // Handle success (maybe show a notification)
+      }
+    } catch (error) {
+      console.error("Error declaring disaster:", error);
+    }
   };
 
   return (
@@ -193,7 +289,7 @@ const NationalDisasterTracker: React.FC = () => {
             </div>
             <div className="flex space-x-3">
               <button
-                onClick={() => handleDeclareDisaster(disaster.id)}
+                onClick={() => handleDeclareDisaster(disaster)}
                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition flex items-center"
               >
                 <Shield className="mr-2" size={20} />
@@ -292,6 +388,67 @@ const NationalDisasterTracker: React.FC = () => {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Declaration Form Modal */}
+      {showDeclarationForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-8 relative">
+            <button
+              onClick={() => setShowDeclarationForm(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+            >
+              <X size={24} />
+            </button>
+            <h2 className="text-2xl font-bold mb-6">Declare Disaster</h2>
+            <form onSubmit={handleSubmitDeclaration} className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                {/* Pre-filled disabled fields */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    value={declarationData.name}
+                    disabled
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Level
+                  </label>
+                  <input
+                    type="text"
+                    value={declarationData.level}
+                    disabled
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-50"
+                  />
+                </div>
+
+                {/* Editable fields */}
+              </div>
+
+              <div className="flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setShowDeclarationForm(false)}
+                  className="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                >
+                  Declare Disaster
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
