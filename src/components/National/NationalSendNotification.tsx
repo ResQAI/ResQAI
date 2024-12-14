@@ -10,8 +10,17 @@ import {
   Filter,
   Search,
 } from "lucide-react";
+import axios from "axios";
+
+
+
 
 const AlertNotificationPage = () => {
+  const [selectionType, setSelectionType] = useState(""); // "Overall" or "Specific"
+  const [disasters, setDisasters] = useState([]); // List of disasters from the API
+  const [selectedDisaster, setSelectedDisaster] = useState(""); // Selected disaster
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("createAlert");
   const [alerts, setAlerts] = useState([
     {
@@ -35,6 +44,34 @@ const AlertNotificationPage = () => {
       audience: ["Organizations"],
     },
   ]);
+  // Fetch disasters from the API
+  const fetchDisasters = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const response = await axios.get("/api/nationalDisasterCommittee/declaredDisasters");
+      if (response.data.success) {
+        setDisasters(response.data.declaredDisasters);
+      } else {
+        setError(response.data.message || "Failed to fetch disasters");
+      }
+    } catch (err) {
+      setError(err.message || "An error occurred while fetching disasters");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle selection type change
+  const handleSelectionTypeChange = (e) => {
+    const value = e.target.value;
+    setSelectionType(value);
+    setSelectedDisaster(""); // Reset selected disaster
+
+    if (value === "Specific") {
+      fetchDisasters(); // Fetch disasters only for "Specific"
+    }
+  };
 
   const [newAlert, setNewAlert] = useState({
     title: "",
@@ -155,6 +192,79 @@ const AlertNotificationPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-white font-sans p-4">
+      <div className="grid md:grid-cols-2 ">
+      <div className="mb-4">
+        <label htmlFor="selectionType" className="block font-medium mb-2">
+          Select Type:
+        </label>
+        <select
+          id="selectionType"
+          value={selectionType}
+          onChange={handleSelectionTypeChange}
+          className="
+            block
+            pl-3 
+            pr-10 
+            py-2 
+            text-base 
+            border 
+            border-gray-300 
+            focus:outline-none 
+            focus:ring-2 
+            focus:ring-blue-500 
+            focus:border-blue-500 
+            sm:text-sm 
+            rounded-md
+          "
+        >
+          {/* <option value="">-- Select --</option> */}
+          <option value="Overall">Overall</option>
+          <option value="Specific">Specific</option>
+        </select>
+      </div>
+
+      {/* Conditional rendering for Specific */}
+      {selectionType === "Specific" && (
+            <div className="mb-4">
+              <label htmlFor="disaster" className="block font-medium mb-2">
+                Select Disaster:
+              </label>
+              {loading ? (
+                <p>Loading disasters...</p>
+              ) : error ? (
+                <p className="text-red-500">{error}</p>
+              ) : (
+                <select
+                  id="disaster"
+                  value={selectedDisaster}
+                  onChange={(e) => setSelectedDisaster(e.target.value)}
+                  className="
+            block
+            pl-3 
+            pr-10 
+            py-2 
+            text-base 
+            border 
+            border-gray-300 
+            focus:outline-none 
+            focus:ring-2 
+            focus:ring-blue-500 
+            focus:border-blue-500 
+            sm:text-sm 
+            rounded-md
+          "
+                >
+                  <option value="">-- Select Disaster --</option>
+                  {disasters.map((disaster) => (
+                    <option key={disaster.id} value={disaster.id}>
+                      {disaster.name} ({disaster.level})
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          )}
+      </div>
       <div className="max-w-8xl mx-auto">
         {/* Header */}
         {/* <div className="flex justify-between items-center mb-8">
