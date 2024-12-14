@@ -131,7 +131,6 @@ const ResponsePlan = () => {
       disasterId: activeDisaster.disaster.id,
       startTime: new Date(newWork.startTime).toISOString(), // Ensure startTime is serialized
     };
-    console.log(work);
     fetch(`${baseUrl}/api/nationalDisasterCommittee/responsePlan`, {
       method: "POST",
       body: JSON.stringify(work),

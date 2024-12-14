@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       "description",
       "startTime",
       "disasterId",
-      "estimedEndTime",
+      "estimatedTime",
       "isFailed",
       "statusUpdates"
     ]);

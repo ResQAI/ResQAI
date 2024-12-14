@@ -3,7 +3,6 @@ import {
   doc,
   getDoc,
   updateDoc,
-  arrayUnion,
   collection,
 } from "firebase/firestore";
 import { db } from "@/utils/firebase";
@@ -22,7 +21,6 @@ export async function POST(req: Request) {
     }
 
     const groupRef = doc(db, "nationalDisasterCommittee", "main");
-    // const groupId = doc(collection(db, "chats")).id;
     const newGroup = {
       id: uuidv4(),
       chats: [],
@@ -30,8 +28,19 @@ export async function POST(req: Request) {
       ...body,
     };
 
+    const docSnap = await getDoc(groupRef);
+    if (!docSnap.exists()) {
+      return NextResponse.json(
+        { success: false, message: "No data found" },
+        { status: 404 }
+      );
+    }
+
+    const data = docSnap.data();
+    const updatedGroups = [...(data?.chats?.groups || []), newGroup];
+
     await updateDoc(groupRef, {
-      "chats.groups": arrayUnion(newGroup),
+      "chats.groups": updatedGroups,
     });
 
     return NextResponse.json({

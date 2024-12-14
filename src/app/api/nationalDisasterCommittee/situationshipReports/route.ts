@@ -16,6 +16,7 @@ export async function POST(req: Request) {
       "teamArrival",
       "summary",
       "disasterId",
+      "submissionTime",
     ]);
 
     if (!isValid) {

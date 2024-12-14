@@ -69,7 +69,7 @@ const DisasterCard: React.FC<DisasterCardProps> = ({
       setActiveDisaster({
         disaster: disasterDetails,
         responsePlan: disasterDetails.responsePlans,
-        situationReports: disasterDetails.situationReports,
+        situationReports: disasterDetails.situationshipReports,
       })
     );
   };
