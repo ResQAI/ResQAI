@@ -14,7 +14,7 @@ export default function Nav() {
             <div className="h-6 w-2 bg-primary astro-ES6RJE63" />
           </div>
           <span className="text-2xl font-bold text-gray-900 ddkktext-white astro-ES6RJE63">
-            Astrolus
+            ResQAI
           </span>
         </a>
         <div className="relative flex max-h-10 items-center lg:hidden astro-ES6RJE63">
@@ -85,7 +85,7 @@ export default function Nav() {
         </div>
         <div className="mt-12 lg:mt-0 astro-ES6RJE63">
           <a
-            href="/register"
+            href="/login"
             className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-primary transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
           >
             <span className="relative text-sm font-semibold text-white astro-ES6RJE63">

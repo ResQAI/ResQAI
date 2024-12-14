@@ -1,5 +1,5 @@
 import React from "react";
-import Prediction from "@/components/PredectionForm";
+import Prediction from "@/components/PredictionForm";
 import WeatherCards from "@/components/WeatherCards";
 import LandingChatAssistant from "@/components/ChatAssistant";
 
