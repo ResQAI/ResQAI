@@ -255,7 +255,6 @@ export interface ResourceRequest {
 }
 
 export interface NationalDisasterCommittee {
-  id: string;
   name: string;
   userId: string;
   username: string;
@@ -274,5 +273,4 @@ export interface NationalDisasterCommittee {
     emergencyContactName: string;
     emergencyContactNumber: string;
   };
-  lastUpdated: Timestamp;
 }
