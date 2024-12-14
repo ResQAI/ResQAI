@@ -204,7 +204,7 @@ const readOutLoud = () => {
 
   {/* Why Preparedness Section */}
   <div className="bg-blue-50 p-6 rounded-lg shadow-md space-y-6">
-    <h3 className="text-xl font-semibold text-blue-500">
+    <h3 className="text-xl font-bold text-blue-500">
       Why Should We Be Prepared?
     </h3>
     <p className="text-gray-700">
@@ -249,7 +249,7 @@ const readOutLoud = () => {
 
   {/* Learning from Case Studies Section */}
   <div className="bg-blue-50 p-6 rounded-lg shadow-md space-y-6">
-    <h3 className="text-xl font-semibold text-blue-500">
+    <h3 className="text-xl font-bold text-blue-500">
       Learning from Case Studies
     </h3>
     <p className="text-gray-700">
