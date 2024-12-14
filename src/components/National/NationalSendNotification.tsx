@@ -76,10 +76,11 @@ const AlertNotificationPage = () => {
   const [newAlert, setNewAlert] = useState({
     title: "",
     message: "",
-    urgency: "Medium",
+    urgency: "low",
     audience: [],
-    states: [], // Ensure this is initialized as an empty array
-    districts: [], // Same for districts if required
+    states: [],
+    districts: [],
+    // attachedFiles: [],
   });
 
   const [filters, setFilters] = useState({
@@ -87,40 +88,69 @@ const AlertNotificationPage = () => {
     status: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewAlert((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setNewAlert((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
 
-  const handleAudienceChange = (audience: any) => {
-    setNewAlert((prev) => ({
-      ...prev,
-      audience: prev.audience.includes(audience)
-        ? prev.audience.filter((a) => a !== audience)
-        : [...prev.audience, audience],
-    }));
-  };
+  // const handleAudienceChange = (audience: any) => {
+  //   setNewAlert((prev) => ({
+  //     ...prev,
+  //     audience: prev.audience.includes(audience)
+  //       ? prev.audience.filter((a) => a !== audience)
+  //       : [...prev.audience, audience],
+  //   }));
+  // };
 
-  const handleCreateAlert = (e) => {
+  const handleCreateAlert = async (e) => {
     e.preventDefault();
-    const newAlertItem = {
-      ...newAlert,
-      id: alerts.length + 1,
-      date: new Date().toISOString().split("T")[0],
-      status: "Draft",
+    console.log(newAlert)
+    const departmentConcerned = [
+      ...newAlert.districts,
+      ...newAlert.states,
+      ...newAlert.audience,
+    ];
+
+    const notification = {
+      // id: uuidv4(),
+      type: "alert",
+      departmentsConcerned: departmentConcerned,
+      urgency: newAlert.urgency.toLowerCase(),
+      dateIssued: new Date().toISOString(),
+      status: "unread",
+      // departmentsConcerned:departmentConcerned,
+      title: newAlert.title,
+      message: newAlert.message,
+      // attachedFiles: newAlert.attachedFiles,
     };
-    setAlerts([...alerts, newAlertItem]);
-    // Reset form
-    setNewAlert({
-      title: "",
-      message: "",
-      urgency: "Medium",
-      audience: [],
-      attachments: null,
-    });
+
+    try {
+      const response = await axios.post(
+        "/api/nationalDisasterCommittee/notifications",
+        notification
+      );
+
+      if (response.data.success) {
+        alert("Notification added successfully");
+        setNewAlert({
+          title: "",
+          message: "",
+          urgency: "low",
+          audience: [],
+          states: [],
+          districts: [],
+          // attachedFiles: [],
+        });
+      } else {
+        alert(response.data.message || "Failed to add notification");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while adding the notification");
+    }
   };
 
   const filteredAlerts = alerts.filter(
@@ -153,25 +183,41 @@ const AlertNotificationPage = () => {
     "District 3",
   ]); // Replace with dynamic district data
 
+  
+
   const [allStatesSelected, setAllStatesSelected] = useState(false);
   const [allDistrictsSelected, setAllDistrictsSelected] = useState(false);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewAlert((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAudienceChange = (audience) => {
+    setNewAlert((prev) => {
+      const newAudience = prev.audience.includes(audience)
+        ? prev.audience.filter((a) => a !== audience)
+        : [...prev.audience, audience];
+      return { ...prev, audience: newAudience };
+    });
+  };
+
   const handleStateChange = (state) => {
-    setNewAlert((prev) => ({
-      ...prev,
-      states: prev.states.includes(state)
+    setNewAlert((prev) => {
+      const newStates = prev.states.includes(state)
         ? prev.states.filter((s) => s !== state)
-        : [...prev.states, state],
-    }));
+        : [...prev.states, state];
+      return { ...prev, states: newStates };
+    });
   };
 
   const handleDistrictChange = (district) => {
-    setNewAlert((prev) => ({
-      ...prev,
-      districts: prev.districts.includes(district)
+    setNewAlert((prev) => {
+      const newDistricts = prev.districts.includes(district)
         ? prev.districts.filter((d) => d !== district)
-        : [...prev.districts, district],
-    }));
+        : [...prev.districts, district];
+      return { ...prev, districts: newDistricts };
+    });
   };
 
   const toggleAllStates = () => {
@@ -187,6 +233,20 @@ const AlertNotificationPage = () => {
     setNewAlert((prev) => ({
       ...prev,
       districts: !allDistrictsSelected ? districts : [],
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const attachedFiles = files.map((file) => ({
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      url: URL.createObjectURL(file), // Replace with actual URL after upload
+    }));
+    setNewAlert((prev) => ({
+      ...prev,
+      attachedFiles: [...prev.attachedFiles, ...attachedFiles],
     }));
   };
 
@@ -301,37 +361,48 @@ const AlertNotificationPage = () => {
         <div className="bg-white rounded-xl shadow-lg p-6">
           {/* Create Alert Tab */}
           {activeTab === "createAlert" && (
-            <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-gray-800 flex items-center">
               <PlusCircle className="mr-3 w-6 h-6 text-blue-600" />
               Create New Alert
             </h2>
-            <form onSubmit={handleCreateAlert} className="space-y-5">
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Alert Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={newAlert.title}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all"
-                  placeholder="Enter alert title"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Message</label>
-                <textarea
-                  name="message"
-                  value={newAlert.message}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all"
-                  placeholder="Detailed alert message"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
-              <div className="grid grid-cols-1 gap-6">
+                <form onSubmit={handleCreateAlert} className="space-y-5">
+                  {/* Title */}
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Alert Title
+                    </label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={newAlert.title}
+                      onChange={handleInputChange}
+                      className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all"
+                      placeholder="Enter alert title"
+                      required
+                    />
+                  </div>
+                  {/* Message */}
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      value={newAlert.message}
+                      onChange={handleInputChange}
+                      className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all"
+                      placeholder="Detailed alert message"
+                      rows="4"
+                      required
+                    ></textarea>
+                  </div>
+                  {/* Audience */}
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Target Audience
+                    </label>
+                    <div className="grid grid-cols-1 gap-6">
                 <div>
                   <label className="block text-gray-700 font-semibold mb-2">Urgency</label>
                   <select
@@ -413,29 +484,34 @@ const AlertNotificationPage = () => {
                             />
                             <span>{district}</span>
                           </label>
-                        ))}
+                          ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
+                  {/* Attachments */}
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Attachments
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={handleFileChange}
+                      className="block text-gray-700 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 hover:file:bg-blue-100"
+                    />
+                  </div>
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center"
+                  >
+                    Send Alert
+                  </button>
+                </form>
               </div>
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Attachments</label>
-                <div className="flex items-center space-x-4">
-                  <input
-                    type="file"
-                    className="block text-gray-700 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 hover:file:bg-blue-100"
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center"
-              >
-                <Send className="mr-2 w-5 h-5" /> Send Alert
-              </button>
-            </form>
-          </div>
           
           )}
 
