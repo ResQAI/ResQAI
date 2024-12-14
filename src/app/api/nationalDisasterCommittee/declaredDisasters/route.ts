@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import { validateRequest } from "@/utils/validateRequest";
 import { DeclaredDisaster } from "@/models/nationalDisasterCommittee";
@@ -49,8 +49,12 @@ export async function POST(req: Request) {
       id: uuidv4(),
       startTime: body.startTime || new Date(),
     };
+    const docSnap = await getDoc(disasterRef);
+    const currentDisasters = docSnap.exists()
+      ? docSnap.data().declaredDisasters || []
+      : [];
     await updateDoc(disasterRef, {
-      declaredDisasters: arrayUnion(newDisaster),
+      declaredDisasters: [...currentDisasters, newDisaster],
     });
     return NextResponse.json({
       success: true,
