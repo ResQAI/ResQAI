@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/utils/firebase";
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { validateRequest } from "@/utils/validateRequest";
 import { v4 as uuidv4 } from "uuid";
 import { SituationReport as SituationshipReport } from "@/models/nationalDisasterCommittee";
@@ -39,7 +39,10 @@ export async function POST(req: Request) {
     const updatedDisasters = (data?.declaredDisasters || []).map(
       (disaster: any) =>
         disaster.id === body.disasterId
-          ? { ...disaster, situationshipReports: arrayUnion(newReport) }
+          ? {
+              ...disaster,
+              situationshipReports: [...(disaster.situationshipReports || []), newReport]
+            }
           : disaster
     );
 
@@ -50,6 +53,7 @@ export async function POST(req: Request) {
       message: "Situationship report added successfully",
     });
   } catch (error: any) {
+    console.log(error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }

@@ -269,3 +269,108 @@ export interface NationalDisasterCommittee {
     emergencyContactNumber: string;
   };
 }
+
+const sampleSituationReports: SituationReport[] = [
+  {
+    id: "report1",
+    disasterId: "disaster1",
+    disasterStatus: {
+      weatherCondition: {
+        primary: "rain",
+        details: ["heavy rain", "thunderstorms"],
+        severity: 3,
+      },
+      affectedAreas: [
+        {
+          name: "Area 1",
+          coordinates: { latitude: 12.34, longitude: 56.78 },
+          impactLevel: 2,
+        },
+      ],
+      affectedPopulation: {
+        total: 1000,
+        demographics: {
+          children: 200,
+          adults: 600,
+          elderly: 200,
+        },
+        vulnerableGroups: ["elderly", "children"],
+      },
+    },
+    casualties: {
+      types: [
+        { category: "injured", count: 50 },
+        { category: "deceased", count: 5 },
+      ],
+      firstAid: [
+        {
+          treatmentType: "basic",
+          treatmentLocation: "local hospital",
+          personnelInvolved: 10,
+        },
+      ],
+      communication: {
+        status: "limited",
+        methods: ["radio", "satellite phone"],
+      },
+    },
+    materialFlow: {
+      foodMaterials: [
+        {
+          type: "canned food",
+          quantity: 500,
+          distributionMethod: "trucks",
+        },
+      ],
+      airDropping: {
+        active: true,
+        frequency: 2,
+        locations: [{ latitude: 12.34, longitude: 56.78 }],
+      },
+      transport: [
+        {
+          type: "trucks",
+          capacity: 10,
+          activeVehicles: 5,
+        },
+      ],
+      medicalAid: [
+        {
+          type: "first aid kits",
+          quantity: 100,
+          destination: { latitude: 12.34, longitude: 56.78 },
+        },
+      ],
+    },
+    teamArrival: {
+      centralTeams: [
+        {
+          name: "Team A",
+          arrivalTime: Timestamp.now(),
+          personnelCount: 20,
+        },
+      ],
+      internationalTeams: [
+        {
+          country: "Country X",
+          organizationName: "Org X",
+          arrivalTime: Timestamp.now(),
+          personnelCount: 15,
+        },
+      ],
+      others: [
+        {
+          name: "Volunteer Group",
+          type: "NGO",
+          arrivalTime: Timestamp.now(),
+        },
+      ],
+    },
+    summary: {
+      overview: "Heavy rain causing floods",
+      criticalObservations: ["Roads blocked", "Power outage"],
+      recommendedActions: ["Evacuate affected areas", "Provide medical aid"],
+    },
+  },
+  // Add more sample objects as needed
+];
