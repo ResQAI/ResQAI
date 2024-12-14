@@ -2,17 +2,17 @@ import { NextResponse } from "next/server";
 import { validateToken } from "./utils/validateToken";
 
 export async function middleware(req: Request) {
-  const token = req.headers.get("Authorization")?.split(" ")[1];
+  // const token = req.headers.get("Authorization")?.split(" ")[1];
 
-  if (!token) {
-    return NextResponse.redirect(new URL("/signin", req.url));
-  }
+  // if (!token) {
+  //   return NextResponse.redirect(new URL("/signin", req.url));
+  // }
 
-  const { valid, error } = validateToken(token);
+  // const { valid, error } = validateToken(token);
 
-  if (error || !valid) {
-    return NextResponse.redirect(new URL("/signin", req.url));
-  }
+  // if (error || !valid) {
+  //   return NextResponse.redirect(new URL("/signin", req.url));
+  // }
 
   return NextResponse.next();
 }

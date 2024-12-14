@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import DisasterModal from "./DisasterModal";
+import { setActiveDisaster } from "@/store/disasterSlice";
+import { useDispatch } from "react-redux";
+import ResponsePlan from "./ResponsePlan";
+import { baseUrl } from "@/constants";
 
 interface TagItem {
   label: string;
@@ -19,6 +23,7 @@ interface DisasterCardProps {
     peopleAffected: number;
     casualties: number;
     estimatedLoss: number;
+    id: string;
   };
   className?: string;
 }
@@ -54,13 +59,26 @@ const DisasterCard: React.FC<DisasterCardProps> = ({
   tags = [],
   disasterDetails,
   className = "",
+  setDisaster,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const setCurrentDisaster = async () => {
+    dispatch(
+      setActiveDisaster({
+        disaster: disasterDetails,
+        responsePlan: disasterDetails.responsePlans,
+        situationReports: disasterDetails.situationReports,
+      })
+    );
+  };
 
   return (
     <>
       <div
-        className={`w-[280px] max-w-sm bg-white border border-gray-200 rounded-lg shadow-md p-6 space-y-4 ${className}`}
+        className={`w-[280px] max-w-sm bg-white border border-gray-200 rounded-lg shadow-md p-6 space-y-4 ${className} cursor-pointer`}
+        onClick={setCurrentDisaster}
       >
         <div className="space-y-3">
           <div className="flex justify-between items-start">

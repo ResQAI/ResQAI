@@ -5,17 +5,7 @@ import DisasterMap from "./DisasterMap";
 interface DisasterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  disaster: {
-    name: string;
-    location: string;
-    severity: string;
-    level: string;
-    areaSize: string;
-    epicenter?: { lat: number; lng: number };
-    peopleAffected?: number;
-    casualties?: number;
-    estimatedLoss?: number;
-  };
+  disaster: any;
 }
 
 // Sample disaster data
@@ -57,7 +47,7 @@ const DisasterModal: React.FC<DisasterModalProps> = ({
               {disaster.name}
             </h2>
             <p className="text-blue-600 text-sm font-medium">
-              {displayData.location}
+              {disaster.exactLocation.address}
             </p>
           </div>
           <button
@@ -89,16 +79,20 @@ const DisasterModal: React.FC<DisasterModalProps> = ({
               <div className="grid grid-cols-2 gap-4">
                 <StatusItem
                   label="Severity"
-                  value={displayData.severity}
+                  value={
+                    disaster.level == 3
+                      ? "High"
+                      : disaster.level == 2
+                      ? "Medium"
+                      : "Low"
+                  }
                   colorClass={
-                    displayData.severity.toLowerCase() === "high"
-                      ? "text-red-600"
-                      : "text-yellow-600"
+                    disaster.level == 3 ? "text-red-600" : "text-yellow-600"
                   }
                 />
                 <StatusItem
                   label="Level"
-                  value={displayData.level}
+                  value={disaster.level}
                   colorClass="text-blue-600"
                 />
               </div>
@@ -111,11 +105,7 @@ const DisasterModal: React.FC<DisasterModalProps> = ({
               <div className="space-y-2">
                 <ImpactItem
                   label="People Affected"
-                  value={formatNumber(displayData.peopleAffected)}
-                />
-                <ImpactItem
-                  label="Casualties"
-                  value={formatNumber(displayData.casualties)}
+                  value={formatNumber(disaster.peopleAffected)}
                 />
               </div>
             </div>
@@ -125,16 +115,16 @@ const DisasterModal: React.FC<DisasterModalProps> = ({
                 Area Details
               </h3>
               <div className="space-y-2">
-                <InfoItem label="Area Size" value={displayData.areaSize} />
+                <InfoItem label="Area Size" value={disaster.areaSize} />
                 {displayData.epicenter && (
                   <InfoItem
                     label="Epicenter"
-                    value={`${displayData.epicenter.lat}, ${displayData.epicenter.lng}`}
+                    value={`${disaster.exactLocation.latitude}, ${disaster.exactLocation.longitude}`}
                   />
                 )}
                 <InfoItem
                   label="Estimated Loss"
-                  value={`$${formatNumber(displayData.estimatedLoss)}`}
+                  value={`$${formatNumber(disaster.estimatedEconomicImpact)}`}
                 />
               </div>
             </div>
@@ -143,8 +133,8 @@ const DisasterModal: React.FC<DisasterModalProps> = ({
           <div className="rounded-xl overflow-hidden">
             {isOpen && displayData.epicenter && (
               <DisasterMap
-                lat={displayData.epicenter.lat}
-                lng={displayData.epicenter.lng}
+                lat={disaster.exactLocation.latitude}
+                lng={disaster.exactLocation.longitude}
                 zoom={13}
               />
             )}

@@ -1,11 +1,8 @@
-import type { Metadata } from "next";
+"use client";
 import "./globals.css";
 import LandingChatAssistant from "@/components/ChatAssistant";
-
-export const metadata: Metadata = {
-  title: "ResQAI",
-  description: "AI powered disaster management application",
-};
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 export default function RootLayout({
   children,
@@ -15,11 +12,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div>
+        <Provider store={store}>
           <LandingChatAssistant />
-        {children}
-        </div>
-        </body>
+          {children}
+        </Provider>
+      </body>
     </html>
   );
 }

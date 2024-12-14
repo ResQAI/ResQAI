@@ -1,13 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { FileText, Clipboard, Package } from "lucide-react";
 
 import ResponsePlan from "@/components/ResponsePlan";
 import SituationReport from "@/components/SituationReport";
 import ResourceRequestManagement from "./NationalResourceManagement";
+import { latLng } from "leaflet";
+import PreviousReports from "../PreviousReports";
 
 const NationalHomeToggleArea = () => {
   const [activeTab, setActiveTab] = useState("responsePlan");
+  const [responsePlan, setResponsePlan] = useState<any>(null);
 
   const tabs = [
     {
@@ -21,6 +24,12 @@ const NationalHomeToggleArea = () => {
       label: "Resource Request",
       icon: <Package className="w-4 h-4" />,
       component: <ResourceRequestManagement />,
+    },
+    {
+      id: "situationReports",
+      label: "Situation Reports",
+      icon: <FileText className="w-4 h-4" />,
+      component: <PreviousReports />,
     },
   ];
 
