@@ -11,7 +11,7 @@ const NationalListSide: React.FC = ({ setDisaster }: { setDisaster: any }) => {
         "/api/nationalDisasterCommittee/declaredDisasters"
       );
       const data = await res.json();
-      console.log(data);
+      console.log(data.declaredDisasters);
       setDisasterData(data.declaredDisasters);
     }
 
