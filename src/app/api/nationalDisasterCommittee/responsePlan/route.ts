@@ -19,7 +19,8 @@ export async function POST(req: Request) {
       "startTime",
       "disasterId",
       "estimedEndTime",
-      "isFailed"
+      "isFailed",
+      "statusUpdates"
     ]);
 
     if (!isValid) {

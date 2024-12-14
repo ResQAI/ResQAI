@@ -64,6 +64,7 @@ export interface Task {
   completedByTime: Timestamp;
   description: string;
   startTime: Timestamp;
+  statusUpdates: [];
   estimedEndTime: Timestamp;
   isFailed: boolean;
 }
