@@ -19,7 +19,6 @@ export async function POST(req: Request) {
       "startTime",
       "endTime",
       "status",
-      "causativeFactors",
       "geologicalData",
       "weatherData",
     ];

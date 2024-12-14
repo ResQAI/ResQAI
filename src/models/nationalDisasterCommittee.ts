@@ -4,6 +4,7 @@ export interface GeoLocation {
   latitude: number;
   longitude: number;
   address?: string;
+  affectedArea?: string;
 }
 
 export enum DisasterLevel {
