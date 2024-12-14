@@ -41,13 +41,16 @@ export default function NationalHeader() {
                 ></path>
               </svg>
             </button>   
-            <a href="" className="flex ml-2 md:mr-24">
-              <img
-                src="https://flowbite-admin-dashboard.vercel.app/images/logo.svg"
-                className="h-8 mr-3"
-                alt="FlowBite Logo"
-              />
-              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">
+            <a
+              href="/"
+              aria-label="logo"
+              className="flex items-center space-x-2 astro-ES6RJE63"
+            >
+              <div aria-hidden="true" className="flex space-x-1 astro-ES6RJE63">
+                <div className="h-4 w-4 rounded-full bg-gray-900 ddkkbg-white astro-ES6RJE63" />
+                <div className="h-6 w-2 bg-primary astro-ES6RJE63" />
+              </div>
+              <span className="text-2xl font-bold text-gray-900 ddkktext-white astro-ES6RJE63">
                 ResQAI
               </span>
             </a>
