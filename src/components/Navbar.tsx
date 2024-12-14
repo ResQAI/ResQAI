@@ -63,7 +63,7 @@ export default function Nav() {
             <li className="astro-ES6RJE63">
               <a
                 href="/awareness"
-                className="hover:text-purple-500 block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
+                className="hover:text-primary block transition ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
                 <span className="astro-ES6RJE63">Awareness</span>
               </a>
@@ -72,7 +72,7 @@ export default function Nav() {
               <a
                 href="/quiz"
                 // target="_blank"
-                className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary ddkktext-white ddkkhover:text-white md:px-4 astro-ES6RJE63"
+                className="flex gap-2  transition hover:text-primary ddkktext-white ddkkhover:text-white md:px-4 astro-ES6RJE63"
               >
                 <span className="astro-ES6RJE63">Quiz</span>
                 
