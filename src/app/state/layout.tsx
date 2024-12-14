@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
+"use client";
 import "../globals.css";
 import Sidebar from "@/components/State/StateSidebar";
 import StateHeader from "@/components/State/StateHeader";
-
-export const metadata: Metadata = {
-  title: "ResQAI - State",
-  description: "AI-powered disaster management application - State Dashboard",
-};
 
 export default function StateLayout({
   children,

@@ -1,58 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DisasterList from "../DisasterList";
 
-const NationalListSide: React.FC = () => {
-  const disasterData = [
-    {
-      name: "Earthquake",
-      area: "San Francisco, CA",
-      tags: [
-        { label: "Ongoing", type: "status" },
-        { label: "Level 3", type: "level" },
-        { label: "Critical" },
-      ],
-    },
-    {
-      name: "Hurricane Elena",
-      area: "Florida Coast",
-      tags: [{ label: "Upcoming", type: "status" }, { label: "Warning" }],
-    },
-    {
-      name: "Wildfire",
-      area: "California Wilderness",
-      tags: [
-        { label: "Ongoing", type: "status" },
-        { label: "Level 2", type: "level" },
-      ],
-    },
-    {
-      name: "Wildfire",
-      area: "California Wilderness",
-      tags: [
-        { label: "Ongoing", type: "status" },
-        { label: "Level 2", type: "level" },
-      ],
-    },
-    {
-      name: "Flood",
-      area: "Louisiana Delta",
-      tags: [
-        { label: "Resolved", type: "status" },
-        { label: "Level 1", type: "level" },
-      ],
-    },
-    {
-      name: "Tropical Storm",
-      area: "Gulf of Mexico",
-      tags: [{ label: "Warning" }, { label: "Level 2", type: "level" }],
-    },
-    {
-      name: "Avalanche",
-      area: "Rocky Mountains",
-      tags: [{ label: "Critical" }, { label: "Level 3", type: "level" }],
-    },
-  ];
+const NationalListSide: React.FC = ({ setDisaster }: { setDisaster: any }) => {
+  const [disasterData, setDisasterData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(
+        "/api/nationalDisasterCommittee/declaredDisasters"
+      );
+      const data = await res.json();
+      console.log(data);
+      setDisasterData(data.declaredDisasters);
+    }
+
+    fetchData();
+  }, []);
 
   const handleOpenModal = () => {
     alert("Modal would open here");
@@ -70,6 +34,7 @@ const NationalListSide: React.FC = () => {
         lat={20.5937}
         lng={78.9629}
         zoom={5}
+        setDisaster={setDisaster}
       />
     </div>
   );

@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import { validateRequest } from "@/utils/validateRequest";
 import { Task as ResponsePlan } from "@/models/nationalDisasterCommittee";
 
+
+
 // Add a new response plan
 export async function POST(req: Request) {
   try {
@@ -13,8 +15,6 @@ export async function POST(req: Request) {
       "name",
       "status",
       "departmentConcerned",
-      "priority",
-      "completedByTime",
       "description",
       "startTime",
       "disasterId",

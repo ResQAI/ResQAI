@@ -37,9 +37,9 @@ const PlanForm: React.FC<PlanFormProps> = ({ onSubmit }) => {
     }
 
     onSubmit({
-      title: workTitle,
+      name: workTitle,
       description: workDescription,
-      department: selectedDepartment,
+      departmentConcerned: selectedDepartment,
       estimatedTime: parseFloat(estimatedTime),
       startTime: new Date(),
     });

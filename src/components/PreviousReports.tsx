@@ -2,24 +2,16 @@
 import React, { useState } from "react";
 import { FileText, Eye, Download } from "lucide-react";
 import jsPDF from "jspdf";
+import { useSelector } from "react-redux";
+import { RootStateOrAny } from "react-redux";
 
 const PreviousReports = () => {
-  const [reports, setReports] = useState([
-    {
-      id: 1,
-      name: "Situation Report 1",
-      submittedAt: "2024-01-15T09:30:00",
-      data: {
-        disasterStatus: {
-          weatherCondition: "Severe Tropical Cyclone",
-          affectedAreas: "Coastal Regions of Southeast Asia",
-          affectedPopulation: "250,000 People",
-        },
-        // ... other mock data
-      },
-    },
-    // ... other reports
-  ]);
+  const initialReports = useSelector(
+    (state: RootStateOrAny) => state.activeDisaster.situationReports
+  );
+
+  console.log(initialReports);
+  const [reports, setReports] = useState(initialReports);
   const [selectedReport, setSelectedReport] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -78,36 +70,39 @@ const PreviousReports = () => {
         <h3 className="text-lg font-medium text-gray-800">Previous Reports</h3>
       </div>
       <div className="divide-y divide-gray-100">
-        {reports.map((report) => (
-          <div
-            key={report.id}
-            className="p-4 hover:bg-gray-50 flex justify-between items-center"
-          >
-            <div className="flex-grow">
-              <h4 className="font-medium text-gray-900">{report.name}</h4>
-              <p className="text-sm text-gray-500">
-                Submission Time: {new Date(report.submittedAt).toLocaleString()}
-              </p>
-            </div>
-            <div className="flex space-x-4">
-              <button
-                onClick={() => {
-                  setSelectedReport(report);
-                  setIsModalOpen(true);
-                }}
-                className="text-blue-500 hover:text-blue-600 p-2 rounded-full hover:bg-blue-50"
+        {reports.length != 0
+          ? reports?.map((report) => (
+              <div
+                key={report.id}
+                className="p-4 hover:bg-gray-50 flex justify-between items-center"
               >
-                <Eye size={20} />
-              </button>
-              <button
-                onClick={() => generatePDF(report.data)}
-                className="text-green-500 hover:text-green-600 p-2 rounded-full hover:bg-green-50"
-              >
-                <Download size={20} />
-              </button>
-            </div>
-          </div>
-        ))}
+                <div className="flex-grow">
+                  <h4 className="font-medium text-gray-900">{report.name}</h4>
+                  <p className="text-sm text-gray-500">
+                    Submission Time:{" "}
+                    {new Date(report.submittedAt).toLocaleString()}
+                  </p>
+                </div>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => {
+                      setSelectedReport(report);
+                      setIsModalOpen(true);
+                    }}
+                    className="text-blue-500 hover:text-blue-600 p-2 rounded-full hover:bg-blue-50"
+                  >
+                    <Eye size={20} />
+                  </button>
+                  <button
+                    onClick={() => generatePDF(report.data)}
+                    className="text-green-500 hover:text-green-600 p-2 rounded-full hover:bg-green-50"
+                  >
+                    <Download size={20} />
+                  </button>
+                </div>
+              </div>
+            ))
+          : "No results to show."}
       </div>
 
       {isModalOpen && (

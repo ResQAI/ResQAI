@@ -10,7 +10,7 @@ export interface DisasterItem {
 
 interface DisasterListProps {
   title: string;
-  disasters: DisasterItem[];
+  disasters: any[];
   lat: number;
   lng: number;
   zoom: number;
@@ -22,6 +22,7 @@ const DisasterList: React.FC<DisasterListProps> = ({
   lat,
   lng,
   zoom,
+  setDisaster,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,8 +77,8 @@ const DisasterList: React.FC<DisasterListProps> = ({
           "
         >
           <option value="">All Disasters</option>
-          {allTags.map((tag) => (
-            <option key={tag} value={tag}>
+          {allTags.map((tag, index) => (
+            <option key={index} value={tag}>
               {tag}
             </option>
           ))}
@@ -115,16 +116,16 @@ const DisasterList: React.FC<DisasterListProps> = ({
             <DisasterCard
               key={index}
               name={disaster.name}
-              area={disaster.area}
+              area={disaster.exactLocation?.address}
               tags={disaster.tags}
+              disasterDetails={disaster}
               onViewMore={() => console.log("View more")}
+              setDisaster={setDisaster}
             />
           ))}
         </div>
       ) : (
-        <div className="text-center py-10 text-gray-500">
-          No disasters match the selected filter.
-        </div>
+        <div className="text-center py-10 text-gray-500">No Results.</div>
       )}
 
       {isModalOpen && (
