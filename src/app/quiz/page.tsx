@@ -84,6 +84,28 @@ function QuizPage() {
     }
   };
 
+  const handleShare = () => {
+    const shareText = `Hey! I participated in the ResQAI quiz and scored ${score}/100. You can also take the quiz here: https://your-site-link.com`;
+
+    // Check if the browser supports the navigator.share API
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "ResQAI Quiz",
+          text: shareText,
+          url: "https://your-site-link.com",
+        })
+        .then(() => console.log("Shared successfully"))
+        .catch((error) => console.error("Error sharing", error));
+    } else {
+      // Fallback: Open a Twitter share link in a new tab
+      const twitterUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(
+        shareText
+      )}`;
+      window.open(twitterUrl, "_blank");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <a
@@ -95,15 +117,16 @@ function QuizPage() {
       </a>
       <div className="w-full max-w-4xl p-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-4">Disaster Management Quiz</h1>
-        {isQuizFinished ? (
+        {isQuizFinished ? 
+        (
           <div className="text-center">
             <h2 className="text-2xl font-bold">Quiz Completed!</h2>
             <p className="mt-4 text-lg">Your Score: {score}/100</p>
             <button
               className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              onClick={() => {}}
+              onClick={handleShare}
             >
-              Share Your Certificate
+              Share Your Score
             </button>
           </div>
         ) : (

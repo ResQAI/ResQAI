@@ -67,11 +67,11 @@ export default function Home() {
         <div className="max-w-7xl  mx-auto px-6 md:px-12 xl:px-6">
           <div className="relative pt-36 ml-auto">
             <div className="lg:w-2/3 text-center mx-auto">
-              <h1 className="text-gray-900 ddkktext-white font-bold text-5xl md:text-5xl xl:text-6xl">
-               Act Faster, Save Lives with  <br/> <span className="text-primary ddkktext-white">ResQAI</span> 
+              <h1 className="text-gray-900 ddkktext-white font-bold text-5xl md:text-5xl xl:text-7xl">
+               Act Faster, Save Lives with   <span className="text-primary ddkktext-white">ResQAI</span> 
                 {/* <span className="text-primary ddkktext-white">ResQAI</span> */}
               </h1>
-              <p className="mt-8 text-gray-700 ddkktext-gray-300">
+              <p className="mt-8 mx-10 text-gray-700 ddkktext-gray-300">
               Empowering government agencies, NGOs, and citizens to minimize damage, save lives, and rebuild communities during disasters with AI-driven insights and collaboration.
               </p>
               <div className="mt-16 flex flex-wrap  justify-center gap-y-4 gap-x-6">
@@ -283,7 +283,7 @@ export default function Home() {
               <div className="-mx-4 flex flex-wrap">
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow rounded-xl border p-10 shadow-xl  group mx-auto mb-[50px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl  group mx-auto mb-[50px] h-[350px] text-center"
                     data-wow-delay=".2s"
                     style={{ visibility: "visible", animationDelay: "0.2s" }}
                   >
@@ -322,7 +322,7 @@ export default function Home() {
 
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow rounded-xl border p-10 shadow-xl   fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl   fadeInUp group mx-auto mb-[60px] h-[350px]  text-center"
                     data-wow-delay=".3s"
                     style={{ visibility: "visible", animationDelay: "0.3s" }}
                   >
@@ -362,7 +362,7 @@ export default function Home() {
 
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] h-[350px] text-center"
                     data-wow-delay=".4s"
                     style={{ visibility: "visible", animationDelay: "0.4s" }}
                   >
@@ -405,7 +405,7 @@ export default function Home() {
 
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] h-[350px] text-center"
                     data-wow-delay=".2s"
                     style={{ visibility: "visible", animationDelay: "0.2s" }}
                   >
@@ -446,7 +446,7 @@ export default function Home() {
 
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] h-[350px] text-center"
                     data-wow-delay=".3s"
                     style={{ visibility: "visible", animationDelay: "0.3s" }}
                   >
@@ -483,7 +483,7 @@ export default function Home() {
 
                 <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                   <div
-                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center"
+                    className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] h-[350px] text-center"
                     data-wow-delay=".4s"
                     style={{ visibility: "visible", animationDelay: "0.4s" }}
                   >
@@ -630,63 +630,52 @@ export default function Home() {
 
 <>
  
-            <section className="bg-white py-8">
-              <div className="container max-w-5xl mx-auto m-8">
-                <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-primar">
-                      Learn & Respond Effectively
-                </h2>
-                <div className="w-full mb-4">
-                  <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
-                </div>
-                <div className="flex flex-wrap">
-                  <div className="w-5/6 sm:w-1/2 p-6">
-                    <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
-                        MCQ Test: Know Your Disaster Types
-                    </h3>
-                    <p className="text-gray-600 mb-8">
-                          Interactive quizzes to learn about floods, cyclones, and earthquakes.
-                      <br />
-                      <br />
-                      <a
-                        href="/quiz"
-                        className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-primary transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
-                      >
-                        <span className="relative text-sm font-semibold text-white astro-ES6RJE63">
-                          {" "}
-                          Take Quiz
-                        </span>
-                      </a>
-                    </p>
-                  </div>
-                  <div className="w-full sm:w-1/2 p-6">
-                  <div className="align-middle">
-                      <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
-                          Case Study: Real-Life Response Scenarios
-                      </h3>
-                      <p className="text-gray-600 mb-8">
-                            Analyze real-life cases to understand response strategies.
-                        <br />
-                        <br />
-                        <a
-                          href="/awareness"
-                          className="relative flex h-9 w-full items-center justify-center px-4 absolute inset-0 rounded-full bg-primary transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max astro-ES6RJE63"
-                        >
-                          <span className="relative text-sm font-semibold text-white astro-ES6RJE63">
-                            {" "}
-                            Learn from Case studies
-                          </span>
-                        </a>
-                      </p>
-                    
-                    
-                </div>
-                  
-                    {/* <img src="https://cdn-icons-png.flaticon.com/512/2641/2641457.png" className=" sm:h-64 mx-auto"/> */}
-                  </div>
-                </div>
-                
-              </div>
-            </section>
+<section className="bg-white py-8">
+  <div className="container max-w-5xl mx-auto m-8">
+    <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-primary">
+      Learn & Respond Effectively
+    </h2>
+    <div className="w-full mb-12">
+      <div className="h-1 mx-auto bg-blue-600 w-64 opacity-50 my-0 py-0 rounded-t" />
+    </div>
+    <div className="flex flex-wrap justify-center gap-16 mt-5">
+      {/* Card 1 */}
+      <div className="bg-white shadow-2xl p-5 rounded-lg  overflow-hidden border border-primary  w-full sm:w-5/12 p-6">
+        <h3 className="text-3xl text-primary font-bold leading-none mb-3 text-center">
+          MCQ Test: Know Your Disaster Types
+        </h3>
+        <p className="text-gray-600 mb-6">
+          Interactive quizzes to learn about floods, cyclones, and earthquakes.
+        </p>
+        <div className="flex items-center justify-center">
+        <a
+          href="/quiz"
+          className=" w-[200px] text-center px-4 py-2 bg-primary text-white font-semibold text-sm rounded-full transition duration-300 hover:bg-blue-600 hover:scale-105 active:scale-95"
+        >
+          Take Quiz
+        </a>
+        </div>
+      </div>
+      {/* Card 2 */}
+      <div className="bg-white shadow-2xl rounded-lg overflow-hidden border border-primary  w-full sm:w-5/12 p-6">
+        <h3 className="text-3xl text-primary font-bold leading-none mb-3 text-center">
+          Case Study: Real-Life Response Scenarios
+        </h3>
+        <p className="text-gray-600 mb-6">
+          Analyze real-life cases to understand response strategies.
+        </p>
+        <div className="flex items-center justify-center">
+        <a
+          href="/awareness"
+          className="flex items-center w-[200px] justify-center px-4 py-2 bg-primary text-white font-semibold text-sm rounded-full transition duration-300 hover:bg-blue-600 hover:scale-105 active:scale-95"
+        >
+          Learn from Case Studies
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 
@@ -738,20 +727,20 @@ export default function Home() {
 
 
   {/*Footer*/}
-  <footer className="mt-20 xl:mt-32 mx-auto w-full relative text-center bg-blue-600 text-white">
-  <div className="px-6 py-8 md:py-14 xl:pt-20 xl:pb-12">
+  <footer className="mt-5 xl:mt-12 mx-auto w-full relative text-center bg-blue-600 text-white">
+  <div className="px-6 py-8 md:py-14 xl:pt-10 xl:pb-12">
     <h2 className="font-bold text-3xl xl:text-4xl leading-snug">
         Ready to Make a Difference?
       <br />
-      {/* Start your free trial today. */}
+       {/* Start your free trial today.  */}
     </h2>
     <a
-      className="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-blue-800 rounded-full shadow-xl border border-transparent hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-999 focus:ring-sky-500"
+      className="mt-8 xl:mt-2 px-6 py-3 text-md font-medium leading-tight inline-block bg-blue-800 rounded-full shadow-xl border border-transparent hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-999 focus:ring-sky-500"
       href="/login"
     >
       Get started
     </a>
-    <div className="mt-14 xl:mt-20">
+    <div className="mt-4 xl:mt-5">
       <nav className="flex flex-wrap justify-center text-lg font-medium">
         {/* <div className="px-5 py-2">
           <a href="#">Contact</a>

@@ -1,26 +1,29 @@
 "use client";
 import Nav from "@/components/Navbar";
 import React, { useState } from "react";
+import { useRouter } from 'next/router';
 
 const LoginPage: React.FC = () => {
+  
   // State for username, password, and error message
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const router = useRouter();
 
   // Function to handle login
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    
     setError(""); // Reset error
-
+  
     if (username === "admin" && password === "admin") {
       setIsLoggedIn(true);
+      router.push("/national/home"); // Redirect on successful login
     } else {
       setError("Invalid username or password.");
-    }
-  };
-
+    }}
   return (
     <div className="h-screen flex flex-col md:flex-row">
         <Nav/>
