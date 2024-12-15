@@ -131,7 +131,7 @@ const DisasterAwarenessApp = () => {
     setError(null);
     
     try {
-      const response = await fetch('http://localhost:5000/general', {
+      const response = await fetch('https://vertexapi-96420221158.us-central1.run.app/general', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,6 +165,7 @@ const DisasterAwarenessApp = () => {
 
 
 const readOutLoud = () => {
+  setIsListening(true);
   if (currentCaseStudy && currentCaseStudy.description) {
     // Convert Markdown to plain text
     const plainTextDescription = marked(currentCaseStudy.description).replace(/<\/?[^>]+(>|$)/g, "");
