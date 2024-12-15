@@ -16,10 +16,15 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
-  const [activeTab, setActiveTab] = useState(
-    localStorage.getItem("activeTab") || "home"
-  );
+  const [activeTab, setActiveTab] = useState("home");
 
+  useEffect(() => {
+    const storedTab = localStorage.getItem("activeTab");
+    if (storedTab) {
+      setActiveTab(storedTab);
+    }
+  }, []);
+  
   const navigationItems = [
     { id: "home", name: "Home", icon: HomeIcon },
     { id: "profile", name: "Profile", icon: User2Icon },
