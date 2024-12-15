@@ -143,7 +143,7 @@ export default function StateHeader() {
                   <div className="flex-shrink-0">
                     <img
                       className="rounded-full w-11 h-11"
-                      src="/images/users/bonnie-green.png"
+                      src=""
                       alt="Jese image"
                     />
                     <div className="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 border border-white rounded-full bg-primary-700">
@@ -178,7 +178,7 @@ export default function StateHeader() {
                   <div className="flex-shrink-0">
                     <img
                       className="rounded-full w-11 h-11"
-                      src="/images/users/jese-leos.png"
+                      src=""
                       alt="Jese image"
                     />
                     <div className="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-gray-900 border border-white rounded-full">
@@ -215,7 +215,7 @@ export default function StateHeader() {
                   <div className="flex-shrink-0">
                     <img
                       className="rounded-full w-11 h-11"
-                      src="/images/users/joseph-mcfall.png"
+                      src=""
                       alt="Joseph image"
                     />
                     <div className="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-red-600 border border-white rounded-full">
@@ -256,7 +256,7 @@ export default function StateHeader() {
                   <div className="flex-shrink-0">
                     <img
                       className="rounded-full w-11 h-11"
-                      src="/images/users/leslie-livingston.png"
+                      src=""
                       alt="Leslie image"
                     />
                     <div className="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-green-400 border border-white rounded-full">
@@ -294,7 +294,7 @@ export default function StateHeader() {
                   <div className="flex-shrink-0">
                     <img
                       className="rounded-full w-11 h-11"
-                      src="/images/users/robert-brown.png"
+                      src=""
                       alt="Robert image"
                     />
                     <div className="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-purple-500 border border-white rounded-full">
