@@ -195,16 +195,17 @@ const readOutLoud = () => {
       <Nav/>
       <div className="bg-white mx-auto p-8 space-y-8">
   {/* Header Section */}
-  <div className="border-b-2 mt-16 flex items-center space-x-4">
-    <AlertTriangle className="text-orange-500 w-8 h-8" />
-    <h2 className="text-2xl font-bold text-gray-800">
+  <div className=" mt-16 flex items-center justify-center space-x-4 w-full my-10">
+    {/* <AlertTriangle className="text-orange-500 w-8 h-8" /> */}
+    <h2 className="text-4xl font-bold text-gray-800 text-center">
       Disaster Readiness Challenge
     </h2>
   </div>
 
   {/* Why Preparedness Section */}
-  <div className="bg-blue-50 p-6 rounded-lg shadow-md space-y-6">
-    <h3 className="text-xl font-bold text-blue-500">
+  <div className=''>
+  <div className="bg-slate-50 p-6 rounded-lg shadow-md space-y-6 my-5">
+    <h3 className="text-xl font-bold text-blue-600">
       Why Should We Be Prepared?
     </h3>
     <p className="text-gray-700">
@@ -246,10 +247,11 @@ const readOutLoud = () => {
       </li>
     </ul>
   </div>
+  </div>
 
   {/* Learning from Case Studies Section */}
-  <div className="bg-blue-50 p-6 rounded-lg shadow-md space-y-6">
-    <h3 className="text-xl font-bold text-blue-500">
+  <div className="bg-slate-50 p-6 rounded-lg shadow-md space-y-6 my-10">
+    <h3 className="text-xl font-bold text-blue-600">
       Learning from Case Studies
     </h3>
     <p className="text-gray-700">
