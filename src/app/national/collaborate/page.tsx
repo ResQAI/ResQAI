@@ -8,7 +8,7 @@ import React from "react";
 const page = () => {
   return (
     <UserAuthProvider>
-      <div className="flex h-screen bg-gray-200">
+      <div className="flex h-full bg-gray-200">
         <div className="w-1/3 bg-white border-r border-gray-200 flex flex-col ">
           <ChatHeader />
           <ChatContacts />
