@@ -118,11 +118,13 @@ export default function NationalHeader() {
                 ></path>
               </svg>
             </button>
+            <a href="/national/sendnotification">
             <button
               type="button"
               data-dropdown-toggle="notification-dropdown"
               className="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100"
             >
+
               <span className="sr-only">View notifications</span>
               {/* <svg
                 className="w-6 h-6"
@@ -134,6 +136,7 @@ export default function NationalHeader() {
               </svg> */}
               <Bell size={24} className="m-2 stroke-black" />
             </button>
+            </a>
             
             <div
               id="tooltip-toggle"
