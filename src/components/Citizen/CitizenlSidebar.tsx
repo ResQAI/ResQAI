@@ -69,7 +69,8 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
               </li>
             ))}
           </ul>
-          <Button className="w-full text-lg" color="red">Help Me</Button>
+          <a href="/citizen/saveme">
+          <Button className="w-full text-lg" color="red">Help Me</Button></a>
         </div>
       </aside>
     </>
