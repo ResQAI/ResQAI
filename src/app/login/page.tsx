@@ -1,37 +1,40 @@
 "use client";
 import Nav from "@/components/Navbar";
 import React, { useState } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/navigation";
 
 const LoginPage: React.FC = () => {
-  
   // State for username, password, and error message
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
   const router = useRouter();
 
   // Function to handle login
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     setError(""); // Reset error
-  
+
     if (username === "admin" && password === "admin") {
       setIsLoggedIn(true);
       router.push("/national/home"); // Redirect on successful login
     } else {
       setError("Invalid username or password.");
-    }}
+    }
+  };
   return (
     <div className="h-screen flex flex-col md:flex-row">
-        <Nav/>
+      <Nav />
       {/* Left Section */}
       <div className="flex w-full md:w-1/2 bg-gradient-to-tr from-blue-200 to-blue-600 justify-around items-center p-6">
         <div>
           <h1 className="text-white font-bold text-4xl font-sans">ResQAI</h1>
-          <p className="text-gray-700 mt-1">The most popular peer-to-peer lending platform</p>
+          <p className="text-gray-700 mt-1">
+            The most popular peer-to-peer lending platform
+          </p>
           <button
             type="button"
             className="block w-28 bg-blue-500 text-white mt-4 py-2 rounded-2xl font-bold mb-2 hover:bg-blue-600"
@@ -45,12 +48,18 @@ const LoginPage: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
           {isLoggedIn ? (
             <div className="text-center">
-              <h3 className="text-blue-500 font-semibold text-lg">Welcome, Admin!</h3>
+              <h3 className="text-blue-500 font-semibold text-lg">
+                Welcome, Admin!
+              </h3>
             </div>
           ) : (
             <form onSubmit={handleLogin}>
-              <h1 className="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
-              <p className="text-sm font-normal text-gray-600 mb-7">Welcome Back</p>
+              <h1 className="text-gray-800 font-bold text-2xl mb-1">
+                Hello Again!
+              </h1>
+              <p className="text-sm font-normal text-gray-600 mb-7">
+                Welcome Back
+              </p>
 
               <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
                 <svg
