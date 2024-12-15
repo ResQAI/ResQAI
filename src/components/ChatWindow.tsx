@@ -59,7 +59,7 @@ const ChatWindow = () => {
                     ${message.senderId === user!.id ? "bg-blue-700" : "bg-blue-500"}
                   `}
                 >
-                  <div>{message.content}</div>
+                  <div className='text-white'>{message.content}</div>
                   <div className="text-xs text-white text-right">
                     {message.time}
                   </div>
