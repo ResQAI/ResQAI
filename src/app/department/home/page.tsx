@@ -245,16 +245,16 @@ const DepartmentPage = () => {
   };
 
   return (
-    <div className="content min-h-[92vh] flex pt-5 flex-wrap">
-      <div className="w-1/2 flex-1 p-4 font-medium">
+    <div className="content min-h-[92vh] overflow-scroll flex pt-5 flex-wrap">
+      {/* <div className="w-1/2 flex-1 p-4 font-medium">
         <NationalListSide />
       </div>
       <div className="w-1/2 flex-1 bg-white">
         <NationalHomeToggleArea />
-      </div>
+      </div> */}
 
       {/*Assigned Tasks*/}
-      <div className="w-full p-6">
+      <div className="w-full p-6 ">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-semibold text-gray-900">
             Assigned Tasks
