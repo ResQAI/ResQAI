@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FileText, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
 import jsPDF from "jspdf";
 import { AiOutlineLoading } from "react-icons/ai";
+import { baseUrl } from "@/constants";
 
 const DisasterSituationReport = () => {
   const [disasterData, setDisasterData] = useState<
@@ -154,7 +155,7 @@ const DisasterSituationReport = () => {
         (disaster) => disaster.name === selectedDisaster
       );
       console.log(disasterByName);
-  
+
       const prompt =
         "Make a structured JSON object as following: \n" +
         `{
@@ -269,9 +270,9 @@ const DisasterSituationReport = () => {
         JSON.stringify(disasterByName) +
         "\n\n" +
         "Don't use the previous reports instead analyze the current situation and add sample details. Don't leave empty fields.";
-  
+
       console.log(prompt);
-  
+
       const response = await fetch("http://localhost:5000/pro-model", {
         method: "POST",
         headers: {
@@ -279,29 +280,31 @@ const DisasterSituationReport = () => {
         },
         body: JSON.stringify({ query: prompt }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`API call failed with status: ${response.status}`);
       }
-  
+
       const data = await response.json();
       const text = data.response;
-  
+
       // Extract JSON string between markers
       const jsonString = text.replace(/```json\n([\s\S]*?)```/gm, "$1").trim();
       const parsedData = JSON.parse(jsonString);
-  
+
       console.log(parsedData);
       setFormData(parsedData);
       setIsLoading(false);
     } catch (error) {
       console.error("Error in handleAIAutofill:", error);
-  
+
       if (retryCount < 3) {
         console.log(`Retrying API call (${retryCount + 1}/3)...`);
         await handleAIAutofill(retryCount + 1); // Retry the function
       } else {
-        console.error("Failed after 3 retries. Please check the API or the input data.");
+        console.error(
+          "Failed after 3 retries. Please check the API or the input data."
+        );
       }
     }
   };
@@ -609,10 +612,10 @@ const DisasterSituationReport = () => {
       disasterId: id,
     };
 
-    // Send data to API
+    console.log(reportData);
     try {
       const response = await fetch(
-        "/api/nationalDisasterCommittee/situationshipReports",
+        `${baseUrl}/api/nationalDisasterCommittee/situationshipReports`,
         {
           method: "POST",
           headers: {
@@ -707,17 +710,19 @@ const DisasterSituationReport = () => {
           </div>
           {selectedDisaster != null ? (
             <button
-            onClick={handleAIAutofill}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            disabled={isLoading} // Disable button when loading
-          >
-            {isLoading ? (
-              <AiOutlineLoading className="animate-spin" size={16} />
-            ) : (
-              <Sparkles size={16} />
-            )}
-            <span className="text-lg">{isLoading ? "Loading..." : "AI Autofill"}</span>
-          </button>
+              onClick={handleAIAutofill}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              disabled={isLoading} // Disable button when loading
+            >
+              {isLoading ? (
+                <AiOutlineLoading className="animate-spin" size={16} />
+              ) : (
+                <Sparkles size={16} />
+              )}
+              <span className="text-lg">
+                {isLoading ? "Loading..." : "AI Autofill"}
+              </span>
+            </button>
           ) : (
             <button className="flex cursor-not-allowed items-center space-x-2 px-4 py-2 bg-blue-300 text-white rounded-lg transition-colors">
               <Sparkles size={16} />
@@ -748,30 +753,6 @@ const DisasterSituationReport = () => {
 
         {/* Quick Response and PDF Generation */}
         <div className="space-y-6">
-          <div className="bg-white border border-gray-200 rounded-lg">
-            <div
-              onClick={() => toggleSection("quickResponse")}
-              className="p-4 border-b border-gray-200 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors"
-            >
-              <h3 className="text-lg font-medium text-gray-800">
-                Quick Response
-              </h3>
-              {expandedSections.quickResponse ? <ChevronUp /> : <ChevronDown />}
-            </div>
-            {expandedSections.quickResponse && (
-              <textarea
-                placeholder="Provide a quick summary of the response efforts"
-                value={formData.quickResponse}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    quickResponse: e.target.value,
-                  }))
-                }
-                className="w-full p-4 min-h-[300px] focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            )}
-          </div>
           {selectedDisaster != null ? (
             <button
               onClick={generatePDF}

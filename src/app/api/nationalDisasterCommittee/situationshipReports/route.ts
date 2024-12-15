@@ -19,6 +19,9 @@ export async function POST(req: Request) {
       "submissionTime",
     ]);
 
+    console.log(errors);
+
+
     if (!isValid) {
       return NextResponse.json({ success: false, errors }, { status: 400 });
     }
