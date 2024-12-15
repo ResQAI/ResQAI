@@ -109,6 +109,110 @@ const page = () => {
 
   //   addData();
   // }, []);
+
+  // useEffect(() => {
+  //   async function addData() {
+  //     const sampleIncomingDisasters = [
+  //       {
+  //         disasterId: "106d3dd6-901b-4d6d-b66e-c53769273601",
+  //         name: "Emergency Evacuation",
+  //         status: "completed",
+  //         departmentConcerned: "Transport",
+  //         description:
+  //           "Coordinate evacuation of coastal areas before hurricane landfall",
+  //         startTime: new Date("2024-12-15"),
+  //         statusUpdates: [],
+  //         estimatedTime: 8,
+  //         isFailed: false,
+  //       },
+  //       {
+  //         disasterId: "106d3dd6-901b-4d6d-b66e-c53769273601",
+  //         name: "Food Supply Distribution",
+  //         status: "completed",
+  //         departmentConcerned: "Food",
+  //         description:
+  //           "Distribute emergency food supplies to evacuation centers",
+  //         startTime: new Date("2024-12-14"),
+  //         statusUpdates: [],
+  //         estimatedTime: 2,
+  //         isFailed: false,
+  //       },
+  //       {
+  //         disasterId: "106d3dd6-901b-4d6d-b66e-c53769273601",
+  //         name: "Water Supply Management",
+  //         status: "in-progress",
+  //         departmentConcerned: "Water Resources",
+  //         description:
+  //           "Restore water supply to affected areas and ensure clean drinking water availability",
+  //         startTime: new Date("2024-12-16"),
+  //         statusUpdates: [],
+  //         estimatedTime: 6,
+  //         isFailed: true,
+  //       },
+  //       {
+  //         disasterId: "106d3dd6-901b-4d6d-b66e-c53769273601",
+  //         name: "Urban Infrastructure Assessment",
+  //         status: "in-progress",
+  //         departmentConcerned: "Urban Affairs",
+  //         description:
+  //           "Assess damage to urban infrastructure and identify critical repair needs",
+  //         startTime: new Date("2024-12-16"),
+  //         statusUpdates: [
+  //           {
+  //             currentStatus: "40% of critical infrastructure assessed",
+  //             timestamp: new Date("2024-12-16"),
+  //             personnelCount: 25,
+  //             additionalTimeNeeded: 3,
+  //             resources: [
+  //               "Structural Assessment Tools",
+  //               "Drones",
+  //               "GPS Equipment",
+  //             ],
+  //             departments: [
+  //               "Urban Affairs",
+  //               "Civil Engineering",
+  //               "Public Works",
+  //             ],
+  //             additionalResources: [
+  //               "More assessment teams needed",
+  //               "Advanced scanning equipment required",
+  //             ],
+  //           },
+  //         ],
+  //         estimatedTime: 3,
+  //         isFailed: false,
+  //       },
+  //       {
+  //         disasterId: "106d3dd6-901b-4d6d-b66e-c53769273601",
+  //         name: "Agricultural Damage Assessment",
+  //         status: "pending",
+  //         departmentConcerned: "Agriculture",
+  //         description:
+  //           "Survey and document agricultural damage in affected regions",
+  //         startTime: new Date("2024-12-17"),
+  //         statusUpdates: [],
+  //         estimatedTime: 4,
+  //         isFailed: false,
+  //       },
+  //     ];
+
+  //     for (let i = 0; i < sampleIncomingDisasters.length; i++) {
+  //       const res = await fetch(
+  //         "http://localhost:3000/api/nationalDisasterCommittee/responsePlan",
+  //         {
+  //           method: "POST",
+  //           body: JSON.stringify(sampleIncomingDisasters[i]),
+  //         }
+  //       );
+
+  //       const data = await res.json();
+  //       console.log(data);
+  //       console.log("Response Plan added successfully");
+  //     }
+  //   }
+
+  //   addData();
+  // }, []);
   return (
     <div className="flex gap-4 h-screen items-start justify-center">
       {/* Left Half */}

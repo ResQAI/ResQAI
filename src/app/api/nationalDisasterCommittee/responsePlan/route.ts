@@ -23,6 +23,7 @@ export async function POST(req: Request) {
       "statusUpdates"
     ]);
 
+    console.log(errors);
     if (!isValid) {
       return NextResponse.json({ success: false, errors }, { status: 400 });
     }
