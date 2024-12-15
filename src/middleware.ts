@@ -1,20 +1,22 @@
-import { validateToken } from "./utils/validateToken";
-import { NextResponse } from "next/server";
+import { jwtVerify } from 'jose';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function middleware(req: Request) {
-  // const token = req.headers.get("Authorization")?.split(" ")[1];
+const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
-  // if (!token) {
-  //   return NextResponse.redirect(new URL("/login", req.url));
-  // }
+export async function middleware(req: NextRequest) {
+  const token = req.cookies.get('Authorization')?.value;
 
-  // const { valid, error } = validateToken(token);
+  if (!token) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
 
-  // if (error || !valid) {
-  //   return NextResponse.redirect(new URL("/login", req.url));
-  // }
-
-  return NextResponse.next();
+  try {
+    await jwtVerify(token, secret);
+    return NextResponse.next();
+  } catch (error) {
+    console.log(error);
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
 }
 
 export const config = {

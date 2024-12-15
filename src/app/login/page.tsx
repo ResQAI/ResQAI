@@ -13,15 +13,28 @@ const LoginPage: React.FC = () => {
   const router = useRouter();
 
   // Function to handle login
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setError(""); // Reset error
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    if (username === "admin" && password === "admin") {
-      setIsLoggedIn(true);
-      router.push("/national/home"); // Redirect on successful login
-    } else {
+      if (!res.ok) {
+        throw new Error("Invalid username or password.");
+      }
+
+      const data = await res.json();
+
+      router.push("/national/home");
+
+      setError(""); // Reset error
+    } catch (error) {
       setError("Invalid username or password.");
     }
   };
@@ -30,29 +43,32 @@ const LoginPage: React.FC = () => {
       <Nav />
       {/* Left Section */}
       <div className="flex w-full md:w-1/2 bg-gradient-to-tr from-blue-200 to-blue-600 justify-around items-center p-6">
-      <div className=" p-24 fle text-center">
-  <h1 className="text-white font-bold text-5xl  mb-12 font-sans">ResQAI</h1>
-  <p className=" mt-3 text-xl mb-10 px-5 ">
-    Leveraging AI to revolutionize disaster management and provide real-time assistance during emergencies. 
-    Our mission is to save lives and mitigate risks with cutting-edge technology.
-  </p>
-  <div className=""></div>
-  <ul className="mt-4 flex grid grid-cols-2 text- gap-5  text-xl text-left list-disc ml-12" >
-    <li> Real-time disaster tracking and updates</li>
-    <li> AI-powered risk assessment and resource allocation</li>
-    <li> Seamless communication and coordination during crises</li>
-    <li>Actionable insights for better preparedness</li>
-  </ul>
-  
-  <button
-    type="button"
-    className="block w-36 mx-auto bg-blue-600 text-white mt-12 py-3 text-lg rounded-2xl font-bold mb-4 hover:bg-blue-700 transition duration-200"
-  >
-    <a href="/#features" className="block w-full h-full">
-      Learn More
-    </a>
-  </button>
-</div>
+        <div className=" p-24 fle text-center">
+          <h1 className="text-white font-bold text-5xl  mb-12 font-sans">
+            ResQAI
+          </h1>
+          <p className=" mt-3 text-xl mb-10 px-5 ">
+            Leveraging AI to revolutionize disaster management and provide
+            real-time assistance during emergencies. Our mission is to save
+            lives and mitigate risks with cutting-edge technology.
+          </p>
+          <div className=""></div>
+          <ul className="mt-4 flex grid grid-cols-2 text- gap-5  text-xl text-left list-disc ml-12">
+            <li> Real-time disaster tracking and updates</li>
+            <li> AI-powered risk assessment and resource allocation</li>
+            <li> Seamless communication and coordination during crises</li>
+            <li>Actionable insights for better preparedness</li>
+          </ul>
+
+          <button
+            type="button"
+            className="block w-36 mx-auto bg-blue-600 text-white mt-12 py-3 text-lg rounded-2xl font-bold mb-4 hover:bg-blue-700 transition duration-200"
+          >
+            <a href="/#features" className="block w-full h-full">
+              Learn More
+            </a>
+          </button>
+        </div>
       </div>
       {/* Right Section */}
       <div className="flex w-full md:w-1/2 justify-center items-center bg-slate-100 p-6">

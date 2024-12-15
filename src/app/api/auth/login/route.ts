@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { db } from "@/utils/firebase";
 import { getDoc, doc } from "firebase/firestore";
+import { cookies } from "next/headers";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -44,6 +45,9 @@ export async function POST(req: Request) {
       const token = jwt.sign({ username: body.username }, JWT_SECRET, {
         expiresIn: TOKEN_EXPIRATION,
       });
+      const cookieStore = await cookies()
+ 
+      cookieStore.set('Authorization', token);
       return NextResponse.json({ success: true, token });
     } else {
       return NextResponse.json(
