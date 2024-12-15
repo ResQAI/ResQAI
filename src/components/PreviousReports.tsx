@@ -37,6 +37,7 @@ const PreviousReports = () => {
     const convertTimes = (reports) => {
       if (typeof reports === "undefined" || reports.length === 0) return [];
       return reports.map((report) => {
+        console.log(report);
         const convertTime = (time) => new Date(time);
         return {
           ...report,
