@@ -288,7 +288,7 @@ const AlertNotificationPage = () => {
       }
     } else if (selectionType === "Specific" && selectedDisaster !== "") {
       const response = await fetch(
-        "http://localhost:3000/api/nationalDisasterCommittee/disasterNotifications",
+        "/api/nationalDisasterCommittee/disasterNotifications",
         {
           method: "post",
           headers: {
