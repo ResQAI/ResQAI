@@ -1,12 +1,12 @@
 import NationalHomeToggleArea from "@/components/National/NationalHomeToggle";
 import NationalListSide from "@/components/National/NationalListSide";
 import React from "react";
-import Profile from "@/components/Profile";
+import NationalProfile from "@/components/National/NationalProfile";
 
 const page = () => {
   return (
     <div className="flex h-screen items-start justify-center">
-      <Profile/>
+      <NationalProfile />
     </div>
   );
 };
