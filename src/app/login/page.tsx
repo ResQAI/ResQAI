@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
       if (!res.ok) {
         throw new Error("Invalid username or password.");
       }
-
+      setIsLoggedIn(true);
       const data = await res.json();
 
       router.push("/national/home");
