@@ -115,10 +115,10 @@ const NationalDisasterTracker: React.FC = () => {
 
   // Severity color mapping
   const severityColors = {
-    Low: "bg-green-100 text-green-800",
-    Medium: "bg-yellow-100 text-yellow-800",
-    High: "bg-orange-100 text-orange-800",
-    Critical: "bg-red-100 text-red-800",
+    low: "bg-green-100 text-green-800",
+    medium: "bg-yellow-100 text-yellow-800",
+    high: "bg-orange-100 text-orange-800",
+    critical: "bg-red-100 text-red-800",
   };
 
   // Filtered and sorted disasters
@@ -126,12 +126,11 @@ const NationalDisasterTracker: React.FC = () => {
     return disasters
       .filter(
         (disaster) =>
-          (!filter.severity || disaster.level === filter.severity) &&
+          (!filter.severity || disaster.level.toLowerCase() === filter.severity.toLowerCase()) &&
           (!filter.type ||
-            disaster.tags.some(
-              (tag) => tag.type.toLowerCase() === filter.type.toLowerCase()
-            ))
-      )
+            disaster.tags?.some(
+              (tag) => tag.toLowerCase() === filter.type.toLowerCase() )))
+      
       .sort((a, b) => b.startTime - a.startTime);
   }, [disasters, filter]);
 
@@ -246,11 +245,11 @@ const NationalDisasterTracker: React.FC = () => {
             className="bg-white shadow-md rounded-lg p-5 flex justify-between items-center border-l-4"
             style={{
               borderColor: {
-                Low: "green",
-                Medium: "yellow",
-                High: "orange",
-                Critical: "red",
-              }[disaster.level],
+                low: "green",
+                medium: "yellow",
+                high: "orange",
+                critical: "red",
+              }[disaster.level.toLowerCase()],
             }}
           >
             <div className="flex-1">
@@ -260,7 +259,7 @@ const NationalDisasterTracker: React.FC = () => {
                 </h2>
                 <span
                   className={`px-2 py-1 rounded text-xs font-semibold ${
-                    severityColors[disaster.level]
+                    severityColors[disaster.level.toLowerCase()]
                   }`}
                 >
                   {disaster.level}

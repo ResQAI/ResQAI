@@ -31,9 +31,9 @@ const NationalListSide: React.FC = ({ setDisaster }: { setDisaster: any }) => {
         // onClick={() =>
         //   setMapView({ lat: 20.5937, lng: 78.9629, zoom: 5 }) // India
         // }
-        lat={20.5937}
-        lng={78.9629}
-        zoom={5}
+        lat={39}
+        lng={260.5348}
+        zoom={4}
         setDisaster={setDisaster}
       />
     </div>

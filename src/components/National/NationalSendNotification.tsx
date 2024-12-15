@@ -172,10 +172,10 @@ const AlertNotificationPage = () => {
     }
   };
 
-  const filteredAlerts = alerts.filter(
+  const filteredAlerts = notifications.filter(
     (alert) =>
-      (!filters.urgency || alert.urgency === filters.urgency) &&
-      (!filters.status || alert.status === filters.status)
+      (!filters.urgency || alert.urgency.toLowerCase() === filters.urgency.toLowerCase()) &&
+      (!filters.status || alert.status.toLowerCase() === filters.status.toLowerCase())
   );
 
   const tabs = [
@@ -701,14 +701,14 @@ const AlertNotificationPage = () => {
                     onChange={(e) =>
                       setFilters((prev) => ({
                         ...prev,
-                        urgency: e.target.value,
+                        urgency: e.target.value.toLowerCase(),
                       }))
                     }
                     className="p-2 border rounded-lg"
                   >
                     <option value="">All Urgencies</option>
                     {["Critical", "High", "Medium", "Low"].map((level) => (
-                      <option key={level} value={level}>
+                      <option key={level} value={level.toLowerCase()}>
                         {level}
                       </option>
                     ))}
@@ -718,7 +718,7 @@ const AlertNotificationPage = () => {
                     onChange={(e) =>
                       setFilters((prev) => ({
                         ...prev,
-                        status: e.target.value,
+                        status: e.target.value.toLowerCase(),
                       }))
                     }
                     className="p-2 border rounded-lg"
@@ -741,7 +741,7 @@ const AlertNotificationPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {notifications.map((alert) => (
+                    {filteredAlerts.map((alert) => (
                       <tr
                         key={alert.id}
                         className="border-b hover:bg-gray-50 transition-colors"
@@ -752,11 +752,11 @@ const AlertNotificationPage = () => {
                             className={`
                             px-2 py-1 rounded-full text-xs font-semibold
                             ${
-                              alert.urgency === "critical"
+                              alert.urgency.toLowerCase() === "critical"
                                 ? "bg-red-100 text-red-800"
-                                : alert.urgency === "high"
+                                : alert.urgency.toLowerCase() === "high"
                                 ? "bg-orange-100 text-orange-800"
-                                : alert.urgency === "medium"
+                                : alert.urgency.toLowerCase() === "medium"
                                 ? "bg-yellow-100 text-yellow-800"
                                 : "bg-green-100 text-green-800"
                             }

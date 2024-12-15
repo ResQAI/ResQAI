@@ -298,9 +298,9 @@ const WeatherCards: React.FC = () => {
                 <p className="text-lg font-bold text-gray-800 mb-1">
                   {data.temperature}°C
                 </p>
-                <p className="text-blue-600 text-xs font-medium hover:text-blue-800 cursor-pointer transition-colors">
+                {/* <p className="text-blue-600 text-xs font-medium hover:text-blue-800 cursor-pointer transition-colors">
                   View detailed analysis & historical data →
-                </p>
+                </p> */}
               </div>
             </div>
           ))}
