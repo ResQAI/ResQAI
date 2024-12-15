@@ -10,27 +10,110 @@ const DisasterSituationReport = () => {
   const [selectedDisaster, setSelectedDisaster] = useState(null);
   const [formData, setFormData] = useState({
     disasterStatus: {
-      weatherCondition: "",
-      affectedAreas: "",
-      affectedPopulation: "",
+      weatherCondition: {
+        primary: "",
+        details: [],
+        severity: 0,
+      },
+      affectedAreas: [
+        {
+          name: "",
+          coordinates: {
+            latitude: 0,
+            longitude: 0,
+          },
+          impactLevel: 0,
+        },
+      ],
+      affectedPopulation: {
+        total: 0,
+        demographics: {
+          children: 0,
+          adults: 0,
+          elderly: 0,
+        },
+        vulnerableGroups: [],
+      },
     },
     casualties: {
-      types: "",
-      firstAid: "",
-      communication: "",
+      types: [
+        {
+          category: "",
+          count: 0,
+        },
+      ],
+      firstAid: [
+        {
+          treatmentType: "",
+          treatmentLocation: "",
+          personnelInvolved: 0,
+        },
+      ],
+      communication: {
+        status: "operational" as const,
+        methods: [],
+      },
     },
     materialFlow: {
-      foodMaterials: "",
-      airDropping: "",
-      transport: "",
-      medicalAid: "",
+      foodMaterials: [
+        {
+          type: "",
+          quantity: 0,
+          distributionMethod: "",
+        },
+      ],
+      airDropping: {
+        active: false,
+        frequency: 0,
+        locations: [],
+      },
+      transport: [
+        {
+          type: "",
+          capacity: 0,
+          activeVehicles: 0,
+        },
+      ],
+      medicalAid: [
+        {
+          type: "",
+          quantity: 0,
+          destination: {
+            latitude: 0,
+            longitude: 0,
+          },
+        },
+      ],
     },
     teamArrival: {
-      centralTeams: "",
-      internationalTeams: "",
-      others: "",
+      centralTeams: [
+        {
+          name: "",
+          arrivalTime: Date.now(),
+          personnelCount: 0,
+        },
+      ],
+      internationalTeams: [
+        {
+          country: "",
+          organizationName: "",
+          arrivalTime: Date.now(),
+          personnelCount: 0,
+        },
+      ],
+      others: [
+        {
+          name: "",
+          type: "",
+          arrivalTime: Date.now(),
+        },
+      ],
     },
-    quickResponse: "",
+    summary: {
+      overview: "",
+      criticalObservations: [],
+      recommendedActions: [],
+    },
   });
 
   // New state to track which sections are expanded
@@ -62,34 +145,6 @@ const DisasterSituationReport = () => {
   };
 
   const handleAIAutofill = () => {
-    const mockAIData = {
-      disasterStatus: {
-        weatherCondition: "Severe Tropical Cyclone",
-        affectedAreas: "Coastal Regions of Southeast Asia",
-        affectedPopulation: "250,000 People",
-      },
-      casualties: {
-        types: "Flooding, Wind Damage, Infrastructure Collapse",
-        firstAid: "Emergency Medical Shelters Established",
-        communication: "Satellite and Mobile Communication Deployed",
-      },
-      materialFlow: {
-        foodMaterials: "Emergency Food Kits Dispatched",
-        airDropping: "Humanitarian Supplies via Helicopter",
-        transport: "Road and Maritime Rescue Corridors Opened",
-        medicalAid: "Field Hospitals and Medical Supplies Mobilized",
-      },
-      teamArrival: {
-        centralTeams: "National Disaster Response Force Deployed",
-        internationalTeams: "UN Humanitarian Assistance Team Arrived",
-        others: "Local NGO Support Coordinated",
-      },
-      quickResponse:
-        "Immediate evacuation of vulnerable populations, establishment of emergency shelters, and initiation of search and rescue operations. Coordinated efforts between local authorities, national government, and international aid organizations to mitigate disaster impact and provide essential support.",
-    };
-
-    setFormData(mockAIData);
-  };
 
   // PDF Generation Function (remains the same as previous implementation)
   const generatePDF = () => {
@@ -279,12 +334,80 @@ const DisasterSituationReport = () => {
   };
 
   // Reusable section renderer
-  const renderSection = (title, sectionKey, fields) => {
+  const renderField = (
+    value: any,
+    path: string[],
+    onChange: (value: any) => void
+  ) => {
+    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      return Object.entries(value).map(([key, val]) => (
+        <div key={key} className="ml-4">
+          <label className="block text-sm font-medium text-gray-700">
+            {key}
+          </label>
+          {renderField(val, [...path, key], (newVal) => {
+            const newValue = { ...value, [key]: newVal };
+            onChange(newValue);
+          })}
+        </div>
+      ));
+    }
+
+    if (Array.isArray(value)) {
+      return (
+        <div className="flex flex-col space-y-2">
+          {value.map((item, index) => (
+            <div key={index} className="flex items-center space-x-2">
+              {renderField(item, [...path, index.toString()], (newVal) => {
+                const newArray = [...value];
+                newArray[index] = newVal;
+                onChange(newArray);
+              })}
+            </div>
+          ))}
+          <button
+            onClick={() =>
+              onChange([...value, Array.isArray(value[0]) ? [] : ""])
+            }
+            className="text-blue-500 text-sm"
+          >
+            + Add Item
+          </button>
+        </div>
+      );
+    }
+
+    if (typeof value === "boolean") {
+      return (
+        <input
+          type="checkbox"
+          checked={value}
+          onChange={(e) => onChange(e.target.checked)}
+          className="rounded border-gray-300"
+        />
+      );
+    }
+
+    return (
+      <input
+        type={typeof value === "number" ? "number" : "text"}
+        value={value}
+        onChange={(e) =>
+          onChange(
+            typeof value === "number" ? Number(e.target.value) : e.target.value
+          )
+        }
+        className="w-full p-2 border border-gray-300 rounded-md"
+      />
+    );
+  };
+
+  const renderSection = (title: string, sectionKey: string, data: any) => {
     return (
       <div className="mb-6 border border-gray-200 rounded-lg">
         <div
           onClick={() => toggleSection(sectionKey)}
-          className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+          className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50"
         >
           <h3 className="text-lg font-medium text-gray-800">{title}</h3>
           {expandedSections[sectionKey] ? <ChevronUp /> : <ChevronDown />}
@@ -292,20 +415,12 @@ const DisasterSituationReport = () => {
 
         {expandedSections[sectionKey] && (
           <div className="p-4">
-            {fields.map((field) => (
-              <input
-                key={field}
-                type="text"
-                placeholder={field
-                  .replace(/([A-Z])/g, " $1")
-                  .replace(/^./, (str) => str.toUpperCase())}
-                value={formData[sectionKey][field]}
-                onChange={(e) =>
-                  handleChange(sectionKey, field, e.target.value)
-                }
-                className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            ))}
+            {renderField(data, [sectionKey], (newValue) => {
+              setFormData((prev) => ({
+                ...prev,
+                [sectionKey]: newValue,
+              }));
+            })}
           </div>
         )}
       </div>
@@ -451,27 +566,19 @@ const DisasterSituationReport = () => {
       <main className="flex-grow max-w-8xl w-full mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
         {/* Form Sections */}
         <div className="space-y-6">
-          {renderSection("Disaster Status", "disasterStatus", [
-            "weatherCondition",
-            "affectedAreas",
-            "affectedPopulation",
-          ])}
-          {renderSection("Casualties", "casualties", [
-            "types",
-            "firstAid",
-            "communication",
-          ])}
-          {renderSection("Material Flow", "materialFlow", [
-            "foodMaterials",
-            "airDropping",
-            "transport",
-            "medicalAid",
-          ])}
-          {renderSection("Team Arrival", "teamArrival", [
-            "centralTeams",
-            "internationalTeams",
-            "others",
-          ])}
+          {renderSection(
+            "Disaster Status",
+            "disasterStatus",
+            formData.disasterStatus
+          )}
+          {renderSection("Casualties", "casualties", formData.casualties)}
+          {renderSection(
+            "Material Flow",
+            "materialFlow",
+            formData.materialFlow
+          )}
+          {renderSection("Team Arrival", "teamArrival", formData.teamArrival)}
+          {renderSection("Summary", "summary", formData.summary)}
         </div>
 
         {/* Quick Response and PDF Generation */}
