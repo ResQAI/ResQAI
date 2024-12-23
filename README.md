@@ -2,7 +2,6 @@
 
 **ResQAI** is an advanced disaster response and management system designed to enhance coordination among government agencies, citizens, volunteers, and NGOs during natural calamities like earthquakes, floods, and cyclones. By leveraging AI and real-time data, ResQAI aims to improve response times, predict resource needs, and streamline communication among all stakeholders.
 
-<br/>
 
 ## Complete Project Demonstration Video ▶️
 
