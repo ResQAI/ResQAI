@@ -129,7 +129,8 @@ Ensure you have the following installed:
 3. **Situational Reports**:
 
    - Generate detailed reports with AI assistance.
-   - Use Gemini and Vertex AI for autofill functionality based on historical data and real-time inputs.
+   - Use Gemini-1.5 Flash 001 and Vertex AI for autofill functionality based on historical data and real-time inputs.
+   - Generate detailed analysis on stored reports on disaster using Gemini-1.5 Pro-002.
 
 4. **Collaborative Communication**:
 
@@ -156,6 +157,12 @@ ResQAI is deployed on **Google Cloud Platform (GCP)** to ensure scalability and 
 ## 🛡️ Scalability & Performance
 
 ResQAI utilizes multi-region availability through **Google Cloud Run** to handle high traffic and ensure low latency during critical times. The integration with Vertex AI ensures rapid processing of complex datasets.
+
+<br/>
+
+## 🤔 But what about the AI models Flask APIs?
+
+Don't worry! To view all our AI models Flask APIs visit [ResQAI-ML-models-AI-APIs](https://github.com/ResQAI/ResQAI-ML-models-AI-APIs.git) repository.
 
 <br/>
 
