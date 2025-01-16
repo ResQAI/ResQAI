@@ -1,63 +1,67 @@
 "use client";
-import { useState, useRef } from "react";
-import Image from "next/image";
-import { Bell, User } from "lucide-react";
-import Sidebar from "./NationalSidebarMobile";
-import useClickOutside from "../../hooks/useClickOutside";
+import React, { useRef, useState } from "react";
+import { CloseIcon } from "../ui/icons";
+import useClickOutside from "@/hooks/useClickOutside";
+import {
+  AlertTriangleIcon,
+  GitPullRequestClosedIcon,
+  HomeIcon,
+  MessageSquareLockIcon,
+  SendIcon,
+  User2Icon,
+} from "lucide-react";
+import Link from "next/link";
+import Button from "../Button";
 
-export default function NationalHeader() {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+  const [activeTab, setActiveTab] = useState(
+    localStorage.getItem("activeTab") || "home"
+  );
   const sidebarRef = useRef<HTMLDivElement>(null);
-
-  useClickOutside(sidebarRef, () => {
-    if (isSidebarOpen) {
-      setSidebarOpen(false);
-    }
-  });
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
+  const setActiveTabFunction = (id: string) => () => {
+    setActiveTab(id);
+    localStorage.setItem("activeTab", id);
   };
+  useClickOutside(sidebarRef, onClose);
+
+  const navigationItems = [
+    { id: "home", name: "Home", icon: HomeIcon },
+    { id: "profile", name: "Profile", icon: User2Icon },
+    {
+      id: "situationshipreport",
+      name: "Situationship Report",
+      icon: GitPullRequestClosedIcon,
+    },
+    { id: "sendnotification", name: "Send Notifications", icon: SendIcon },
+    { id: "collaborate", name: "Collaborate", icon: MessageSquareLockIcon },
+    {
+      id: "incomingdisasterinfo",
+      name: "Incoming Disaster",
+      icon: AlertTriangleIcon,
+    },
+  ];
 
   return (
-    <nav className="fixed z-30 w-full bg-white">
-      <div className="px-3 py-3 lg:px-5 lg:pl-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center justify-start">
-            <button
-              id="toggleSidebarMobile"
-              aria-expanded={isSidebarOpen}
-              aria-controls="sidebar"
-              onClick={toggleSidebar}
-              className="p-2 text-gray-600 rounded cursor-pointer lg:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100"
-            >
-              <svg
-                id="toggleSidebarMobileHamburger"
-                className="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <svg
-                id="toggleSidebarMobileClose"
-                className="hidden w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
+    <div
+      className={`fixed inset-0 z-40 transition-opacity duration-300 ${
+        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+      aria-hidden={!isOpen}
+    >
+      <div className="absolute inset-0 bg-black opacity-50" onClick={onClose} />
+      <div
+        ref={sidebarRef}
+        className={`fixed top-0 left-0 w-64 h-full bg-white shadow-lg transition-transform duration-300 transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 className="text-lg font-semibold">
             <a
               href="/national/home"
               aria-label="logo"
@@ -175,17 +179,47 @@ export default function NationalHeader() {
                   <path d="M11.186 19.67797 c0.11864 0.16949 0.034064 0.32203 -0.1861 0.32203 l-1.2544 0 c-0.37288 0 -0.67814 -0.33881 -0.81356 -0.5422 l-2.6441 -3.8983 l-3.3559 0 l0 4.1525 c0 0.18644 -0.10169 0.28797 -0.27119 0.28797 l-1.3729 0 c-0.16949 0 -0.27119 -0.10153 -0.27119 -0.28797 l0 -13 c0 -0.15254 0.10169 -0.27119 0.27119 -0.27119 l5.2203 0 c2.9659 0 4.5592 2.5254 4.5592 4.5592 c0 1.6949 -1.0168 3.5934 -2.9322 4.2881 z M2.9324 8.288 l0 5.4237 l3.3559 0 c1.9153 0 2.8644 -1.3729 2.8644 -2.7458 c0 -1.3559 -0.9661 -2.678 -2.8644 -2.678 l-3.3559 0 z M19.610162711864405 16.4915 c0.61 0 1.0336 -0.30508 1.0336 -1.0169 c0 -2.0847 -1.6102 -3.9831 -4.0847 -3.9831 c-2.3559 0 -4.2034 1.8644 -4.2034 4.3051 c0 2.5422 1.9322 4.288 4.3051 4.288 c1.5085 0 2.6949 -0.61017 3.4237 -1.5932 c0.10186 -0.13559 0.067963 -0.23729 -0.033568 -0.37288 l-0.32203 -0.42373 c-0.13559 -0.16933 -0.27119 -0.15254 -0.44085 -0.050847 c-0.5422 0.44068 -1.4405 0.81373 -2.4236 0.81373 c-1.3898 0 -2.3729 -0.84746 -2.5593 -1.9661 l5.3051 0 z M14.304962711864407 15.050799999999999 c0.067797 -0.81356 0.83051 -1.8644 2.2203 -1.8644 c1.4068 0 2.1356 1.0678 2.1864 1.8644 l-4.4068 0 z M22.084576440677964 18.7798 l0.5761 -0.91508 c0.11864 -0.18661 0.22034 -0.23746 0.38983 -0.15271 c0.016949 0.033898 1.0508 0.64407 2.1864 0.64407 c0.98305 0 1.322 -0.38983 1.322 -0.77966 c0 -0.57627 -0.62712 -0.77949 -1.7627 -1.0676 c-1.6102 -0.42373 -2.678 -1.2542 -2.678 -2.5424 c0 -1.2712 1.0847 -2.4576 3.1186 -2.4576 c1.2373 0 2.0847 0.42373 2.7627 0.81356 c0.16949 0.10169 0.25424 0.25424 0.15254 0.38983 l-0.62712 0.9661 c-0.084746 0.13559 -0.22034 0.18644 -0.37288 0.13559 c-0.44068 -0.22017 -1.1525 -0.54237 -1.9153 -0.54237 c-0.94915 0 -1.2034 0.47458 -1.2034 0.76271 c0 0.49153 0.71186 0.72881 1.5763 0.96593 c1.5086 0.40678 3.0171 1.1356 3.0171 2.6102 c0 1.4237 -1.3558 2.5083 -3.3898 2.5083 c-1.3898 0 -2.6441 -0.6778 -3.0678 -1.0168 c-0.11864 -0.067797 -0.15254 -0.23729 -0.084746 -0.32203 z M43.33883050847457 20.77966 c0.20339 0.16949 0.11848 0.38983 -0.016949 0.47458 l-1.0169 0.62712 c-0.35593 0.22017 -0.72881 0.13559 -0.9322 -0.20339 l-1.2712 -2.1186 c-0.84746 0.35593 -1.7797 0.55915 -2.7458 0.55915 c-3.8475 0 -6.9492 -3.0337 -6.9492 -6.9151 c0 -3.8305 3.1017 -6.8814 6.9492 -6.8814 c3.8136 0 6.9153 3.0508 6.9153 6.8814 c0 2.1695 -0.9661 4.0847 -2.5085 5.339 l0.64407 1.0678 c0.42373 0.66102 0.67797 0.94915 0.9322 1.1695 z M32.32173050847457 13.203700000000001 c0 2.4576 1.7797 4.5254 4.1017 4.9661 l-0.084746 -0.016949 c-0.49153 -0.35576 -0.71186 -0.86441 -0.71186 -1.4068 c0 -1.1356 0.9322 -2.0678 2.2203 -2.0678 c0.91525 0 1.6271 0.35593 2.322 1.3051 c0.20339 0.28814 0.38983 0.59322 0.59322 0.91525 c0.98305 -0.9322 1.6102 -2.2542 1.6102 -3.6949 c0 -2.7456 -2.2881 -5.0337 -5.0169 -5.0337 c-2.7458 0 -5.0339 2.2881 -5.0339 5.0337 z M37.355630508474576 18.2715 c0.61017 0 1.2034 -0.11848 1.7458 -0.32186 l-0.33898 -0.57627 c-0.35593 -0.57627 -0.74576 -0.81373 -1.3051 -0.81373 c-0.52542 0 -0.94898 0.44068 -0.94898 0.98305 c0 0.25441 0.13559 0.52542 0.42356 0.71186 c0.13559 0.016949 0.28814 0.016949 0.42373 0.016949 z M59.15289830508475 19.69492 c0.08458 0.16966 0.033898 0.30508 -0.15254 0.30508 l-1.5424 0 c-0.15254 0 -0.23712 -0.067631 -0.28797 -0.18644 l-1.0508 -2.2034 l-7.3051 0 l-1.0339 2.2034 c-0.067797 0.11881 -0.15254 0.18644 -0.28814 0.18644 l-1.5593 0 c-0.16949 0 -0.25424 -0.13543 -0.18644 -0.30508 l6.3898 -13.186 c0.050847 -0.11864 0.13559 -0.15254 0.22034 -0.15254 l0.22017 0 c0.084746 0 0.15254 0.033898 0.22034 0.15254 z M49.64419830508475 15.8646 l5.6441 0 l-2.8136 -6 z M62.81355593220339 6.441000000000001 l-1.3053 -0.00016552 c-0.16949 0 -0.27119 0.11864 -0.27119 0.27119 l0 13 c0 0.16949 0.11864 0.28814 0.28831 0.28814 l1.3051 0 c0.15254 0 0.25424 -0.13543 0.25424 -0.28797 l0 -13 c0 -0.15254 -0.11864 -0.27119 -0.27119 -0.27119 z"></path>
                 </g>
               </svg>
-            </a>
-          </div>
-          <div className="flex items-center">
-            <Bell className="w-6 h-6 text-gray-600" />
-            <User className="w-6 h-6 text-gray-600 ml-4" />
+            </a>{" "}
+          </h2>
+          <button onClick={onClose} aria-label="Close sidebar">
+            <CloseIcon />
+          </button>
+        </div>
+        <div className="p-4">
+          {/* Sidebar content goes here */}
+          <div className="h-full px-3 py-4 flex flex-col justify-between overflow-y-auto bg-gray-50">
+            <ul className="space-y-8 font-medium">
+              {navigationItems.map((item) => (
+                <li key={item.id}>
+                  <Link
+                    href={`/national/${item.id}`}
+                    onClick={setActiveTabFunction(item.id)}
+                    className={`flex my-5 items-center p-2 text-gray-900 rounded-lg  group ${
+                      activeTab === item.id
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-50"
+                    }`}
+                  >
+                    <item.icon size={24} />
+                    <span className="ms-3">{item.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/national/aisuggest"
+              onClick={() => {
+                setActiveTab("aisuggest");
+                localStorage.setItem("activeTab", "aisuggest");
+              }}
+            >
+              <Button className="w-full text-lg">AI suggestions</Button>
+            </Link>
           </div>
         </div>
       </div>
-      {isSidebarOpen && (
-        <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
-      )}
-    </nav>
+    </div>
   );
-}
+};
+
+export default Sidebar;
