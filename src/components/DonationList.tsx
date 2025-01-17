@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import DonationCard from "./DonationCard";
-import DonatePage from "./donate";
+import DonatePage from "./Donate";
 
 interface Donation {
   id: number;

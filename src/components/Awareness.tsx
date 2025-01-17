@@ -16,9 +16,7 @@ import Nav from "./Navbar";
 
 // Disaster Preparedness Measures Component
 const PreparednessGuide = () => {
-  return (
-    <div></div>
-  );
+  return <div></div>;
 };
 
 // Main Disaster Awareness Component
@@ -131,9 +129,9 @@ const DisasterAwarenessApp = () => {
       <Nav />
       <div className="bg-white mx-auto p-8 space-y-8">
         {/* Header Section */}
-        <div className=" mt-16 flex items-center justify-center space-x-4 w-full my-10">
+        <div className="mt-16 flex items-center justify-center space-x-4 w-full my-10">
           {/* <AlertTriangle className="text-orange-500 w-8 h-8" /> */}
-          <h2 className="text-4xl font-bold text-gray-800 text-center">
+          <h2 className="lg:text-4xl md:text-4xl text-xl font-bold text-gray-800 text-center">
             Disaster Readiness Challenge
           </h2>
         </div>
@@ -311,10 +309,10 @@ const DisasterAwarenessApp = () => {
                   </ReactMarkdown>
                 </div>
 
-                <div className="mt-4 flex space-x-4 justify-center">
+                <div className="mt-4 flex lg:flex-row md:flex-row flex-col items-center gap-4 justify-center">
                   <button
                     onClick={readOutLoud}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+                    className="bg-green-600 hover:bg-green-700 text-white w-[200px] py-2 rounded-lg"
                   >
                     {isListening ? "Continue Listening" : "Listen to Scenario"}
                   </button>
@@ -322,7 +320,7 @@ const DisasterAwarenessApp = () => {
                   {isListening && (
                     <button
                       onClick={stopListening}
-                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+                      className="bg-red-600 hover:bg-red-700 text-white w-[200px] py-2 rounded-lg"
                     >
                       Stop Listening
                     </button>

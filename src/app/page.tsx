@@ -181,7 +181,7 @@ export default function Home() {
                   </span>
                 </a>
               </div>
-              <div className="py-8 lg:grid md:grid hidden mt-10 border-y border-gray-100 grid-col-3 sm:flex justify-between">
+              <div className="py-8 lg:grid md:grid hidden mt-10 border-y border-gray-100 lg:grid-col-3 md:grid-cols-3 sm:flex justify-between">
                 <div className="text-center">
                   <h6 className="text-lg font-semibold text-gray-700">
                     Prepared Everytime
@@ -382,7 +382,7 @@ export default function Home() {
                 data-wow-delay=".2s"
                 style={{ visibility: "visible", animationDelay: "0.2s" }}
               >
-                <p className="mb-4 text-2xl font-bold text-black lg:text-5xl sm:text-4xl md:text-[44px] md:leading-tight">
+                <p className="mb-4 p-1 text-2xl font-bold text-black lg:text-5xl sm:text-4xl md:text-[44px] md:leading-tight">
                   Features That{" "}
                   <span className="text-primary">
                     {" "}
@@ -759,7 +759,7 @@ export default function Home() {
               </div> */}
               <div className="flex flex-wrap justify-center gap-16 mt-5">
                 {/* Card 1 */}
-                <div className="bg-white shadow-2xl rounded-lg overflow-hidden lg:w-full md:w-5/12 sm:w-5/12 w-[85vw] p-6">
+                <div className="bg-white shadow-2xl rounded-lg overflow-hidden lg:w-5/12 md:w-5/12 sm:w-5/12 w-[85vw] p-6">
                   <h3 className="text-2xl text-primary font-bold leading-none mb-3 text-center">
                     MCQ Test
                   </h3>
@@ -777,7 +777,7 @@ export default function Home() {
                   </div>
                 </div>
                 {/* Card 2 */}
-                <div className="bg-white shadow-2xl rounded-lg overflow-hidden lg:w-full md:w-5/12 sm:w-5/12 w-[85vw] p-6">
+                <div className="bg-white shadow-2xl rounded-lg overflow-hidden lg:w-5/12 md:w-5/12 sm:w-5/12 w-[85vw] p-6">
                   <h3 className="text-2xl text-primary font-bold leading-none mb-3 text-center">
                     Case Study
                   </h3>
@@ -812,7 +812,7 @@ export default function Home() {
                     key={index}
                     className="group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10"
                   >
-                    <span className="absolute top-10 z-0 h-20 w-20 rounded-full transition-all duration-300 group-hover:scale-[10]" />
+                    <span className="absolute top-10 z-0 h-20 w-20 rounded-full transition-all lg:bg-primary md:bg-primary duration-300 group-hover:scale-[10]" />
                     <div className="relative z-10 mx-auto max-w-md">
                       <div className="flex gap-5 items-center justify-center">
                         <span className="grid h-20 w-20 place-items-center rounded-full lg:bg-primary md:bg-primary bg-white transition-all duration-300 md:group-hover:bg-primary lg:group-hover:bg-primary">
