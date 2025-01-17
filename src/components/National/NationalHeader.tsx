@@ -61,7 +61,7 @@ export default function NationalHeader() {
             <a
               href="/national/home"
               aria-label="logo"
-              className="flex items-center space-x-2 astro-ES6RJE63 h-8 mr-3"
+              className="lg:flex md:flex hidden items-center space-x-2 astro-ES6RJE63 h-8 mr-3"
             >
               <svg
                 viewBox="0 0 370 99.98335497153181"
