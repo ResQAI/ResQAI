@@ -97,7 +97,7 @@ const PlanForm: React.FC<PlanFormProps> = ({ onSubmit }) => {
 
         <div className="flex flex-col items-center">
           <Button className="py-3 rounded-lg font-semibold">Add in Plan</Button>
-          <div className="flex items-center gap-4 mt-7 mb-10">
+          <div className="flex flex-wrap justify-center items-center gap-4 mt-7 mb-10">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full bg-red-300 border border-red-400" />
               <span className="text-xs text-gray-800 font-medium">Failed</span>

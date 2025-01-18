@@ -1,17 +1,13 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { CloseIcon } from "../ui/icons";
+import { CloseIcon } from "@/components/ui/icons";
 import useClickOutside from "@/hooks/useClickOutside";
 import {
-  AlertTriangleIcon,
-  GitPullRequestClosedIcon,
+  HeartHandshake,
   HomeIcon,
-  MessageSquareLockIcon,
-  SendIcon,
   User2Icon,
 } from "lucide-react";
 import Link from "next/link";
-import Button from "../Button";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -48,20 +44,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   useClickOutside(sidebarRef, onClose);
 
   const navigationItems = [
-    { id: "home", name: "Home", icon: HomeIcon },
-    { id: "profile", name: "Profile", icon: User2Icon },
-    {
-      id: "situationshipreport",
-      name: "Situationship Report",
-      icon: GitPullRequestClosedIcon,
-    },
-    { id: "sendnotification", name: "Send Notifications", icon: SendIcon },
-    { id: "collaborate", name: "Collaborate", icon: MessageSquareLockIcon },
-    {
-      id: "incomingdisasterinfo",
-      name: "Incoming Disaster",
-      icon: AlertTriangleIcon,
-    },
+    { id: "Home", name: "Home", icon: HomeIcon },
+    { id: "Profile", name: "Profile", icon: User2Icon },
+    { id: "Donate", name: "Donate to Govt. Funds", icon: HeartHandshake },
   ];
 
   return (
@@ -86,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold">
             <a
-              href="/national/home"
+              href="/citizen/Home"
               aria-label="logo"
               className="flex items-center space-x-2 astro-ES6RJE63 h-1 w-2 mr-3"
             >
@@ -103,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               {navigationItems.map((item) => (
                 <li key={item.id}>
                   <Link
-                    href={`/national/${item.id}`}
+                    href={`/citizen/${item.id}`}
                     onClick={setActiveTabFunction(item.id)}
                     className={`flex my-5 items-center p-2 text-gray-900 rounded-lg  group ${
                       activeTab === item.id
@@ -118,14 +103,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               ))}
             </ul>
             <Link
-              href="/national/aisuggest"
+              href="/citizen/saveme"
               onClick={() => {
-                setActiveTab("aisuggest");
-                localStorage.setItem("activeTab", "aisuggest");
+                setActiveTab("saveme");
+                localStorage.setItem("activeTab", "saveme");
               }}
             >
-              <button className="text-sm mb-16 bg-blue-700 p-2 text-white rounded-lg w-full">
-                AI suggestions
+              <button className="text-sm mb-16 bg-red-700 p-2 text-white rounded-lg w-full">
+                Help me
               </button>
             </Link>
           </div>

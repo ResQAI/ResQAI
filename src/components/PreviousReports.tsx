@@ -677,7 +677,7 @@ const PreviousReports = () => {
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div className="bg-white h-full border border-gray-200 rounded-lg shadow-sm">
       <div className="p-4 border-b border-gray-200">
         <h3 className="text-lg font-medium text-gray-800">Previous Reports</h3>
       </div>

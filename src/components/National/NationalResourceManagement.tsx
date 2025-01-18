@@ -27,7 +27,7 @@ const ResourceRequestManagement = () => {
       criticalChallenges: string;
     };
   }
-  
+
   const [resourceRequests, setResourceRequests] = useState<ResourceRequest[]>([
     {
       id: 1,
@@ -163,11 +163,11 @@ const ResourceRequestManagement = () => {
   };
 
   return (
-    <div className="max-h-screen overflow-y-scroll p-4 md:p-8">
+    <div className="h-full overflow-y-scroll p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center mb-10 space-x-4">
-          <h1 className="text-2xl md:text-2xl font-bold text-gray-800">
+          <h1 className="text-xl lg:text-2xl md:text-2xl font-bold text-gray-800">
             Disaster Resource Management
           </h1>
         </div>
@@ -213,7 +213,7 @@ const ResourceRequestManagement = () => {
         </div>
 
         {/* Request Cards */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-6 flex flex-wrap gap-6 items-center justify-center">
           {filteredRequests.map((request) => (
             <div
               key={request.id}

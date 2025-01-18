@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 <<<<<<< HEAD
 const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET);
 
-export async function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest){
   const token = req.cookies.get('Authorization')?.value;
 
   if (!token) {

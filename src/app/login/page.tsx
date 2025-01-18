@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
       <div className="lg:flex md:flex md:flex-col hidden w-full md:w-1/2 bg-gradient-to-tr from-blue-200 to-blue-600 justify-around items-center lg:p-6 md:p-2">
         <div className="lg:p-12 md:p-12 flex-col flex text-center">
           <h1 className="text-white font-bold text-4xl mb-8 font-sans">
-            ResQAI Mission 
+            ResQAI Mission
           </h1>
           <p className=" mt-3 text-xl mb-10 px-5">
             Leveraging AI to revolutionize disaster management and provide
@@ -138,8 +138,10 @@ const LoginPage: React.FC = () => {
               >
                 Login
               </button>
-              <span className="text-sm mt-2 block text-center text-blue-500 cursor-pointer hover:underline">
-                Forgot Password?
+              <span className="text-sm mt-2 block text-center text-blue-500">
+                Dummy Username:{" "}
+                <span className="font-bold">nationaldisastercommittee</span> |
+                Dummy Password: <span className="font-bold">ndc2024</span>
               </span>
             </form>
           )}

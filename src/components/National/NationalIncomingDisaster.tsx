@@ -195,12 +195,13 @@ const NationalDisasterTracker: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 p-6 max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900">
+    <div className="min-h-screen w-full bg-gray-50 p-3 sm:p-6 max-w-6xl mx-auto">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
           Incoming Disasters Information
         </h1>
-        <div className="flex space-x-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <select
             onChange={(e) =>
               setFilter((prev) => ({
@@ -208,7 +209,7 @@ const NationalDisasterTracker: React.FC = () => {
                 severity: e.target.value as Disaster["level"],
               }))
             }
-            className="px-3 py-2 border rounded-md text-gray-700"
+            className="w-full sm:w-auto px-3 py-2 border rounded-md text-gray-700"
           >
             <option value="">All Severities</option>
             {Object.keys(severityColors).map((severity) => (
@@ -224,7 +225,7 @@ const NationalDisasterTracker: React.FC = () => {
                 type: e.target.value,
               }))
             }
-            className="px-3 py-2 border rounded-md text-gray-700"
+            className="w-full sm:w-auto px-3 py-2 border rounded-md text-gray-700"
           >
             <option value="">All Types</option>
             {["Hurricane", "Wildfire", "Earthquake", "Flood", "Tsunami"].map(
@@ -238,11 +239,12 @@ const NationalDisasterTracker: React.FC = () => {
         </div>
       </div>
 
+      {/* Disaster Cards */}
       <div className="space-y-4">
         {filteredDisasters.map((disaster) => (
           <div
             key={disaster.id}
-            className="bg-white shadow-md rounded-lg p-5 flex justify-between items-center border-l-4"
+            className="bg-white shadow-md rounded-lg p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center border-l-4 gap-4"
             style={{
               borderColor: {
                 low: "green",
@@ -252,9 +254,9 @@ const NationalDisasterTracker: React.FC = () => {
               }[disaster.level.toLowerCase()],
             }}
           >
-            <div className="flex-1">
-              <div className="flex items-center space-x-3">
-                <h2 className="text-xl font-bold text-gray-800">
+            <div className="flex-1 w-full">
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-800">
                   {disaster.name}
                 </h2>
                 <span
@@ -265,41 +267,43 @@ const NationalDisasterTracker: React.FC = () => {
                   {disaster.level}
                 </span>
               </div>
-              <div className="flex items-center text-gray-600 mt-2 space-x-3">
-                <div className="flex items-center space-x-1">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 mt-2 gap-2 sm:gap-3">
+                <div className="flex items-center gap-1">
                   <MapPin size={16} />
-                  <span>{disaster.exactLocation.address}</span>
+                  <span className="text-sm">{disaster.exactLocation.address}</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center gap-1">
                   <Clock size={16} />
-                  <span>{new Date(disaster.startTime).toLocaleString()}</span>
+                  <span className="text-sm">
+                    {new Date(disaster.startTime).toLocaleString()}
+                  </span>
                 </div>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 flex flex-wrap gap-2">
                 {disaster.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"
+                    className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700"
                   >
                     #{tag}
                   </span>
                 ))}
               </div>
             </div>
-            <div className="flex space-x-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <button
                 onClick={() => handleDeclareDisaster(disaster)}
-                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition flex items-center"
+                className="w-full sm:w-auto bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition flex items-center justify-center"
               >
                 <Shield className="mr-2" size={20} />
-                Declare Disaster
+                Declare
               </button>
               <button
                 onClick={() => handleViewInfo(disaster)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition flex items-center"
+                className="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition flex items-center justify-center"
               >
                 <Info className="mr-2" size={20} />
-                View Details
+                Details
               </button>
             </div>
           </div>
@@ -316,8 +320,8 @@ const NationalDisasterTracker: React.FC = () => {
             >
               <X size={24} />
             </button>
-            <div className="flex items-center mb-6">
-              <h2 className="text-3xl font-bold text-gray-900 mr-4">
+            <div className="flex flex-col md:flex-row items-start md:items-center mb-6 space-y-4 md:space-y-0 md:space-x-4">
+              <h2 className="text-3xl font-bold text-gray-900">
                 {selectedDisaster.name}
               </h2>
               <span
@@ -328,7 +332,7 @@ const NationalDisasterTracker: React.FC = () => {
                 {selectedDisaster.level}
               </span>
             </div>
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <div className="flex items-center text-gray-700 mb-2">
                   <MapPin className="mr-2" />
@@ -403,7 +407,7 @@ const NationalDisasterTracker: React.FC = () => {
             </button>
             <h2 className="text-2xl font-bold mb-6">Declare Disaster</h2>
             <form onSubmit={handleSubmitDeclaration} className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Pre-filled disabled fields */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">

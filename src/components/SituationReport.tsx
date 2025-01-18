@@ -119,16 +119,14 @@ const DisasterSituationReport = () => {
     },
   });
 
-  // New state to track which sections are expanded
   const [expandedSections, setExpandedSections] = useState({
     disasterStatus: true,
     casualties: false,
     materialFlow: false,
     teamArrival: false,
-    quickResponse: true,
+    summary: true,
   });
 
-  // Toggle section expansion
   const toggleSection = (section: any) => {
     setExpandedSections((prev) => ({
       ...prev,
@@ -136,7 +134,6 @@ const DisasterSituationReport = () => {
     }));
   };
 
-  // Handle input changes
   const handleChange = (section: any, field: any, value: any) => {
     setFormData((prev) => ({
       ...prev,
@@ -309,7 +306,6 @@ const DisasterSituationReport = () => {
     }
   };
 
-  // PDF Generation Function (remains the same as previous implementation)
   const generatePDF = () => {
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.width;
@@ -496,102 +492,7 @@ const DisasterSituationReport = () => {
     pdf.save("Disaster_Situation_Report.pdf");
   };
 
-  // Reusable section renderer
-  const renderField = (
-    value: any,
-    path: string[],
-    onChange: (value: any) => void
-  ) => {
-    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
-      return Object.entries(value).map(([key, val]) => (
-        <div key={key} className="ml-4">
-          <label className="block text-sm font-medium text-gray-700">
-            {key}
-          </label>
-          {renderField(val, [...path, key], (newVal) => {
-            const newValue = { ...value, [key]: newVal };
-            onChange(newValue);
-          })}
-        </div>
-      ));
-    }
-
-    if (Array.isArray(value)) {
-      return (
-        <div className="flex flex-col space-y-2">
-          {value.map((item, index) => (
-            <div key={index} className="flex items-center space-x-2">
-              {renderField(item, [...path, index.toString()], (newVal) => {
-                const newArray = [...value];
-                newArray[index] = newVal;
-                onChange(newArray);
-              })}
-            </div>
-          ))}
-          <button
-            onClick={() =>
-              onChange([...value, Array.isArray(value[0]) ? [] : ""])
-            }
-            className="text-blue-500 text-sm"
-          >
-            + Add Item
-          </button>
-        </div>
-      );
-    }
-
-    if (typeof value === "boolean") {
-      return (
-        <input
-          type="checkbox"
-          checked={value}
-          onChange={(e) => onChange(e.target.checked)}
-          className="rounded border-gray-300"
-        />
-      );
-    }
-
-    return (
-      <input
-        type={typeof value === "number" ? "number" : "text"}
-        value={value}
-        onChange={(e) =>
-          onChange(
-            typeof value === "number" ? Number(e.target.value) : e.target.value
-          )
-        }
-        className="w-full p-2 border border-gray-300 rounded-md"
-      />
-    );
-  };
-
-  const renderSection = (title: string, sectionKey: string, data: any) => {
-    return (
-      <div className="mb-6 border border-gray-200 rounded-lg">
-        <div
-          onClick={() => toggleSection(sectionKey)}
-          className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50"
-        >
-          <h3 className="text-lg font-medium text-gray-800">{title}</h3>
-          {expandedSections[sectionKey] ? <ChevronUp /> : <ChevronDown />}
-        </div>
-
-        {expandedSections[sectionKey] && (
-          <div className="p-4">
-            {renderField(data, [sectionKey], (newValue) => {
-              setFormData((prev) => ({
-                ...prev,
-                [sectionKey]: newValue,
-              }));
-            })}
-          </div>
-        )}
-      </div>
-    );
-  };
-
   const handleStoreReport = async (valueDisaster: string) => {
-    // Check for empty fields
     const isEmptyField = Object.values(formData).some((section) =>
       typeof section === "object"
         ? Object.values(section).some((field) => field === "")
@@ -605,14 +506,12 @@ const DisasterSituationReport = () => {
 
     const id = findIdUsingName(valueDisaster);
 
-    // Create JSON data
     const reportData = {
       ...formData,
       submissionTime: new Date().toISOString(),
       disasterId: id,
     };
 
-    console.log(reportData);
     try {
       const response = await fetch(
         `${baseUrl}/api/nationalDisasterCommittee/situationshipReports`,
@@ -645,6 +544,102 @@ const DisasterSituationReport = () => {
     return undefined;
   };
 
+ // Update the renderField function to use full width
+// Update the renderSection function to use full width
+const renderSection = (title: string, sectionKey: string, data: any) => {
+  return (
+    <div className="w-full mb-6 border border-gray-200 rounded-lg shadow-sm">
+      <div
+        onClick={() => toggleSection(sectionKey)}
+        className="flex w-full justify-between items-center p-4 cursor-pointer hover:bg-gray-50"
+      >
+        <h3 className="text-lg font-medium text-gray-800">{title}</h3>
+        {expandedSections[sectionKey] ? <ChevronUp /> : <ChevronDown />}
+      </div>
+
+      {expandedSections[sectionKey] && (
+        <div className="p-4 w-full">
+          {renderField(data, [sectionKey], (newValue) => {
+            setFormData((prev) => ({
+              ...prev,
+              [sectionKey]: newValue,
+            }));
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Update the renderField function to use full width
+const renderField = (value: any, path: string[], onChange: (value: any) => void) => {
+  if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+    return (
+      <div className="w-full space-y-4">
+        {Object.entries(value).map(([key, val]) => (
+          <div key={key} className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {key.charAt(0).toUpperCase() + key.slice(1)}
+            </label>
+            <div className="w-full">
+              {renderField(val, [...path, key], (newVal) => {
+                const newValue = { ...value, [key]: newVal };
+                onChange(newValue);
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (Array.isArray(value)) {
+    return (
+      <div className="w-full space-y-4">
+        {value.map((item, index) => (
+          <div key={index} className="w-full">
+            {renderField(item, [...path, index.toString()], (newVal) => {
+              const newArray = [...value];
+              newArray[index] = newVal;
+              onChange(newArray);
+            })}
+          </div>
+        ))}
+        <button
+          onClick={() => onChange([...value, Array.isArray(value[0]) ? [] : ""])}
+          className="text-blue-500 hover:text-blue-600 text-sm font-medium"
+        >
+          + Add Item
+        </button>
+      </div>
+    );
+  }
+
+  if (typeof value === "boolean") {
+    return (
+      <input
+        type="checkbox"
+        checked={value}
+        onChange={(e) => onChange(e.target.checked)}
+        className="rounded border-gray-300 text-blue-500 focus:ring-blue-500"
+      />
+    );
+  }
+
+  return (
+    <input
+      type={typeof value === "number" ? "number" : "text"}
+      value={value}
+      onChange={(e) =>
+        onChange(
+          typeof value === "number" ? Number(e.target.value) : e.target.value
+        )
+      }
+      className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+    />
+  );
+};
+
   useEffect(() => {
     async function fetchData() {
       const res = await fetch(
@@ -658,118 +653,117 @@ const DisasterSituationReport = () => {
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-8xl mx-auto px-4 py-6 flex justify-between items-center">
-          <div className="flex items-center justify-center gap-8">
-            <div className="flex items-center space-x-4">
-              <FileText className="text-blue-600" size={32} />
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">
-                  Disaster Situation Report
-                </h1>
-                <p className="text-gray-500 text-sm">
-                  Comprehensive disaster management tool
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center gap-8">
-              <select
-                onChange={(e) => {
-                  const selectedDisaster = disasterData.find(
-                    (disaster) => disaster.name === e.target.value
-                  );
-                  if (selectedDisaster) {
-                    setSelectedDisaster(selectedDisaster.name);
-                  } else {
-                    setSelectedDisaster(null);
-                  }
-                }}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select a disaster</option>
-                {disasterData.map((disaster) => (
-                  <option key={disaster.id} value={disaster.name}>
-                    {disaster.name}
-                  </option>
-                ))}
-              </select>
-              {selectedDisaster != null ? (
-                <button
-                  onClick={() => handleStoreReport(selectedDisaster)}
-                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-                >
-                  Store Report
-                </button>
-              ) : (
-                <button className="px-4 py-2 bg-green-300 text-white rounded-lg cursor-not-allowed transition-colors">
-                  Store Report
-                </button>
-              )}
+    <header className="bg-white shadow-sm border-b border-gray-200 w-full">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+          {/* Title and Description */}
+          <div className="flex items-center space-x-4">
+            <FileText className="text-blue-600" size={32} />
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Disaster Situation Report
+              </h1>
+              <p className="text-gray-500 text-sm">
+                Comprehensive disaster management tool
+              </p>
             </div>
           </div>
-          {selectedDisaster != null ? (
-            <button
-              onClick={handleAIAutofill}
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              disabled={isLoading} // Disable button when loading
+
+          {/* Controls Section */}
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            {/* Disaster Selection */}
+            <select
+              onChange={(e) => {
+                const selectedDisaster = disasterData.find(
+                  (disaster) => disaster.name === e.target.value
+                );
+                setSelectedDisaster(selectedDisaster?.name || null);
+              }}
+              className="w-full sm:w-auto p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {isLoading ? (
-                <AiOutlineLoading className="animate-spin" size={16} />
-              ) : (
+              <option value="">Select a disaster</option>
+              {disasterData.map((disaster) => (
+                <option key={disaster.id} value={disaster.name}>
+                  {disaster.name}
+                </option>
+              ))}
+            </select>
+
+            {/* Store Report Button */}
+            {selectedDisaster != null ? (
+              <button
+                onClick={() => handleStoreReport(selectedDisaster)}
+                className="w-full sm:w-auto px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+              >
+                Store Report
+              </button>
+            ) : (
+              <button className="w-full sm:w-auto px-4 py-2 bg-green-300 text-white rounded-lg cursor-not-allowed transition-colors">
+                Store Report
+              </button>
+            )}
+
+            {/* AI Autofill Button */}
+            {selectedDisaster != null ? (
+              <button
+                onClick={handleAIAutofill}
+                disabled={isLoading}
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                {isLoading ? (
+                  <AiOutlineLoading className="animate-spin" size={16} />
+                ) : (
+                  <Sparkles size={16} />
+                )}
+                <span>{isLoading ? "Loading..." : "AI Autofill"}</span>
+              </button>
+            ) : (
+              <button className="w-full sm:w-auto flex items-center justify-center space-x-2 px-4 py-2 bg-blue-300 text-white rounded-lg cursor-not-allowed transition-colors">
                 <Sparkles size={16} />
-              )}
-              <span className="text-lg">
-                {isLoading ? "Loading..." : "AI Autofill"}
-              </span>
-            </button>
-          ) : (
-            <button className="flex cursor-not-allowed items-center space-x-2 px-4 py-2 bg-blue-300 text-white rounded-lg transition-colors">
-              <Sparkles size={16} />
-              <span className="text-lg">AI Autofill</span>
-            </button>
-          )}
-        </div>
-      </header>
+                <span>AI Autofill</span>
+              </button>
+            )}
 
-      {/* Main Content */}
-      <main className="flex-grow max-w-8xl w-full mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
-        {/* Form Sections */}
-        <div className="space-y-6">
-          {renderSection(
-            "Disaster Status",
-            "disasterStatus",
-            formData.disasterStatus
-          )}
-          {renderSection("Casualties", "casualties", formData.casualties)}
-          {renderSection(
-            "Material Flow",
-            "materialFlow",
-            formData.materialFlow
-          )}
-          {renderSection("Team Arrival", "teamArrival", formData.teamArrival)}
-          {renderSection("Summary", "summary", formData.summary)}
+            {/* Generate PDF Button */}
+            {selectedDisaster != null ? (
+              <button
+                onClick={generatePDF}
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                <FileText size={16} />
+                <span>Generate PDF</span>
+              </button>
+            ) : (
+              <button className="w-full sm:w-auto flex items-center justify-center space-x-2 px-4 py-2 bg-blue-300 text-white rounded-lg cursor-not-allowed transition-colors">
+                <FileText size={16} />
+                <span>Generate PDF</span>
+              </button>
+            )}
+          </div>
         </div>
+      </div>
+    </header>
 
-        {/* Quick Response and PDF Generation */}
-        <div className="space-y-6">
-          {selectedDisaster != null ? (
-            <button
-              onClick={generatePDF}
-              className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center space-x-2"
-            >
-              <FileText />
-              <span>Generate Detailed PDF Report</span>
-            </button>
-          ) : (
-            <button className="w-full cursor-not-allowed bg-blue-300 text-white py-3 rounded-lg transition-colors flex items-center justify-center space-x-2">
-              <FileText />
-              <span>Generate Detailed PDF Report</span>
-            </button>
-          )}
+    <main className="flex-grow w-full px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-full mx-auto">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          <div className="space-y-6 w-full">
+            {renderSection(
+              "Disaster Status",
+              "disasterStatus",
+              formData.disasterStatus
+            )}
+            {renderSection("Casualties", "casualties", formData.casualties)}
+            {renderSection("Material Flow", "materialFlow", formData.materialFlow)}
+          </div>
+          <div className="space-y-6 w-full">
+            {renderSection("Team Arrival", "teamArrival", formData.teamArrival)}
+            {renderSection("Summary", "summary", formData.summary)}
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
+  </div>
   );
 };
 

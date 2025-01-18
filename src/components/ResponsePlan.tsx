@@ -385,9 +385,7 @@ const ResponsePlan = () => {
                             } shadow-sm hover:shadow-md transition-shadow duration-300 relative cursor-pointer`}
                           >
                             {/* Ministry Icon */}
-                            <div className="absolute top-4 left-4">
-                              <StatusIcon className="text-gray-700" size={18} />
-                            </div>
+                            
 
                             {/* Delete button - moved to top right */}
                             {hoveredId === work.id && (
@@ -400,8 +398,8 @@ const ResponsePlan = () => {
                             )}
 
                             {/* Content with padding for icon */}
-                            <div className="pl-8">
-                              <p className="font-2xl font-bold text-neutral-800">
+                            <div className="pr-12 lg:block md:block hidden">
+                              <p className="text-xs font-bold text-neutral-800">
                                 {work.name}
                               </p>
                               <p className="text-xs text-gray-700">
@@ -411,9 +409,12 @@ const ResponsePlan = () => {
                                   ? "In Progress"
                                   : `Estimated: ${work.estimatedTime}h`}
                               </p>
-                              <div className="text-sm font-semibold text-gray-700 mt-2">
+                              <div className="text-xs font-semibold text-gray-700 mt-2">
                                 {work.departmentConcerned}
                               </div>
+                            </div>
+                            <div className="lg:hidden md:hidden block">
+                              Task Info
                             </div>
                           </div>
                         </div>
