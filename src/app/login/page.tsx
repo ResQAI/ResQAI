@@ -138,8 +138,10 @@ const LoginPage: React.FC = () => {
               >
                 Login
               </button>
-              <span className="text-sm mt-2 block text-center text-blue-500 cursor-pointer hover:underline">
-                Forgot Password?
+              <span className="text-sm mt-2 block text-center text-blue-500">
+                Dummy Username:{" "}
+                <span className="font-bold">nationaldisastercommittee</span> |
+                Dummy Password: <span className="font-bold">ndc2024</span>
               </span>
             </form>
           )}
