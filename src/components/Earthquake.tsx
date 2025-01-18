@@ -35,9 +35,11 @@ const LoadingStage = ({ stage }: { stage: number }) => {
     { icon: Compass, text: "Processing Seismic Parameters" },
     { icon: Cpu, text: "Predicting Earthquake Magnitude Using ML Model" },
     { icon: Sparkles, text: "Refining Insights Using Gemini 1.5 Pro Model" },
-    { icon: ClipboardList, text: "Adding Recommendations and Contextual Information" },
+    {
+      icon: ClipboardList,
+      text: "Adding Recommendations and Contextual Information",
+    },
   ];
-  
 
   return (
     <div className="space-y-4 p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg">
@@ -170,11 +172,11 @@ const Earthquake: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-white rounded-2xl shadow-lg">
+    <div className="max-w-3xl mx-auto p-8 bg-white sm:rounded-2xl sm:shadow-lg max-sm:max-w-[100%] max-sm:p-3">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-bold mb-8 text-center text-blue-900"
+        className="text-3xl font-bold mb-8 text-center text-blue-900 max-md:text-[1.65rem]"
       >
         Earthquake Prediction
       </motion.h2>
@@ -227,7 +229,6 @@ const Earthquake: React.FC = () => {
             </div>
           </div>
           {/* Modal Component */}
-          
 
           <div className="mb-6">
             <div
@@ -246,7 +247,7 @@ const Earthquake: React.FC = () => {
             </div>
           </div>
 
-          <div className="prose max-w-none">
+          <div className="prose max-w-none ">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -291,7 +292,7 @@ const Earthquake: React.FC = () => {
         >
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block mb-2 font-semibold text-blue-900">
+              <label className="block mb-2 font-semibold text-blue-900 max-sm:text-xl">
                 Latitude
               </label>
               <input
@@ -306,7 +307,7 @@ const Earthquake: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block mb-2 font-semibold text-blue-900">
+              <label className="block mb-2 font-semibold text-blue-900 max-sm:text-xl">
                 Longitude
               </label>
               <input
@@ -324,7 +325,7 @@ const Earthquake: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block mb-2 font-semibold text-blue-900">
+              <label className="block mb-2 font-semibold text-blue-900 max-sm:text-xl">
                 Depth
               </label>
               <input
@@ -337,7 +338,7 @@ const Earthquake: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block mb-2 font-semibold text-blue-900">
+              <label className="block mb-2 font-semibold text-blue-900 max-sm:text-xl">
                 Location
               </label>
               <input
@@ -355,7 +356,7 @@ const Earthquake: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform shadow-lg"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform shadow-lg max-sm:text-lg max-md:my-9"
           >
             Predict Earthquake Risk
           </motion.button>
