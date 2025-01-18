@@ -799,9 +799,9 @@ export default function Home() {
           </section>
 
           <div className="bg-white p-6 rounded-xl mb-6 mt-16">
-            <h2 className="lg:text-4xl md:text-4xl text-2xl font-bold text-center mb-12 flex items-center justify-center text-primary">
+            <h2 className="lg:text-4xl md:text-4xl text-2xl font-bold text-center mb-12 flex items-center justify-center">
               <Shield className="mr-3 lg:block md:block hidden w-10 h-10 text-primary" />
-              Disaster Preparedness: Essential Measures
+              <span><span className="text-primary">Disaster Preparedness:</span>&nbsp;Essential Measures</span>
             </h2>
             <div className="flex items-center justify-center">
               <div className="flex flex-wrap items-center justify-center w-[80vw] gap-4">
