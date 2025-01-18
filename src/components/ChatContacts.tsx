@@ -6,6 +6,7 @@ import React, { Key } from 'react'
 
 const ChatContacts = () => {
     const {groups , selectedContact, setSelectedContact} = userAuth();
+    // console.log(selectedContact)
   return (
     <div className="flex-1 overflow-y-scroll">
           {groups?.map((group) => (

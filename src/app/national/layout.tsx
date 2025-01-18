@@ -29,7 +29,7 @@ export default function RootLayout({
             <main className="ml-64 w-full p-6 bg-white">{children}</main>
           </div>
           <div className="flex flex-row pt-16 min-h-screen lg:hidden">
-            <main className="w-full p-6 bg-white">{children}</main>
+            <main className="w-full md:p-6 bg-white">{children}</main>
           </div>
         </div>
       </body>
