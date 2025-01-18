@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { CloseIcon } from "../ui/icons";
 import useClickOutside from "@/hooks/useClickOutside";
 import {
@@ -23,10 +23,28 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     localStorage.getItem("activeTab") || "home"
   );
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // Add effect to prevent body scrolling when sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "unset";
+      document.body.style.touchAction = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+      document.body.style.touchAction = "auto";
+    };
+  }, [isOpen]);
+
   const setActiveTabFunction = (id: string) => () => {
     setActiveTab(id);
     localStorage.setItem("activeTab", id);
   };
+
   useClickOutside(sidebarRef, onClose);
 
   const navigationItems = [
@@ -52,8 +70,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
       aria-hidden={!isOpen}
+      style={{ touchAction: "none" }}
     >
-      <div className="absolute inset-0 bg-black opacity-50" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black opacity-50"
+        onClick={onClose}
+        style={{ touchAction: "none" }}
+      />
       <div
         ref={sidebarRef}
         className={`fixed top-0 left-0 w-64 h-full bg-white shadow-lg transition-transform duration-300 transform ${
@@ -67,7 +90,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               aria-label="logo"
               className="flex items-center space-x-2 astro-ES6RJE63 h-1 w-2 mr-3"
             >
-              <p className="text-xl">ResQAI</p>              
+              <p className="text-xl">ResQAI</p>
             </a>
           </h2>
           <button onClick={onClose} aria-label="Close sidebar">
@@ -75,7 +98,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
         <div className="p-2">
-          {/* Sidebar content goes here */}
           <div className="h-[90vh] px-3 flex flex-col justify-between overflow-y-auto">
             <ul className="space-y-8 font-medium">
               {navigationItems.map((item) => (
@@ -102,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 localStorage.setItem("activeTab", "aisuggest");
               }}
             >
-              <button className="text-sm mb-2 bg-blue-700 p-2 text-white rounded-lg w-full">
+              <button className="text-sm mb-16 bg-blue-700 p-2 text-white rounded-lg w-full">
                 AI suggestions
               </button>
             </Link>
