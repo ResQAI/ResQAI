@@ -2,19 +2,11 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import {
-  ChartLine,
-  GitPullRequestClosedIcon,
   HomeIcon,
-  Loader2Icon,
-  MessageSquareLockIcon,
-  Send,
-  SendIcon,
-  Sparkle,
   User2Icon,
-  HeartHandshake ,
+  HeartHandshake,
 } from "lucide-react";
 import Link from "next/link";
-
 
 interface SidebarProps {
   role: "citizen" | "ngo" | "district" | "national";
@@ -25,17 +17,10 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
     localStorage.getItem("activeTab") || "home"
   );
 
-
-  
-
   const navigationItems = [
-    { id: 'Home', name: 'Home', icon: HomeIcon },
-    { id: 'Profile', name: 'Profile', icon: User2Icon },
-    // { id: 'incoming-requests', name: 'Incoming Requests', icon: GitPullRequestClosedIcon },
-    // { id: 'progress-submission', name: 'Progress Submission', icon: ChartLine },
-    // { id: 'send-notifications', name: 'Send Notifications', icon: SendIcon },
-    // { id: 'volunteer', name: 'Become a volunteer', icon: MessageSquareLockIcon },
-    { id: 'Donate', name: 'Donate to Govt. Funds', icon: HeartHandshake },
+    { id: "Home", name: "Home", icon: HomeIcon },
+    { id: "Profile", name: "Profile", icon: User2Icon },
+    { id: "Donate", name: "Donate to Govt. Funds", icon: HeartHandshake },
   ];
 
   const setActiveTabFunction = (id: string) => () => {
@@ -54,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
           <ul className="space-y-8 font-medium">
             {navigationItems.map((item) => (
               <li key={item.id}>
-               <Link
+                <Link
                   href={`/citizen/${item.id}`}
                   onClick={setActiveTabFunction(item.id)}
                   className={`flex my-5 items-center p-2 text-gray-900 rounded-lg  group ${
@@ -70,7 +55,10 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
             ))}
           </ul>
           <a href="/citizen/saveme">
-          <Button className="w-full text-lg" color="red">Help Me</Button></a>
+            <Button className="w-full text-lg" color="red">
+              Help Me
+            </Button>
+          </a>
         </div>
       </aside>
     </>
