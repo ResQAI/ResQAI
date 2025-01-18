@@ -106,11 +106,52 @@ export default function Nav() {
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</nav>
 
-    );
-  }
-  
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={menuVariants}
+              className="lg:hidden bg-blue-200 shadow-lg rounded-lg mt-2"
+            >
+              <div className="flex flex-col space-y-4 pb-4">
+                <motion.a
+                  href="/awareness"
+                  className="text-gray-700 hover:text-primary px-4 py-2 transition"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  Awareness
+                </motion.a>
+                <motion.a
+                  href="/quiz"
+                  className="text-gray-700 hover:text-primary px-4 py-2 transition"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  Quiz
+                </motion.a>
+                <motion.a
+                  href="/login"
+                  className="mx-4 py-2 text-sm text-gray-700 transition hover:scale-105 active:scale-95"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  Get Started
+                </motion.a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </nav>
+  );
+};
+
+export default Nav;

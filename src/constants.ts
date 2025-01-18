@@ -1,1 +1,1 @@
-export const baseUrl = "http://localhost:3000";
+export const baseUrl = "https://resqai-96420221158.us-central1.run.app/";
