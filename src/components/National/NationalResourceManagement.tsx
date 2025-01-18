@@ -163,7 +163,7 @@ const ResourceRequestManagement = () => {
   };
 
   return (
-    <div className="max-h-screen overflow-y-scroll p-4 md:p-8">
+    <div className="h-full overflow-y-scroll p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center mb-10 space-x-4">
