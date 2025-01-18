@@ -48,7 +48,10 @@ const LoadingStage = ({ stage }: { stage: number }) => {
     { icon: Calendar, text: "Processing Yearly Rainfall" },
     { icon: Cpu, text: "Predicting Flood Risk Using ML Model" },
     { icon: Sparkles, text: "Refining Insights Using Gemini 1.5 Pro Model" },
-    { icon: ClipboardList, text: "Adding Recommendations and Contextual Information" },
+    {
+      icon: ClipboardList,
+      text: "Adding Recommendations and Contextual Information",
+    },
   ];
 
   return (
@@ -238,11 +241,11 @@ const FloodPredictionForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-white rounded-2xl shadow-lg">
+    <div className="max-w-3xl mx-auto p-8 bg-white sm:rounded-2xl sm:shadow-lg max-sm:max-w-[100%] max-sm:p-3">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-bold mb-8 text-center text-blue-900"
+        className="text-3xl font-bold mb-8 text-center text-blue-900 max-md:text-[1.65rem]"
       >
         Flood Risk Prediction
       </motion.h2>
@@ -288,7 +291,6 @@ const FloodPredictionForm: React.FC = () => {
             </div>
           </div>
           {/* Modal Component */}
-          
 
           <div className="mb-6">
             <div
@@ -349,7 +351,7 @@ const FloodPredictionForm: React.FC = () => {
           onSubmit={handleSubmit}
           className="space-y-6"
         >
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-6 max-sm:text-center max-sm:text-xl max-md:mb-10">
             <div>
               <label className="block mb-2 font-semibold text-blue-900">
                 Subdivision
@@ -381,7 +383,7 @@ const FloodPredictionForm: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 gap-4 max-sm:grid-cols-3 max-md:text-center">
             {(
               [
                 "JAN",
@@ -398,9 +400,10 @@ const FloodPredictionForm: React.FC = () => {
                 "DEC",
               ] as const
             ).map((month) => (
-              <div key={month}>
-                <label className="block mb-1 text-sm text-blue-800">
-                  {month} (in mm)
+              <div key={month} className="max-sm:mb-3">
+                <label className="block mb-1 text-sm text-blue-800 max-sm:text-lg">
+                  {month} <span className="max-sm:hidden">(in mm)</span>{" "}
+                  <span className="sm:hidden">(mm)</span>
                 </label>
                 <input
                   type="number"
@@ -419,7 +422,7 @@ const FloodPredictionForm: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform shadow-lg"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform shadow-lg max-sm:text-lg"
           >
             Predict Flood Risk
           </motion.button>
