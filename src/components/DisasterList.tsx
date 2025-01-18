@@ -51,30 +51,22 @@ const DisasterList: React.FC<DisasterListProps> = ({
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="container">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+    <div className="container mx-auto px-2 sm:px-4 lg:px-6 max-w-7xl">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6">
+        <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">
+          {title}
+        </h1>
       </div>
 
-      <div className="relative mb-6 flex justify-between mr-10">
+      {/* Filter Section */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-6 items-stretch sm:items-center justify-center sm:justify-start">
         <select
           value={selectedFilter || ""}
           onChange={(e) => setSelectedFilter(e.target.value || null)}
-          className="
-            block
-            pl-3 
-            pr-10 
-            py-2 
-            text-base 
-            border 
-            border-gray-300 
-            focus:outline-none 
-            focus:ring-2 
-            focus:ring-blue-500 
-            focus:border-blue-500 
-            sm:text-sm 
-            rounded-md
-          "
+          className="w-full sm:w-48 px-3 py-2 text-sm border border-gray-300 
+            rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 
+            focus:border-blue-500"
         >
           <option value="">All Disasters</option>
           {allTags.map((tag, index) => (
@@ -86,75 +78,49 @@ const DisasterList: React.FC<DisasterListProps> = ({
 
         <button
           onClick={openModal}
-          className="
-            inline-flex 
-            items-center 
-            px-4 
-            py-2 
-            border 
-            border-transparent 
-            text-sm 
-            font-medium 
-            rounded-md 
-            text-white 
-            bg-blue-600 
-            hover:bg-blue-700 
-            focus:outline-none 
-            focus:ring-2 
-            focus:ring-offset-2 
-            focus:ring-blue-500
-            ml-10
-          "
+          className="w-full sm:w-auto px-4 py-2 text-sm font-medium 
+            rounded-md text-white bg-blue-600 hover:bg-blue-700 
+            focus:outline-none focus:ring-2 focus:ring-offset-2 
+            focus:ring-blue-500 min-w-[120px]"
         >
           View Map
         </button>
       </div>
 
+      {/* Cards Grid */}
       {filteredDisasters.length > 0 ? (
-        <div className="md:flex max-h-screen mb-2 md:flex-wrap gap-4 item-center justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 
+          gap-4 sm:gap-6 justify-items-center">
           {filteredDisasters.map((disaster, index) => (
-            <DisasterCard
-              key={index}
-              name={disaster.name}
-              area={disaster.exactLocation?.address}
-              tags={disaster.tags}
-              disasterDetails={disaster}
-              onViewMore={() => console.log("View more")}
-              setDisaster={setDisaster}
-            />
+            <div key={index} className="w-full max-w-sm">
+              <DisasterCard
+                name={disaster.name}
+                area={disaster.exactLocation?.address}
+                tags={disaster.tags}
+                disasterDetails={disaster}
+                onViewMore={() => console.log("View more")}
+                setDisaster={setDisaster}
+              />
+            </div>
           ))}
         </div>
       ) : (
         <div className="text-center py-10 text-gray-500">No Results.</div>
       )}
 
+      {/* Modal */}
       {isModalOpen && (
-        <div
-          className="
-            fixed 
-            inset-0 
-            bg-gray-600 
-            bg-opacity-50 
-            flex 
-            items-center 
-            justify-center
-            z-50
-          "
-        >
-          <div className="bg-white rounded-lg shadow-lg p-6 relative w-11/12 max-w-4xl">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center 
+          justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg relative w-full max-w-4xl 
+            h-[90vh] sm:h-[80vh] flex flex-col">
             <button
               onClick={closeModal}
-              className="
-                absolute 
-                top-2 
-                right-2 
-                text-gray-500 
-                hover:text-gray-700 
-                focus:outline-none
-              "
+              className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-700 
+                focus:outline-none z-10 bg-white rounded-full"
             >
               <svg
-                className="w-6 h-6"
+                className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -168,12 +134,13 @@ const DisasterList: React.FC<DisasterListProps> = ({
                 />
               </svg>
             </button>
-            <DisasterMap lat={lat} lng={lng} zoom={zoom} />
+            <div className="flex-1 overflow-hidden">
+              <DisasterMap lat={lat} lng={lng} zoom={zoom} />
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 };
-
 export default DisasterList;
