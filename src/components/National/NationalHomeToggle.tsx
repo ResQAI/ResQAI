@@ -11,17 +11,20 @@ interface NationalHomeToggleAreaProps {
   onClose: () => void;
 }
 
-const NationalHomeToggleArea: React.FC<NationalHomeToggleAreaProps> = ({ isOpen, onClose }) => {
+const NationalHomeToggleArea: React.FC<NationalHomeToggleAreaProps> = ({
+  isOpen,
+  onClose,
+}) => {
   const [activeTab, setActiveTab] = useState("responsePlan");
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
@@ -57,13 +60,15 @@ const NationalHomeToggleArea: React.FC<NationalHomeToggleAreaProps> = ({ isOpen,
       />
 
       {/* Slide-in Panel */}
-      <div 
+      <div
         className={`w-full md:w-[600px] bg-white h-screen flex flex-col shadow-lg transform transition-transform duration-300 ease-in-out
-          ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header */}
         <div className="p-2 flex items-center justify-between border-b">
-          <h2 className="text-lg items-center font-semibold">Action Center</h2>
+          <div className="flex justify-center w-full">
+            <h2 className="text-lg font-semibold">Action Center</h2>
+          </div>
           <button
             onClick={onClose}
             className="p-2 rounded-lg text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors"
@@ -79,16 +84,17 @@ const NationalHomeToggleArea: React.FC<NationalHomeToggleAreaProps> = ({ isOpen,
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`relative py-2 px-2 flex flex-col items-center justify-center space-y-1 transition-all duration-300 group
-                ${activeTab === tab.id ? 'bg-gray-50' : 'hover:bg-gray-50'}`}
+                ${activeTab === tab.id ? "bg-gray-50" : "hover:bg-gray-50"}`}
             >
               {activeTab === tab.id && (
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
               )}
               <div
                 className={`flex flex-col items-center gap-1.5
-                  ${activeTab === tab.id 
-                    ? 'text-blue-600' 
-                    : 'text-gray-600 group-hover:text-blue-500'
+                  ${
+                    activeTab === tab.id
+                      ? "text-blue-600"
+                      : "text-gray-600 group-hover:text-blue-500"
                   }`}
               >
                 {tab.icon}
@@ -106,11 +112,9 @@ const NationalHomeToggleArea: React.FC<NationalHomeToggleAreaProps> = ({ isOpen,
             <div
               key={tab.id}
               className={`h-full transition-all duration-300 ease-in-out
-                ${activeTab === tab.id ? 'block' : 'hidden'}`}
+                ${activeTab === tab.id ? "block" : "hidden"}`}
             >
-              <div className="p-4">
-                {tab.component}
-              </div>
+              <div className="p-4">{tab.component}</div>
             </div>
           ))}
         </div>
