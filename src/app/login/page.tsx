@@ -42,18 +42,17 @@ const LoginPage: React.FC = () => {
     <div className="h-screen flex flex-col md:flex-row">
       <Nav />
       {/* Left Section */}
-      <div className="flex w-full md:w-1/2 bg-gradient-to-tr from-blue-200 to-blue-600 justify-around items-center p-6">
-        <div className=" p-24 fle text-center">
-          <h1 className="text-white font-bold text-5xl  mb-12 font-sans">
-            ResQAI
+      <div className="lg:flex md:flex md:flex-col hidden w-full md:w-1/2 bg-gradient-to-tr from-blue-200 to-blue-600 justify-around items-center lg:p-6 md:p-2">
+        <div className="lg:p-12 md:p-12 flex-col flex text-center">
+          <h1 className="text-white font-bold text-4xl mb-8 font-sans">
+            ResQAI Mission 
           </h1>
-          <p className=" mt-3 text-xl mb-10 px-5 ">
+          <p className=" mt-3 text-xl mb-10 px-5">
             Leveraging AI to revolutionize disaster management and provide
             real-time assistance during emergencies. Our mission is to save
             lives and mitigate risks with cutting-edge technology.
           </p>
-          <div className=""></div>
-          <ul className="mt-4 flex grid grid-cols-2 text- gap-5  text-xl text-left list-disc ml-12">
+          <ul className="lg:grid lg:grid-cols-2 md:hidden mt-4 gap-5 text-xl text-left list-disc ml-12">
             <li> Real-time disaster tracking and updates</li>
             <li> AI-powered risk assessment and resource allocation</li>
             <li> Seamless communication and coordination during crises</li>
@@ -71,7 +70,7 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
       {/* Right Section */}
-      <div className="flex w-full md:w-1/2 justify-center items-center bg-slate-100 p-6">
+      <div className="flex h-full w-full lg:w-1/2 md:w-1/2 justify-center items-center bg-slate-100 p-6">
         <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
           {isLoggedIn ? (
             <div className="text-center">

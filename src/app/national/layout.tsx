@@ -21,12 +21,15 @@ export default function RootLayout({
             <NationalHeader />
           </header>
 
-          <div className="flex flex-row pt-16 min-h-screen">
+          <div className="lg:flex flex-row pt-16 min-h-screen hidden">
             <aside className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white shadow-md">
               <Sidebar role="national" />
             </aside>
 
             <main className="ml-64 w-full p-6 bg-white">{children}</main>
+          </div>
+          <div className="flex flex-row pt-16 min-h-screen lg:hidden">
+            <main className="w-full p-6 bg-white">{children}</main>
           </div>
         </div>
       </body>

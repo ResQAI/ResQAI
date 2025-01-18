@@ -4,7 +4,7 @@ import { db } from "@/utils/firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { cookies } from "next/headers";
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
 
 const TOKEN_EXPIRATION = "1d";
 

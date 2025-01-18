@@ -3,7 +3,14 @@ import Nav from "@/components/Navbar";
 import LandingChatAssistant from "@/components/ChatAssistant";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Linkedin, Github } from "lucide-react";
+import {
+  Linkedin,
+  Github,
+  Shield,
+  Radio,
+  Landmark,
+  Battery,
+} from "lucide-react";
 
 // Add this custom hook after the imports
 function useCounter(end: number, duration: number = 1500) {
@@ -46,6 +53,44 @@ function useCounter(end: number, duration: number = 1500) {
 }
 
 export default function Home() {
+  const disasterPreparednessSteps = [
+    {
+      icon: Shield,
+      title: "Emergency Kit Preparation",
+      description:
+        "Assemble a comprehensive emergency kit including first aid supplies, non-perishable food, water, medications, flashlights, batteries, and important documents in a waterproof container.",
+    },
+    {
+      icon: Radio,
+      title: "Communication Strategy",
+      description:
+        "Establish a family communication plan. Identify an out-of-area contact, ensure everyone knows emergency contact numbers, and have backup communication methods like battery-powered radios.",
+    },
+    {
+      icon: Landmark,
+      title: "Evacuation Planning",
+      description:
+        "Identify multiple evacuation routes from your home, workplace, and common areas. Create a meeting point for family members and have a backup shelter plan.",
+    },
+    {
+      icon: Battery,
+      title: "Power and Utilities",
+      description:
+        "Learn how to shut off gas, electricity, and water. Keep portable chargers, extra batteries, and alternative power sources like solar chargers or generators.",
+    },
+    {
+      icon: Landmark,
+      title: "Water and Food Security",
+      description:
+        "Store at least one gallon of water per person per day for 3-7 days. Keep non-perishable food that doesn't require cooking. Have water purification methods available.",
+    },
+    {
+      icon: Battery,
+      title: "Medical Preparedness",
+      description:
+        "Maintain a well-stocked first aid kit. Keep prescription medications in a portable container. Learn basic first aid and CPR techniques.",
+    },
+  ];
   const teamMembers = [
     {
       name: "Abhay Dixit",
@@ -108,12 +153,12 @@ export default function Home() {
         <div className="max-w-7xl  mx-auto px-6 md:px-12 xl:px-6">
           <div className="relative pt-36 ml-auto">
             <div className="lg:w-2/3 text-center mx-auto">
-              <h1 className="text-gray-900 ddkktext-white font-bold text-5xl md:text-5xl xl:text-7xl">
+              <h1 className="text-gray-900 font-bold text-3xl lg:text-7xl md:text-5xl">
                 Act Faster, Save Lives with{" "}
-                <span className="text-primary ddkktext-white">ResQAI</span>
+                <span className="text-primary">ResQAI</span>
                 {/* <span className="text-primary ddkktext-white">ResQAI</span> */}
               </h1>
-              <p className="mt-8 mx-10 text-gray-700 ddkktext-gray-300">
+              <p className="mt-8 lg:mx-10 md:mx-10 mx-2 text-gray-700">
                 Empowering government agencies, NGOs, and citizens to minimize
                 damage, save lives, and rebuild communities during disasters
                 with AI-driven insights and collaboration.
@@ -123,22 +168,22 @@ export default function Home() {
                   href="/login"
                   className="relative flex h-11 w-full items-center justify-center px-6 rounded-full  transition duration-300 hover:scale-105 bg-primary  sm:w-max"
                 >
-                  <span className="relative text-white  font-semibold text-white">
+                  <span className="relative font-semibold text-white">
                     Get started
                   </span>
                 </a>
                 <a
                   href="#features"
-                  className="relative flex h-11 w-full items-center justify-center px-6 absolute inset-0 rounded-full border border-transparent bg-purple-50  transition duration-300 hover:scale-105 active:duration-75 active:scale-95 ddkkborder-gray-700 ddkkbg-gray-800 sm:w-max"
+                  className="relative bg-black bg-opacity-80 flex h-11 w-full items-center justify-center px-6 inset-0 rounded-full border border-transparent transition duration-300 hover:scale-105 active:duration-75 active:scale-95 sm:w-max"
                 >
-                  <span className="relative text-base font-semibold text-primary ddkktext-white">
+                  <span className="relative text-base font-semibold text-white">
                     Learn more
                   </span>
                 </a>
               </div>
-              <div className="hidden py-8 mt-10 border-y border-gray-100 grid grid-col-3 ddkkborder-gray-800 sm:flex justify-between">
+              <div className="py-8 lg:grid md:grid hidden mt-10 border-y border-gray-100 lg:grid-col-3 md:grid-cols-3 sm:flex justify-between">
                 <div className="text-center">
-                  <h6 className="text-lg font-semibold text-gray-700 ddkktext-white">
+                  <h6 className="text-lg font-semibold text-gray-700">
                     Prepared Everytime
                   </h6>
                   <p className="mt-2 mr-3 text-gray-500">
@@ -146,7 +191,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="text-center">
-                  <h6 className="text-lg font-semibold text-gray-700 ddkktext-white">
+                  <h6 className="text-lg font-semibold text-gray-700">
                     Faster Relief Coordination
                   </h6>
                   <p className="mt-2  pr-3  text-gray-500">
@@ -154,7 +199,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="text-center">
-                  <h6 className="text-lg font-semibold text-gray-700 ddkktext-white">
+                  <h6 className="text-lg font-semibold text-gray-700">
                     Saving Lives, Smarter
                   </h6>
                   <p className="mt-2 text-gray-500">
@@ -182,20 +227,20 @@ export default function Home() {
               <img
                 src="https://i.ibb.co/KjrPCyW/map.png"
                 alt="world map image"
-                className="  h-96 object-cover object-fill sm:block hidden"
+                className="h-96 object-cover sm:block hidden"
               />
               <img
                 src="https://i.ibb.co/SXKj9Mf/map-bg.png"
                 alt="mobile-image"
-                className="sm:hidden -mt-10 block w-full h-96 object-cover object-fill absolute z-0"
+                className="sm:hidden -mt-10 block w-full h-96 object-fill absolute z-0"
               />
-              <div className="shadow-lg xl:p-6 p-4 sm:w-auto w-full bg-white sm:absolute relative z-20 sm:mt-0 mt-4 left-0 xl:ml-56 sm:ml-12 xl:-mt-40 sm:-mt-12">
+              <div className="shadow-lg xl:p-6 p-4 sm:w-auto w-full bg-white sm:absolute relative z-20 mt-4 left-0 xl:ml-56 sm:ml-12 xl:-mt-40 sm:-mt-12">
                 <p className="text-3xl font-semibold text-primary">300+</p>
                 <p className="text-base leading-4 xl:mt-4 mt-2 text-primary">
                   Natural Disasters in 2023
                 </p>
               </div>
-              <div className="shadow-lg xl:p-6 p-4 w-48 sm:w-auto w-full bg-white sm:absolute relative z-20 sm:mt-0 mt-4 xl:mt-80 sm:mt-56 xl:-ml-0 sm:-ml-12">
+              <div className="shadow-lg xl:p-6 p-4 sm:w-auto w-full bg-white sm:absolute relative z-20 mt-4 xl:mt-80 sm:mt-56 xl:-ml-0 sm:-ml-12">
                 <p className="text-3xl font-semibold text-primary">$313B+</p>
                 <p className="text-base leading-4 xl:mt-4 mt-2 text-primary">
                   Economic Losses
@@ -229,7 +274,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="text-4xl font-bold text-primary" ref={lives.ref}>
+              <h6 className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary" ref={lives.ref}>
                 {lives.count}M+
               </h6>
               <p className="mb-2 font-bold text-primary text-md">
@@ -256,7 +301,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="text-4xl font-bold text-primary" ref={users.ref}>
+              <h6 className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary" ref={users.ref}>
                 {users.count}K
               </h6>
               <p className="mb-2 font-bold text-primary text-md">Users</p>
@@ -282,7 +327,7 @@ export default function Home() {
                 </svg>
               </div>
               <h6
-                className="text-4xl font-bold text-primary"
+                className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary"
                 ref={agencies.ref}
               >
                 {agencies.count}K+
@@ -312,7 +357,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="text-4xl font-bold text-primary" ref={models.ref}>
+              <h6 className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary" ref={models.ref}>
                 {models.count}
               </h6>
               <p className="mb-2 font-bold text-md text-primary">
@@ -327,38 +372,38 @@ export default function Home() {
         </div>
 
         <section
-          className=" flex item-center justify-center  pt-[110px]"
+          className=" flex item-center justify-center lg:pt-[110px] md:pt-[100px] pt-16"
           id="features"
         >
-          <div className=" ">
-            <div className="">
+          <div>
+            <div>
               <div
-                className="wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]"
+                className="wow fadeInUp mx-auto mb-10 max-w-[690px] text-center lg:mb-[70px]"
                 data-wow-delay=".2s"
                 style={{ visibility: "visible", animationDelay: "0.2s" }}
               >
-                <h2 className="mb-4 text-3xl font-bold text-black ddkktext-white sm:text-4xl md:text-[44px] md:leading-tight">
+                <p className="mb-4 p-1 text-2xl font-bold text-black lg:text-5xl sm:text-4xl md:text-[44px] md:leading-tight">
                   Features That{" "}
                   <span className="text-primary">
                     {" "}
                     Transform Disaster Management{" "}
                   </span>
-                </h2>
+                </p>
                 {/* <p className="text-base text-body">
               Seamless collaboration, AI-driven decisions, and faster response times.
               </p> */}
               </div>
             </div>
-            <div className="">
-              <div className="rounded-2xl bg-white px-5 mx-14 pt-5 pb-14 shadow-card d md:pb-1   xl:px-10">
-                <div className="-mx-4 flex flex-wrap">
+            <div className="w-full">
+              <div className="rounded-2xl w-full flex items-center justify-center bg-white pt-5 pb-14 shadow-card md:pb-1 lg:px-10">
+                <div className="lg:-mx-4 md:-mx-4 flex flex-wrap">
                   <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                     <div
-                      className="wow rounded-xl border p-10 shadow-xl  group mx-auto mb-[50px] h-[350px] text-center"
+                      className="rounded-xl border lg:p-10 md:p-10 p-4 shadow-xl group mx-auto mb-[50px] lg:h-[350px] md:h-[350px] text-center"
                       data-wow-delay=".2s"
                       style={{ visibility: "visible", animationDelay: "0.2s" }}
                     >
-                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray  duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
+                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                         <svg
                           width={44}
                           height={44}
@@ -391,7 +436,7 @@ export default function Home() {
 
                   <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                     <div
-                      className="wow rounded-xl border p-10 shadow-xl   fadeInUp group mx-auto mb-[60px] h-[350px]  text-center"
+                      className="wow rounded-xl border lg:p-10 md:p-10 p-4 shadow-xl fadeInUp group mx-auto mb-[60px] lg:h-[350px] md:h-[350px] text-center"
                       data-wow-delay=".3s"
                       style={{ visibility: "visible", animationDelay: "0.3s" }}
                     >
@@ -432,11 +477,11 @@ export default function Home() {
 
                   <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                     <div
-                      className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] h-[350px] text-center"
+                      className="wow rounded-xl border lg:p-10 md:p-10 p-4 shadow-xl fadeInUp group mx-auto mb-[60px] lg:h-[350px] md:h-[350px] text-center"
                       data-wow-delay=".4s"
                       style={{ visibility: "visible", animationDelay: "0.4s" }}
                     >
-                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
+                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                         <svg
                           width={44}
                           height={44}
@@ -474,11 +519,11 @@ export default function Home() {
 
                   <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                     <div
-                      className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] h-[350px] text-center"
+                      className="wow rounded-xl border lg:p-10 md:p-10 p-4 shadow-xl fadeInUp group mx-auto mb-[60px] lg:h-[350px] md:h-[350px] text-center"
                       data-wow-delay=".2s"
                       style={{ visibility: "visible", animationDelay: "0.2s" }}
                     >
-                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
+                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                         <svg
                           width={44}
                           height={44}
@@ -515,11 +560,11 @@ export default function Home() {
 
                   <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                     <div
-                      className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] h-[350px] text-center"
+                      className="wow rounded-xl border lg:p-10 md:p-10 p-4 shadow-xl fadeInUp group mx-auto mb-[60px] lg:h-[350px] md:h-[350px] text-center"
                       data-wow-delay=".3s"
                       style={{ visibility: "visible", animationDelay: "0.3s" }}
                     >
-                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
+                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                         <svg
                           width={40}
                           height={40}
@@ -552,11 +597,11 @@ export default function Home() {
 
                   <div className="w-full px-4 md:w-1/2 lg:w-1/3">
                     <div
-                      className="wow rounded-xl border p-10 shadow-xl fadeInUp group mx-auto mb-[60px] h-[350px] text-center"
+                      className="rounded-xl border lg:p-10 md:p-10 p-4 shadow-xl fadeInUp group mx-auto mb-[60px] lg:h-[350px] md:h-[350px] text-center"
                       data-wow-delay=".4s"
                       style={{ visibility: "visible", animationDelay: "0.4s" }}
                     >
-                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 text-primary duration-300 group-hover:bg-primary group-hover:text-white">
+                      <div className="mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-gray text-primary duration-300 group-hover:bg-primary group-hover:text-white">
                         <svg
                           width={44}
                           height={44}
@@ -705,51 +750,90 @@ export default function Home() {
         <>
           <section className="bg-white py-8">
             <div className="container max-w-5xl mx-auto m-8">
-              <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-primary">
-                Learn & Respond Effectively
+              <h2 className="w-full my-2 lg:mb-16 md:mb-16 mb-8 lg:text-5xl md:text-5xl text-3xl font-bold leading-tight text-center">
+                <span className="text-primary">Learn</span> &{" "}
+                <span className="text-primary">Respond</span> Effectively
               </h2>
-              <div className="w-full mb-12">
+              {/* <div className="w-full mb-12">
                 <div className="h-1 mx-auto bg-blue-600 w-64 opacity-50 my-0 py-0 rounded-t" />
-              </div>
+              </div> */}
               <div className="flex flex-wrap justify-center gap-16 mt-5">
                 {/* Card 1 */}
-                <div className="bg-white shadow-2xl rounded-lg overflow-hidden border border-primary w-full sm:w-5/12 p-6">
-                  <h3 className="text-3xl text-primary font-bold leading-none mb-3 text-center">
-                    MCQ Test: Know Your Disaster Types
+                <div className="bg-white shadow-2xl rounded-lg overflow-hidden lg:w-5/12 md:w-5/12 sm:w-5/12 w-[85vw] p-6">
+                  <h3 className="text-2xl text-primary font-bold leading-none mb-3 text-center">
+                    MCQ Test
                   </h3>
                   <p className="text-gray-600 mb-6">
-                    Interactive quizzes to learn about floods, cyclones, and
-                    earthquakes.
+                    Know Your Disaster Types. Interactive quizzes to learn about
+                    floods, cyclones, and earthquakes.
                   </p>
                   <div className="flex items-center justify-center">
                     <a
                       href="/quiz"
-                      className="w-[200px] text-center px-4 py-2 bg-primary text-white font-semibold text-sm rounded-full transition duration-300 hover:bg-blue-600 hover:scale-105 active:scale-95"
+                      className="w-full text-center lg:py-1 py-2 bg-primary text-white font-semibold lg:text-lg md:text-lg text-sm rounded-full transition duration-300 hover:bg-blue-600 hover:scale-105 active:scale-95"
                     >
-                      Take Quiz
+                      Take Quiz →
                     </a>
                   </div>
                 </div>
                 {/* Card 2 */}
-                <div className="bg-white shadow-2xl rounded-lg overflow-hidden border border-primary w-full sm:w-5/12 p-6">
-                  <h3 className="text-3xl text-primary font-bold leading-none mb-3 text-center">
-                    Case Study: Real-Life Response Scenarios
+                <div className="bg-white shadow-2xl rounded-lg overflow-hidden lg:w-5/12 md:w-5/12 sm:w-5/12 w-[85vw] p-6">
+                  <h3 className="text-2xl text-primary font-bold leading-none mb-3 text-center">
+                    Case Study
                   </h3>
                   <p className="text-gray-600 mb-6">
-                    Analyze real-life cases to understand response strategies.
+                    Real-Life Response Scenarios. Analyze real-life cases to
+                    understand response strategies.
                   </p>
                   <div className="flex items-center justify-center">
                     <a
                       href="/awareness"
-                      className="flex items-center w-[200px] justify-center px-4 py-2 bg-primary text-white font-semibold text-sm rounded-full transition duration-300 hover:bg-blue-600 hover:scale-105 active:scale-95"
+                      className="flex items-center w-full justify-center lg:py-1 py-2 bg-primary text-white font-semibold lg:text-lg md:text-lg text-sm rounded-full transition duration-300 hover:bg-blue-600 hover:scale-105 active:scale-95"
                     >
-                      Learn from Case Studies
+                      Learn from Case Studies →
                     </a>
                   </div>
                 </div>
               </div>
             </div>
           </section>
+
+          <div className="bg-white p-6 rounded-xl mb-6 mt-16">
+            <h2 className="lg:text-4xl md:text-4xl text-2xl font-bold text-center mb-12 flex items-center justify-center">
+              <Shield className="mr-3 lg:block md:block hidden w-10 h-10 text-primary" />
+              <span><span className="text-primary">Disaster Preparedness:</span>&nbsp;Essential Measures</span>
+            </h2>
+            <div className="flex items-center justify-center">
+              <div className="flex flex-wrap items-center justify-center w-[80vw] gap-4">
+                {disasterPreparednessSteps.map((step, index) => (
+                  // <div  className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex items-start space-x-4">
+
+                  <div
+                    key={index}
+                    className="group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10"
+                  >
+                    <span className="absolute top-10 z-0 h-20 w-20 rounded-full transition-all lg:bg-primary md:bg-primary duration-300 group-hover:scale-[10]" />
+                    <div className="relative z-10 mx-auto max-w-md">
+                      <div className="flex gap-5 items-center justify-center">
+                        <span className="grid h-20 w-20 place-items-center rounded-full lg:bg-primary md:bg-primary bg-white transition-all duration-300 md:group-hover:bg-primary lg:group-hover:bg-primary">
+                          <step.icon
+                            className="h-10 w-10 lg:text-white md:text-white text-primary transition-all"
+                            size={24}
+                          />
+                        </span>
+                        <h3 className="font-bold lg:text-xl md:text-xl text-lg mb-2 lg:group-hover:text-white/90 md:group-hover:text-white/90 text-primary">
+                          {step.title}
+                        </h3>
+                      </div>
+                      <div className="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 md:group-hover:text-white/90 lg:group-hover:text-white/90">
+                        <p>{step.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* <motion.div
                     initial={{ opacity: 0, y: 50 }}
@@ -799,12 +883,12 @@ export default function Home() {
                 Ready to Make a Difference?
                 <br />
               </h2>
-              <a
+              {/* <a
                 href="/login"
                 className="mt-8 xl:mt-2 px-6 py-3 text-md font-medium leading-tight inline-block bg-blue-800 rounded-full shadow-xl border border-transparent hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-999 focus:ring-sky-500"
               >
                 Get started
-              </a>
+              </a> */}
               <div className="mt-4 xl:mt-5">
                 <nav className="flex flex-wrap justify-center text-lg font-medium">
                   <div className="px-5 py-2">
@@ -820,7 +904,7 @@ export default function Home() {
                     <a href="/quiz">Quiz</a>
                   </div>
                 </nav>
-                <p className="mt-7 text-base">© 2024 ResqAI</p>
+                <p className="mt-7 text-base">© 2025 ResqAI</p>
               </div>
             </div>
           </footer>
