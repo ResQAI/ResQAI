@@ -142,12 +142,7 @@ const AlertNotificationPage = () => {
         ? "/api/nationalDisasterCommittee/overallNotifications"
         : "/api/nationalDisasterCommittee/disasterNotifications";
 
-    // if (selectionType.toLowerCase() === "overall") {
-    //   apiUrl = "/api/nationalDisasterCommittee/overallNotifications";
-    // } else {
-    //   apiUrl = "/api/nationalDisasterCommittee/disasterNotifications";
-    //   notification.selectedDisasterId = selectedDisaster.id; // Attach the disaster ID
-    // }
+   
     console.log(notification, apiUrl, selectedDisaster);
     try {
       const response = await axios.post(apiUrl, notification);
@@ -182,17 +177,17 @@ const AlertNotificationPage = () => {
     {
       name: "createAlert",
       label: "Create Alert",
-      icon: <PlusCircle className="mr-2 w-5 h-5" />,
+      icon: <PlusCircle className="mr-2 w-4 h-4" />,
     },
     {
       name: "manageAlerts",
       label: "Manage Alerts",
-      icon: <Edit2 className="mr-2 w-5 h-5" />,
+      icon: <Edit2 className="mr-2 w-4 h-4" />,
     },
     {
       name: "aiSuggestions",
       label: "AI Suggestions",
-      icon: <FileText className="mr-2 w-5 h-5" />,
+      icon: <FileText className="mr-2 w-4 h-4" />,
     },
   ];
   const [states, setStates] = useState(["State 1", "State 2", "State 3"]); // Replace with dynamic state data
@@ -474,15 +469,7 @@ const AlertNotificationPage = () => {
         )}
       </div>
       <div className="max-w-8xl mx-auto">
-        {/* Header */}
-        {/* <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 flex items-center">
-            <Bell className="mr-3 w-8 h-8 text-blue-600" />
-            Alert Management System
-          </h1>
-        </div> */}
-
-        {/* Tab Navigation */}
+        
         <div className="bg-white rounded-xl shadow-lg mb-6 overflow-hidden">
           <div className="flex border-b">
             {tabs.map((tab) => (
@@ -495,7 +482,7 @@ const AlertNotificationPage = () => {
                   }
                 }}
                 className={`
-                  flex items-center justify-center text-md w-full py-4 transition-all duration-300
+                  flex items-center justify-center text-sm w-full py-4 transition-all duration-300
                   ${
                     activeTab === tab.name
                       ? "bg-blue-50 text-blue-600 border-b-4 border-blue-600"
@@ -692,7 +679,7 @@ const AlertNotificationPage = () => {
           {activeTab === "manageAlerts" && (
             <div>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-xl font-bold text-gray-800">
                   Manage Alerts
                 </h2>
                 <div className="flex space-x-4">
