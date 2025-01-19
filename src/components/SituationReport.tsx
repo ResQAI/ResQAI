@@ -147,11 +147,11 @@ const DisasterSituationReport = () => {
   const handleAIAutofill = async (retryCount = 0) => {
     setIsLoading(true);
     try {
-      console.log(disasterData);
+      // console.log(disasterData);
       const disasterByName = disasterData.find(
         (disaster) => disaster.name === selectedDisaster
       );
-      console.log(disasterByName);
+      // console.log(disasterByName);
 
       const prompt =
         "Make a structured JSON object as following: \n" +
@@ -268,7 +268,7 @@ const DisasterSituationReport = () => {
         "\n\n" +
         "Don't use the previous reports instead analyze the current situation and add sample details. Don't leave empty fields.";
 
-      console.log(prompt);
+      // console.log(prompt);
 
       const response = await fetch("https://vertexapipro-96420221158.us-central1.run.app/pro-model", {
         method: "POST",
@@ -289,14 +289,14 @@ const DisasterSituationReport = () => {
       const jsonString = text.replace(/```json\n([\s\S]*?)```/gm, "$1").trim();
       const parsedData = JSON.parse(jsonString);
 
-      console.log(parsedData);
+      // console.log(parsedData);
       setFormData(parsedData);
       setIsLoading(false);
     } catch (error) {
       console.error("Error in handleAIAutofill:", error);
 
-      if (retryCount < 3) {
-        console.log(`Retrying API call (${retryCount + 1}/3)...`);
+      if (retryCount < 8) {
+        // console.log(`Retrying API call (${retryCount + 1}/3)...`);
         await handleAIAutofill(retryCount + 1); // Retry the function
       } else {
         console.error(

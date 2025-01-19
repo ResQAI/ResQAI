@@ -53,7 +53,7 @@ const DonationList = () => {
     reliefFundId: number;
     amount: number;
   }) => {
-    console.log("Donation submitted:", details);
+    // console.log("Donation submitted:", details);
     alert(`Thank you for donating to ${selectedFund?.title}!`);
     setSelectedFund(null);
   };

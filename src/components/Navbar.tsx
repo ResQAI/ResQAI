@@ -153,7 +153,7 @@ const Nav = () => {
               Quiz
             </a>
             <a
-              href="/login"
+              href="/national/home"
               className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:scale-105 active:scale-95"
             >
               Get Started

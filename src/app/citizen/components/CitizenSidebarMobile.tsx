@@ -12,10 +12,11 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState("home");
+
   useEffect(() => {
-    const storedTab = localStorage.getItem("activeTab");
-    if (storedTab) {
-      setActiveTab(storedTab);
+    const path = window.location.pathname.split("/").pop();
+    if (path) {
+      setActiveTab(path);
     }
   }, []);
 
@@ -39,7 +40,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
   const setActiveTabFunction = (id: string) => () => {
     setActiveTab(id);
-    localStorage.setItem("activeTab", id);
   };
 
   useClickOutside(sidebarRef, onClose);
@@ -107,7 +107,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               href="/citizen/saveme"
               onClick={() => {
                 setActiveTab("saveme");
-                localStorage.setItem("activeTab", "saveme");
               }}
             >
               <button className="text-sm mb-16 bg-red-700 p-2 text-white rounded-lg w-full">

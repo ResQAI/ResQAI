@@ -36,8 +36,8 @@ const AlertNotificationPage = () => {
   const [filteredDisaster, setFilteredDisaster] = useState(null);
 
   useEffect(() => {
-    console.log("Selected Disaster:", selectedDisaster);
-    console.log("Disasters:", disasters);
+    // console.log("Selected Disaster:", selectedDisaster);
+    // console.log("Disasters:", disasters);
   }, [selectedDisaster, disasters]);
 
   const [alerts, setAlerts] = useState([
@@ -115,7 +115,7 @@ const AlertNotificationPage = () => {
       alert("Please select a disaster before creating the alert.");
       return;
     }
-    console.log(newAlert);
+    // console.log(newAlert);
     const departmentConcerned = [
       ...newAlert.districts,
       ...newAlert.states,
@@ -143,7 +143,7 @@ const AlertNotificationPage = () => {
         : "/api/nationalDisasterCommittee/disasterNotifications";
 
    
-    console.log(notification, apiUrl, selectedDisaster);
+    // console.log(notification, apiUrl, selectedDisaster);
     try {
       const response = await axios.post(apiUrl, notification);
 
@@ -274,7 +274,7 @@ const AlertNotificationPage = () => {
         if (response.ok) {
           const data = await response.json();
           setNotifications(data.notifications);
-          console.log(data.notifications);
+          // console.log(data.notifications);
         } else {
           console.error("Failed to fetch notifications", response.statusText);
         }
@@ -294,7 +294,7 @@ const AlertNotificationPage = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("Notifications:", data.notifications);
+        // console.log("Notifications:", data.notifications);
       } else {
         console.error("Failed to fetch notifications", response.statusText);
       }
@@ -307,7 +307,7 @@ const AlertNotificationPage = () => {
         if (response.ok) {
           const data = await response.json();
           setNotifications(data.notifications);
-          console.log(data.notifications);
+          // console.log(data.notifications);
         } else {
           console.error("Failed to fetch notifications", response.statusText);
         }
@@ -373,7 +373,7 @@ const AlertNotificationPage = () => {
     const disasterNow = JSON.stringify(
       disasters.find((disaster) => disaster.id === selectedDisaster)
     );
-    console.log("Generating alert for disaster:", disasterNow);
+    // console.log("Generating alert for disaster:", disasterNow);
     const PROMPT = `Generate an alert for the following disaster - ${disasterNow}`;
 
     const response = await fetch("https://vertexapipro-96420221158.us-central1.run.app/pro-model", {

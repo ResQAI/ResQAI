@@ -104,7 +104,7 @@ const ResourceRequestManagement = () => {
     }));
 
     // Add any additional logic, e.g., fetching filtered data
-    console.log(`Filter updated: ${filterType} = ${value}`);
+    // console.log(`Filter updated: ${filterType} = ${value}`);
   };
 
   // Example usage in a React component:
