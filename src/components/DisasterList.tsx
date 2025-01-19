@@ -1,19 +1,23 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import DisasterCard from "./ShortDisasterInfo";
-import DisasterMap from "./DisasterMap"; // Assuming this is your map component
+import DisasterMap from "./DisasterMap";
+import { motion, AnimatePresence } from "framer-motion";
 
 export interface DisasterItem {
   name: string;
   area: string;
   tags?: { label: string; type?: "status" | "level" | "custom" }[];
+  exactLocation?: { address: string; coordinates: [number, number] };
 }
 
 interface DisasterListProps {
   title: string;
-  disasters: any[];
+  disasters: DisasterItem[];
   lat: number;
   lng: number;
   zoom: number;
+  setDisaster: (disaster: DisasterItem) => void;
+  isLoading?: boolean;
 }
 
 const DisasterList: React.FC<DisasterListProps> = ({
@@ -23,14 +27,11 @@ const DisasterList: React.FC<DisasterListProps> = ({
   lng,
   zoom,
   setDisaster,
+  isLoading = false,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [mapView, setMapView] = useState({
-    lat: 20.5937,
-    lng: 78.9629,
-    zoom: 5,
-  });
+  const [mapView, setMapView] = useState({ lat, lng, zoom });
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -47,131 +48,157 @@ const DisasterList: React.FC<DisasterListProps> = ({
     );
   }, [disasters, selectedFilter]);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsModalOpen(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
 
   return (
-    <div className="container">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+    <div className="w-full max-w-[1920px] mx-auto px-4 md:px-6 lg:px-8">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4 md:mb-0">
+          {title}
+        </h1>
       </div>
 
-      <div className="relative mb-6 flex justify-between mr-10">
-        <select
-          value={selectedFilter || ""}
-          onChange={(e) => setSelectedFilter(e.target.value || null)}
-          className="
-            block
-            pl-3 
-            pr-10 
-            py-2 
-            text-base 
-            border 
-            border-gray-300 
-            focus:outline-none 
-            focus:ring-2 
-            focus:ring-blue-500 
-            focus:border-blue-500 
-            sm:text-sm 
-            rounded-md
-          "
-        >
-          <option value="">All Disasters</option>
-          {allTags.map((tag, index) => (
-            <option key={index} value={tag}>
-              {tag}
-            </option>
-          ))}
-        </select>
+      {/* Filter Section */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-8">
+        <div className="relative w-full sm:w-64">
+          <select
+            value={selectedFilter || ""}
+            onChange={(e) => setSelectedFilter(e.target.value || null)}
+            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              focus:border-blue-500 appearance-none bg-white"
+          >
+            <option value="">All Disasters</option>
+            {allTags.map((tag) => (
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <svg className="w-4 h-4 text-gray-400" viewBox="0 0 20 20">
+              <path d="M7 7l3-3 3 3m0 6l-3 3-3-3" stroke="currentColor" fill="none" />
+            </svg>
+          </div>
+        </div>
 
-        <button
-          onClick={openModal}
-          className="
-            inline-flex 
-            items-center 
-            px-4 
-            py-2 
-            border 
-            border-transparent 
-            text-sm 
-            font-medium 
-            rounded-md 
-            text-white 
-            bg-blue-600 
-            hover:bg-blue-700 
-            focus:outline-none 
-            focus:ring-2 
-            focus:ring-offset-2 
-            focus:ring-blue-500
-            ml-10
-          "
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setIsModalOpen(true)}
+          className="w-full sm:w-auto px-6 py-2.5 text-sm font-medium rounded-lg 
+            text-white bg-blue-600 hover:bg-blue-700 focus:outline-none 
+            focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
+            transition-colors duration-200"
         >
           View Map
-        </button>
+        </motion.button>
       </div>
 
-      {filteredDisasters.length > 0 ? (
-        <div className="md:flex max-h-screen mb-2 md:flex-wrap gap-4 item-center justify-center">
-          {filteredDisasters.map((disaster, index) => (
-            <DisasterCard
-              key={index}
-              name={disaster.name}
-              area={disaster.exactLocation?.address}
-              tags={disaster.tags}
-              disasterDetails={disaster}
-              onViewMore={() => console.log("View more")}
-              setDisaster={setDisaster}
+      {/* Responsive Grid with Centered Mobile Cards */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="bg-gray-200 rounded-lg animate-pulse h-[280px] mx-auto w-full max-w-[350px] sm:max-w-none"
             />
           ))}
         </div>
+      ) : filteredDisasters.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          {filteredDisasters.map((disaster, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+              className="mx-auto w-full max-w-[350px] sm:max-w-none"
+            >
+              <DisasterCard
+                name={disaster.name}
+                area={disaster.exactLocation?.address}
+                tags={disaster.tags}
+                disasterDetails={disaster}
+                onViewMore={() => setDisaster(disaster)}
+                setDisaster={setDisaster}
+                className="h-full"
+              />
+            </motion.div>
+          ))}
+        </div>
       ) : (
-        <div className="text-center py-10 text-gray-500">No Results.</div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-12 text-gray-500 bg-gray-50 rounded-lg"
+        >
+          No disasters found matching your criteria.
+        </motion.div>
       )}
 
-      {isModalOpen && (
-        <div
-          className="
-            fixed 
-            inset-0 
-            bg-gray-600 
-            bg-opacity-50 
-            flex 
-            items-center 
-            justify-center
-            z-50
-          "
-        >
-          <div className="bg-white rounded-lg shadow-lg p-6 relative w-11/12 max-w-4xl">
-            <button
-              onClick={closeModal}
-              className="
-                absolute 
-                top-2 
-                right-2 
-                text-gray-500 
-                hover:text-gray-700 
-                focus:outline-none
-              "
+      {/* Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-gray-600 bg-opacity-50 backdrop-blur-sm
+              flex items-center justify-center z-50 p-4 md:p-6"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setIsModalOpen(false);
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-lg shadow-xl w-full max-w-5xl
+                h-[90vh] md:h-[85vh] flex flex-col overflow-hidden"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-700
+                  focus:outline-none z-10 bg-white rounded-full shadow-lg
+                  transition-colors duration-200"
+                aria-label="Close map"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              <div className="flex-1 overflow-hidden rounded-lg">
+                <DisasterMap
+                  lat={mapView.lat}
+                  lng={mapView.lng}
+                  zoom={mapView.zoom}
+                  markers={filteredDisasters.map((d) => ({
+                    position: d.exactLocation?.coordinates,
+                    title: d.name,
+                  }))}
                 />
-              </svg>
-            </button>
-            <DisasterMap lat={lat} lng={lng} zoom={zoom} />
-          </div>
-        </div>
-      )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

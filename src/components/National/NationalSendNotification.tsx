@@ -142,12 +142,7 @@ const AlertNotificationPage = () => {
         ? "/api/nationalDisasterCommittee/overallNotifications"
         : "/api/nationalDisasterCommittee/disasterNotifications";
 
-    // if (selectionType.toLowerCase() === "overall") {
-    //   apiUrl = "/api/nationalDisasterCommittee/overallNotifications";
-    // } else {
-    //   apiUrl = "/api/nationalDisasterCommittee/disasterNotifications";
-    //   notification.selectedDisasterId = selectedDisaster.id; // Attach the disaster ID
-    // }
+   
     console.log(notification, apiUrl, selectedDisaster);
     try {
       const response = await axios.post(apiUrl, notification);
@@ -178,23 +173,23 @@ const AlertNotificationPage = () => {
       (!filters.status || alert.status.toLowerCase() === filters.status.toLowerCase())
   );
 
-  const tabs = [
-    {
-      name: "createAlert",
-      label: "Create Alert",
-      icon: <PlusCircle className="mr-2 w-5 h-5" />,
-    },
-    {
-      name: "manageAlerts",
-      label: "Manage Alerts",
-      icon: <Edit2 className="mr-2 w-5 h-5" />,
-    },
-    {
-      name: "aiSuggestions",
-      label: "AI Suggestions",
-      icon: <FileText className="mr-2 w-5 h-5" />,
-    },
-  ];
+        const tabs = [
+          {
+            name: "createAlert",
+            label: "Create Alert", 
+            icon: <PlusCircle className="hidden sm:block mr-2 w-4 h-4" />,
+          },
+          {
+            name: "manageAlerts",
+            label: "Manage Alerts",
+            icon: <Edit2 className="hidden sm:block mr-2 w-4 h-4" />,
+          },
+          {
+            name: "aiSuggestions", 
+            label: "AI Suggestions",
+            icon: <FileText className="hidden sm:block mr-2 w-4 h-4" />,
+          },
+        ];
   const [states, setStates] = useState(["State 1", "State 2", "State 3"]); // Replace with dynamic state data
   const [districts, setDistricts] = useState([
     "District 1",
@@ -393,10 +388,7 @@ const AlertNotificationPage = () => {
     setAiAlertLoading(false)
   };
 
-  // Call the fetch function when selectionType or selectedDisaster changes
-  // useEffect(() => {
-  //   fetchNotifications();
-  // }, [selectionType, selectedDisaster]);
+ 
 
   return (
     <div className="min-h-screen w-full bg-white font-sans p-4">
@@ -474,17 +466,9 @@ const AlertNotificationPage = () => {
         )}
       </div>
       <div className="max-w-8xl mx-auto">
-        {/* Header */}
-        {/* <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 flex items-center">
-            <Bell className="mr-3 w-8 h-8 text-blue-600" />
-            Alert Management System
-          </h1>
-        </div> */}
-
-        {/* Tab Navigation */}
-        <div className="bg-white rounded-xl shadow-lg mb-6 overflow-hidden">
-          <div className="flex border-b">
+        
+        <div className="bg-white  rounded-xl shadow-lg mb-6 overflow-hidden">
+          <div className="flex  border-b">
             {tabs.map((tab) => (
               <button
                 key={tab.name}
@@ -495,7 +479,7 @@ const AlertNotificationPage = () => {
                   }
                 }}
                 className={`
-                  flex items-center justify-center text-md w-full py-4 transition-all duration-300
+                  flex items-center justify-center text-sm w-full py-4  transition-all duration-300
                   ${
                     activeTab === tab.name
                       ? "bg-blue-50 text-blue-600 border-b-4 border-blue-600"
@@ -689,13 +673,13 @@ const AlertNotificationPage = () => {
           )}
 
           {/* Manage Alerts Tab */}
-          {activeTab === "manageAlerts" && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">
+                    {activeTab === "manageAlerts" && (
+            <div className="p-2 sm:p-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 space-y-4 sm:space-y-0">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-800">
                   Manage Alerts
                 </h2>
-                <div className="flex space-x-4">
+                <div className="flex flex-col sm:flex-row w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-4">
                   <select
                     value={filters.urgency}
                     onChange={(e) =>
@@ -704,7 +688,7 @@ const AlertNotificationPage = () => {
                         urgency: e.target.value.toLowerCase(),
                       }))
                     }
-                    className="p-2 border rounded-lg"
+                    className="p-2 border rounded-lg w-full sm:w-auto"
                   >
                     <option value="">All Urgencies</option>
                     {["Critical", "High", "Medium", "Low"].map((level) => (
@@ -721,7 +705,7 @@ const AlertNotificationPage = () => {
                         status: e.target.value.toLowerCase(),
                       }))
                     }
-                    className="p-2 border rounded-lg"
+                    className="p-2 border rounded-lg w-full sm:w-auto"
                   >
                     <option value="">All Statuses</option>
                     <option value="Sent">Sent</option>
@@ -729,7 +713,64 @@ const AlertNotificationPage = () => {
                   </select>
                 </div>
               </div>
-              <div className="overflow-x-auto">
+          
+              {/* Mobile View */}
+              <div className="block sm:hidden">
+                {filteredAlerts.map((alert) => (
+                  <div key={alert.id} className="bg-white p-4 rounded-lg shadow mb-4 border">
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="font-semibold">{alert.title}</h3>
+                      <div className="flex space-x-2">
+                        <button
+                          className="text-blue-600 hover:text-blue-800"
+                          onClick={() => handleEditNotification(alert.id)}
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          className="text-red-600 hover:text-red-800"
+                          onClick={() => handleDeleteNotification(alert.id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-gray-500">Urgency:</span>
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold
+                          ${alert.urgency.toLowerCase() === "critical"
+                            ? "bg-red-100 text-red-800"
+                            : alert.urgency.toLowerCase() === "high"
+                            ? "bg-orange-100 text-orange-800"
+                            : alert.urgency.toLowerCase() === "medium"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-green-100 text-green-800"
+                          }`}>
+                          {alert.urgency}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-500">Date:</span>
+                        <span>{alert.dateIssued.split("T")[0]}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-500">Status:</span>
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold
+                          ${alert.status === "Sent"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-800"
+                          }`}>
+                          {alert.status}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+          
+              {/* Desktop View */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-gray-100">
@@ -742,43 +783,28 @@ const AlertNotificationPage = () => {
                   </thead>
                   <tbody>
                     {filteredAlerts.map((alert) => (
-                      <tr
-                        key={alert.id}
-                        className="border-b hover:bg-gray-50 transition-colors"
-                      >
+                      <tr key={alert.id} className="border-b hover:bg-gray-50 transition-colors">
                         <td className="p-3">{alert.title}</td>
                         <td className="p-3">
-                          <span
-                            className={`
-                            px-2 py-1 rounded-full text-xs font-semibold
-                            ${
-                              alert.urgency.toLowerCase() === "critical"
-                                ? "bg-red-100 text-red-800"
-                                : alert.urgency.toLowerCase() === "high"
-                                ? "bg-orange-100 text-orange-800"
-                                : alert.urgency.toLowerCase() === "medium"
-                                ? "bg-yellow-100 text-yellow-800"
-                                : "bg-green-100 text-green-800"
-                            }
-                          `}
-                          >
+                          <span className={`px-2 py-1 rounded-full text-xs font-semibold
+                            ${alert.urgency.toLowerCase() === "critical"
+                              ? "bg-red-100 text-red-800"
+                              : alert.urgency.toLowerCase() === "high"
+                              ? "bg-orange-100 text-orange-800"
+                              : alert.urgency.toLowerCase() === "medium"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-green-100 text-green-800"
+                            }`}>
                             {alert.urgency}
                           </span>
                         </td>
+                        <td className="p-3">{alert.dateIssued.split("T")[0]}</td>
                         <td className="p-3">
-                          {alert.dateIssued.split("T")[0]}
-                        </td>
-                        <td className="p-3">
-                          <span
-                            className={`
-                            px-2 py-1 rounded-full text-xs font-semibold
-                            ${
-                              alert.status === "Sent"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-gray-100 text-gray-800"
-                            }
-                          `}
-                          >
+                          <span className={`px-2 py-1 rounded-full text-xs font-semibold
+                            ${alert.status === "Sent"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-gray-100 text-gray-800"
+                            }`}>
                             {alert.status}
                           </span>
                         </td>
