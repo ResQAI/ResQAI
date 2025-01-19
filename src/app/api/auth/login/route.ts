@@ -47,7 +47,9 @@ export async function POST(req: Request) {
       });
       const cookieStore = await cookies()
  
-      cookieStore.set('Authorization', token);
+      cookieStore.set('Authorization', token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24*7),
+      });
       return NextResponse.json({ success: true, token });
     } else {
       return NextResponse.json(
