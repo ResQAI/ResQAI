@@ -398,7 +398,7 @@ const ResponsePlan = () => {
                             )}
 
                             {/* Content with padding for icon */}
-                            <div className="pr-12">
+                            <div className="pr-12 lg:block md:block hidden">
                               <p className="text-xs font-bold text-neutral-800">
                                 {work.name}
                               </p>
@@ -412,6 +412,9 @@ const ResponsePlan = () => {
                               <div className="text-xs font-semibold text-gray-700 mt-2">
                                 {work.departmentConcerned}
                               </div>
+                            </div>
+                            <div className="lg:hidden md:hidden block">
+                              Task Info
                             </div>
                           </div>
                         </div>
