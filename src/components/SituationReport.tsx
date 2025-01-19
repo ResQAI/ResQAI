@@ -270,7 +270,7 @@ const DisasterSituationReport = () => {
 
       console.log(prompt);
 
-      const response = await fetch("http://localhost:5000/pro-model", {
+      const response = await fetch("https://resqai-96420221158.us-central1.run.app/pro-model", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

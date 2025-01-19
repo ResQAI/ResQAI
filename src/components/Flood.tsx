@@ -216,7 +216,7 @@ const FloodPredictionForm: React.FC = () => {
           .reduce((sum, value) => sum + value, 0),
       };
 
-      const response = await fetch("http://localhost:5000/predict", {
+      const response = await fetch("https://resqai-96420221158.us-central1.run.app/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

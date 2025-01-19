@@ -283,7 +283,7 @@ const AlertNotificationPage = () => {
       }
     } else if (selectionType === "Specific" && selectedDisaster !== "") {
       const response = await fetch(
-        "http://localhost:3000/api/nationalDisasterCommittee/disasterNotifications",
+        "https://resqai-96420221158.us-central1.run.app/api/nationalDisasterCommittee/disasterNotifications",
         {
           method: "post",
           headers: {
@@ -376,7 +376,7 @@ const AlertNotificationPage = () => {
     console.log("Generating alert for disaster:", disasterNow);
     const PROMPT = `Generate an alert for the following disaster - ${disasterNow}`;
 
-    const response = await fetch("http://localhost:5000/pro-model", {
+    const response = await fetch("https://resqai-96420221158.us-central1.run.app/pro-model", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
