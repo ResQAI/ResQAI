@@ -35,9 +35,9 @@ const ChatLayout = () => {
         <div className="w-full flex flex-col relative">
           <button
             onClick={() => setSelectedContact(null)}
-            className="absolute top-0 left-0 z-10 p-2 hover:bg-gray-100 rounded-full bg-white shadow-sm"
+            className="absolute top-0 left-0 p-2 hover:bg-gray-100 rounded-full bg-white shadow-sm"
           >
-            <X size={24} />
+            <X size={12} />
           </button>
           <ChatWindow />
         </div>
