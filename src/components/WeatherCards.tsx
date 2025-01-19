@@ -150,9 +150,9 @@ const WeatherCards: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4">
+    <div className="max-w-5xl mx-auto px-4 max-md:px-0 max-sm:mb-16">
       {/* Search and Filter Header */}
-      <div className="mb-6 bg-white rounded-lg shadow-md p-4">
+      <div className="mb-6 bg-white rounded-lg shadow-md p-4 max-md:p-2">
         <div className="flex items-center gap-4 mb-4">
           <div className="flex-1 relative">
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -161,15 +161,21 @@ const WeatherCards: React.FC = () => {
               placeholder="Search location..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:max-lg:w-[90%]"
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors max-sm:hidden"
           >
             <BiFilterAlt />
             Filters
+          </button>
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors sm:hidden"
+          >
+            <BiFilterAlt />
           </button>
         </div>
 
@@ -232,21 +238,21 @@ const WeatherCards: React.FC = () => {
 
       {/* Weather Cards Grid */}
       {filteredData.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           {filteredData.map((data) => (
             <div
               key={data.state}
-              className="bg-white rounded-lg border-2 border-gray-300 shadow-sm hover:shadow-md transition-all p-2.5 max-w-sm"
+              className="bg-white rounded-lg border-2 border-gray-300 shadow-sm hover:shadow-md transition-all p-2.5 max-w-sm sm:max-w-xs max-md:mx-auto max-md:min-w-[60%] max-sm:mx-5"
             >
               <div className="flex justify-between items-start mb-1.5">
                 <div className="flex items-center">
                   <FaLocationDot className="text-blue-600 mr-1.5 text-sm" />
-                  <h2 className="text-base font-bold text-gray-800">
+                  <h2 className="text-base lg:text-sm md:text-xs font-bold text-gray-800">
                     {data.state}
                   </h2>
                 </div>
                 <span
-                  className={`px-2 py-0.5 rounded-full text-xs font-medium ${getRiskColor(
+                  className={`px-2 py-0.5 rounded-full text-xs lg:text-xxs md:text-xxxs font-medium ${getRiskColor(
                     data.riskLevel
                   )}`}
                 >
@@ -254,10 +260,10 @@ const WeatherCards: React.FC = () => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 mb-1.5 text-xs">
+              <div className="grid grid-cols-2 gap-2 mb-1.5 text-xs lg:text-xxs md:text-xxxs">
                 <div className="space-y-3">
                   <div className="flex items-center">
-                    <WiStrongWind className="text-2xl text-gray-600 mr-2" />
+                    <WiStrongWind className="text-2xl lg:text-xl md:text-lg text-gray-600 mr-2" />
                     <div>
                       <p className="text-sm text-gray-500">Wind</p>
                       <p className="font-medium">
@@ -267,7 +273,7 @@ const WeatherCards: React.FC = () => {
                   </div>
 
                   <div className="flex items-center">
-                    <WiRaindrop className="text-2xl text-gray-600 mr-2" />
+                    <WiRaindrop className="text-2xl lg:text-xl md:text-lg text-gray-600 mr-2" />
                     <div>
                       <p className="text-sm text-gray-500">Precipitation</p>
                       <p className="font-medium">{data.precipitation}%</p>
@@ -277,7 +283,7 @@ const WeatherCards: React.FC = () => {
 
                 <div className="space-y-3">
                   <div className="flex items-center">
-                    <WiBarometer className="text-2xl text-gray-600 mr-2" />
+                    <WiBarometer className="text-2xl lg:text-xl md:text-lg text-gray-600 mr-2" />
                     <div>
                       <p className="text-sm text-gray-500">Pressure</p>
                       <p className="font-medium">{data.airPressure} hPa</p>
@@ -285,7 +291,9 @@ const WeatherCards: React.FC = () => {
                   </div>
 
                   <div className="flex items-center">
-                    <span className="text-2xl mr-2">💧</span>
+                    <span className="text-2xl lg:text-xl md:text-lg mr-2">
+                      💧
+                    </span>
                     <div>
                       <p className="text-sm text-gray-500">Humidity</p>
                       <p className="font-medium">{data.humidity}%</p>
@@ -295,7 +303,7 @@ const WeatherCards: React.FC = () => {
               </div>
 
               <div className="text-center pt-1.5 border-t border-gray-200">
-                <p className="text-lg font-bold text-gray-800 mb-1">
+                <p className="text-lg lg:text-base md:text-sm font-bold text-gray-800 mb-1">
                   {data.temperature}°C
                 </p>
                 {/* <p className="text-blue-600 text-xs font-medium hover:text-blue-800 cursor-pointer transition-colors">
