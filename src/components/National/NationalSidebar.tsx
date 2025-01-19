@@ -17,7 +17,6 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const [activeTab, setActiveTab] = useState("home");
-
   useEffect(() => {
     const storedTab = localStorage.getItem("activeTab");
     if (storedTab) {

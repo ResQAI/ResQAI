@@ -152,7 +152,7 @@ const Earthquake: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/predict",
+        "https://resqai-96420221158.us-central1.run.app/predict",
         formData,
         {
           headers: {

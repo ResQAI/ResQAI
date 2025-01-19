@@ -120,7 +120,7 @@ export default function Home() {
               </p>
               <div className="mt-16 flex flex-wrap  justify-center gap-y-4 gap-x-6">
                 <a
-                  href="/login"
+                  href="/national/home"
                   className="relative flex h-11 w-full items-center justify-center px-6 rounded-full  transition duration-300 hover:scale-105 bg-primary  sm:w-max"
                 >
                   <span className="relative text-white  font-semibold text-white">
@@ -229,7 +229,10 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="text-4xl font-bold text-primary" ref={lives.ref}>
+              <h6
+                className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary"
+                ref={lives.ref}
+              >
                 {lives.count}M+
               </h6>
               <p className="mb-2 font-bold text-primary text-md">
@@ -256,7 +259,10 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="text-4xl font-bold text-primary" ref={users.ref}>
+              <h6
+                className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary"
+                ref={users.ref}
+              >
                 {users.count}K
               </h6>
               <p className="mb-2 font-bold text-primary text-md">Users</p>
@@ -312,7 +318,10 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="text-4xl font-bold text-primary" ref={models.ref}>
+              <h6
+                className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary"
+                ref={models.ref}
+              >
                 {models.count}
               </h6>
               <p className="mb-2 font-bold text-md text-primary">
@@ -750,6 +759,46 @@ export default function Home() {
               </div>
             </div>
           </section>
+
+          <div className="bg-white p-6 rounded-xl mb-6 mt-16">
+            <h2 className="lg:text-4xl md:text-4xl text-2xl font-bold text-center mb-12 flex items-center justify-center">
+              <Shield className="mr-3 lg:block md:block hidden w-10 h-10 text-primary" />
+              <span>
+                <span className="text-primary">Disaster Preparedness:</span>
+                &nbsp;Essential Measures
+              </span>
+            </h2>
+            <div className="flex items-center justify-center">
+              <div className="flex flex-wrap items-center justify-center w-[80vw] gap-4">
+                {disasterPreparednessSteps.map((step, index) => (
+                  // <div  className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex items-start space-x-4">
+
+                  <div
+                    key={index}
+                    className="group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10"
+                  >
+                    <span className="absolute top-10 z-0 h-20 w-20 rounded-full transition-all lg:bg-primary md:bg-primary duration-300 group-hover:scale-[10]" />
+                    <div className="relative z-10 mx-auto max-w-md">
+                      <div className="flex gap-5 items-center justify-center">
+                        <span className="grid h-20 w-20 place-items-center rounded-full lg:bg-primary md:bg-primary bg-white transition-all duration-300 md:group-hover:bg-primary lg:group-hover:bg-primary">
+                          <step.icon
+                            className="h-10 w-10 lg:text-white md:text-white text-primary transition-all"
+                            size={24}
+                          />
+                        </span>
+                        <h3 className="font-bold lg:text-xl md:text-xl text-lg mb-2 lg:group-hover:text-white/90 md:group-hover:text-white/90 text-primary">
+                          {step.title}
+                        </h3>
+                      </div>
+                      <div className="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 md:group-hover:text-white/90 lg:group-hover:text-white/90">
+                        <p>{step.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* <motion.div
                     initial={{ opacity: 0, y: 50 }}
