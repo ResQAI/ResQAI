@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 const JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
 
-const TOKEN_EXPIRATION = "1d";
+const TOKEN_EXPIRATION = "7d";
 
 export async function POST(req: Request) {
   try {
