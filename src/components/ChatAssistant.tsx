@@ -18,7 +18,7 @@ const LandingChatAssistant = () => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const API_ENDPOINT_CHAT_ASSISTANT = `https://resqai-96420221158.us-central1.run.app/landing-chat`;
+  const API_ENDPOINT_CHAT_ASSISTANT = `https://landing-96420221158.us-central1.run.app/landing-chat`;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
