@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import {
   ChartLine,
@@ -21,11 +21,13 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
-  const [activeTab, setActiveTab] = useState(
-    localStorage.getItem("activeTab") || "home"
-  );
-
-
+  const [activeTab, setActiveTab] = useState("home");
+  useEffect(() => {
+    const storedTab = localStorage.getItem("activeTab");
+    if (storedTab) {
+      setActiveTab(storedTab);
+    }
+  }, []);
 
   const setActiveTabFunction = (id: string) => () => {
     setActiveTab(id);
@@ -35,9 +37,6 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const navigationItems = [
     { id: 'Home', name: 'Home', icon: HomeIcon },
     { id: 'Profile', name: 'Profile', icon: User2Icon },
-    // { id: 'incoming-requests', name: 'Incoming Requests', icon: GitPullRequestClosedIcon },
-    // { id: 'progress-submission', name: 'Progress Submission', icon: ChartLine },
-    // { id: 'send-notifications', name: 'Send Notifications', icon: SendIcon },
     { id: 'Volunteer', name: 'Become a volunteer', icon: MessageSquareLockIcon },
     { id: 'Donate', name: 'Donate to Govt. Funds', icon: HeartHandshake },
   ];

@@ -2,11 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { CloseIcon } from "@/components/ui/icons";
 import useClickOutside from "@/hooks/useClickOutside";
-import {
-  HeartHandshake,
-  HomeIcon,
-  User2Icon,
-} from "lucide-react";
+import { HeartHandshake, HomeIcon, User2Icon } from "lucide-react";
 import Link from "next/link";
 
 interface SidebarProps {
@@ -15,9 +11,14 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState(
-    localStorage.getItem("activeTab") || "home"
-  );
+  const [activeTab, setActiveTab] = useState("home");
+  useEffect(() => {
+    const storedTab = localStorage.getItem("activeTab");
+    if (storedTab) {
+      setActiveTab(storedTab);
+    }
+  }, []);
+
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   // Add effect to prevent body scrolling when sidebar is open
