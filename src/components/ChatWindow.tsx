@@ -67,9 +67,9 @@ const ChatWindow = () => {
               </div>
             ))}
           </div>
-          <div className="p-4 bg-gray-50 flex items-center">
-            <div className="flex items-center space-x-4 mr-4">
-              <Smile className="text-gray-600 cursor-pointer" />
+          <div className="lg:p-4 md:p-4 p-1 bg-gray-50 flex items-center">
+            <div className="flex items-center space-x-4 lg:mr-4 md:mr-4 mr-2">
+              <Smile className="text-gray-600 cursor-pointer lg:block md:block hidden" />
               <Paperclip className="text-gray-600 cursor-pointer" />
             </div>
             <input
@@ -78,11 +78,11 @@ const ChatWindow = () => {
               value={newMessage as string}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-              className="flex-grow text-black bg-white border rounded-full px-4 py-2 focus:outline-none"
+              className="flex-grow text-black bg-white border rounded-full lg:px-4 md:px-4 px-2 py-2 focus:outline-none"
             />
             <button
               onClick={handleSendMessage}
-              className="ml-4 bg-blue-500 text-white p-2 rounded-full"
+              className="ml-4 mr-2 lg:mr-0 md:mr-0 bg-blue-500 text-white p-2 rounded-full"
             >
               <Send />
             </button>
