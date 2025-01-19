@@ -165,7 +165,7 @@ export default function Home() {
               </p>
               <div className="mt-16 flex flex-wrap  justify-center gap-y-4 gap-x-6">
                 <a
-                  href="/login"
+                  href="/national/home"
                   className="relative flex h-11 w-full items-center justify-center px-6 rounded-full  transition duration-300 hover:scale-105 bg-primary  sm:w-max"
                 >
                   <span className="relative font-semibold text-white">
@@ -274,7 +274,10 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary" ref={lives.ref}>
+              <h6
+                className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary"
+                ref={lives.ref}
+              >
                 {lives.count}M+
               </h6>
               <p className="mb-2 font-bold text-primary text-md">
@@ -301,7 +304,10 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary" ref={users.ref}>
+              <h6
+                className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary"
+                ref={users.ref}
+              >
                 {users.count}K
               </h6>
               <p className="mb-2 font-bold text-primary text-md">Users</p>
@@ -357,7 +363,10 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h6 className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary" ref={models.ref}>
+              <h6
+                className="lg:text-4xl md:text-4xl text-3xl font-bold text-primary"
+                ref={models.ref}
+              >
                 {models.count}
               </h6>
               <p className="mb-2 font-bold text-md text-primary">
@@ -801,7 +810,10 @@ export default function Home() {
           <div className="bg-white p-6 rounded-xl mb-6 mt-16">
             <h2 className="lg:text-4xl md:text-4xl text-2xl font-bold text-center mb-12 flex items-center justify-center">
               <Shield className="mr-3 lg:block md:block hidden w-10 h-10 text-primary" />
-              <span><span className="text-primary">Disaster Preparedness:</span>&nbsp;Essential Measures</span>
+              <span>
+                <span className="text-primary">Disaster Preparedness:</span>
+                &nbsp;Essential Measures
+              </span>
             </h2>
             <div className="flex items-center justify-center">
               <div className="flex flex-wrap items-center justify-center w-[80vw] gap-4">
