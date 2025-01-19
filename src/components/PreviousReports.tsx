@@ -74,7 +74,7 @@ const PreviousReports = () => {
         reports
       )}. Focus on identifying key patterns, summarizing critical observations, recommended actions, team responses, casualties, material flows, and disaster status. Highlight any overlapping details and provide actionable recommendations based on the aggregated data.`;
 
-      const response = await fetch("https://resqai-96420221158.us-central1.run.app/pro-model", {
+      const response = await fetch("https://vertexapipro-96420221158.us-central1.run.app/pro-model", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
