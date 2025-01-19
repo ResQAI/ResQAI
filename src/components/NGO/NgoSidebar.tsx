@@ -21,23 +21,27 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const [activeTab, setActiveTab] = useState("home");
+
   useEffect(() => {
-    const storedTab = localStorage.getItem("activeTab");
-    if (storedTab) {
-      setActiveTab(storedTab);
+    const path = window.location.pathname.split("/").pop();
+    if (path) {
+      setActiveTab(path);
     }
   }, []);
 
   const setActiveTabFunction = (id: string) => () => {
     setActiveTab(id);
-    localStorage.setItem("activeTab", id);
   };
 
   const navigationItems = [
-    { id: 'Home', name: 'Home', icon: HomeIcon },
-    { id: 'Profile', name: 'Profile', icon: User2Icon },
-    { id: 'Volunteer', name: 'Become a volunteer', icon: MessageSquareLockIcon },
-    { id: 'Donate', name: 'Donate to Govt. Funds', icon: HeartHandshake },
+    { id: "Home", name: "Home", icon: HomeIcon },
+    { id: "Profile", name: "Profile", icon: User2Icon },
+    {
+      id: "Volunteer",
+      name: "Become a volunteer",
+      icon: MessageSquareLockIcon,
+    },
+    { id: "Donate", name: "Donate to Govt. Funds", icon: HeartHandshake },
   ];
 
   return (

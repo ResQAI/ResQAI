@@ -95,7 +95,7 @@ const NationalDisasterTracker: React.FC = () => {
       );
       const data = await res.json();
       setDisasters(data.data);
-      console.log(data.data);
+      // console.log(data.data);
     }
 
     fetchData();
@@ -160,7 +160,7 @@ const NationalDisasterTracker: React.FC = () => {
   const handleSubmitDeclaration = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log(declarationData);
+      // console.log(declarationData);
       const response = await fetch(
         `${baseUrl}/api/nationalDisasterCommittee/declaredDisasters`,
         {

@@ -1,11 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
-import {
-  HomeIcon,
-  User2Icon,
-  HeartHandshake,
-} from "lucide-react";
+import { HomeIcon, User2Icon, HeartHandshake } from "lucide-react";
 import Link from "next/link";
 
 interface SidebarProps {
@@ -14,10 +10,11 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const [activeTab, setActiveTab] = useState("home");
+
   useEffect(() => {
-    const storedTab = localStorage.getItem("activeTab");
-    if (storedTab) {
-      setActiveTab(storedTab);
+    const path = window.location.pathname.split("/").pop();
+    if (path) {
+      setActiveTab(path);
     }
   }, []);
 
@@ -29,7 +26,6 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
 
   const setActiveTabFunction = (id: string) => () => {
     setActiveTab(id);
-    localStorage.setItem("activeTab", id);
   };
 
   return (

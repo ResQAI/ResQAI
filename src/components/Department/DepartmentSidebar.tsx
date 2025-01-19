@@ -17,10 +17,11 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const [activeTab, setActiveTab] = useState("home");
+
   useEffect(() => {
-    const storedTab = localStorage.getItem("activeTab");
-    if (storedTab) {
-      setActiveTab(storedTab);
+    const path = window.location.pathname.split("/").pop();
+    if (path) {
+      setActiveTab(path);
     }
   }, []);
 
@@ -42,7 +43,6 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
 
   const setActiveTabFunction = (id: string) => () => {
     setActiveTab(id);
-    localStorage.setItem("activeTab", id);
   };
 
   return (
@@ -75,7 +75,6 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
             href="/national/aisuggest"
             onClick={() => {
               setActiveTab("aisuggest");
-              localStorage.setItem("activeTab", "aisuggest");
             }}
           >
             <Button className="w-full text-lg">AI suggestions</Button>

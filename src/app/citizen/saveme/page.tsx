@@ -55,7 +55,7 @@ const SaveMeForm:React.FC = () => {
       peopleCount,
       location,
     };
-    console.log("Rescue Data Submitted:", rescueData);
+    // console.log("Rescue Data Submitted:", rescueData);
 
     // Display submission feedback
     setFormSubmitted(true);

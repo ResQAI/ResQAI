@@ -230,7 +230,7 @@ const FloodPredictionForm: React.FC = () => {
 
       const result = await response.json();
       setPredictionResult(result);
-      console.log(predictionResult?.response);
+      // console.log(predictionResult?.response);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unexpected error occurred"

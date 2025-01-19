@@ -111,6 +111,32 @@ export default function Nav() {
                 </g>
               </svg>
             </a>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-8">
+            <a
+              href="/awareness"
+              className="text-gray-700 hover:text-primary transition"
+            >
+              Awareness
+            </a>
+            <a
+              href="/quiz"
+              className="text-gray-700 hover:text-primary transition"
+            >
+              Quiz
+            </a>
+            <a
+              href="/national/home"
+              className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:scale-105 active:scale-95"
+            >
+              Get Started
+            </a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden">
             <button
               className="relative z-20 block lg:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
