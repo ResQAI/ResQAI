@@ -105,15 +105,20 @@ Ensure you have the following installed:
    NEXT_PUBLIC_JWT_SECRET=
    ```
 
-4. **Start the Development Server**:
+4. **Install ResQAI-ML-models-AI-APIs**:
+
+   Clone and set up the necessary ML models and AI APIs by referring to the [ResQAI-ML-models-AI-APIs repository](https://github.com/ResQAI/ResQAI-ML-models-AI-APIs).
+
+5. **Start the Development Server**:
 
    ```bash
    npm run dev
    ```
 
-5. **Access the Application**:
+6. **Access the Application**:
 
    Open your browser and navigate to `http://localhost:3000`.
+
 
 <br/>
 
