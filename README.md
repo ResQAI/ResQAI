@@ -186,5 +186,5 @@ We welcome contributions to enhance ResQAI. Please follow these steps:
 
 ## 📝 License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the [MIT License](https://github.com/ResQAI/ResQAI/blob/main/LICENSE) 📄.
 
