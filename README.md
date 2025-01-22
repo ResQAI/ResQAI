@@ -31,6 +31,8 @@
 - Vertex AI
 - AI Studio
 - AutoML and ML Model Endpoints on cloud
+- Google Search Retrieval
+- Libraries: Sklearn, Joblib, pandas, matplotlib along with Decision Tree Classifier
 
 ### **Frontend**
 
