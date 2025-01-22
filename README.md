@@ -27,9 +27,10 @@
 
 ### **AI & Machine Learning**
 
-- Google Gemini
+- Google Gemini (Flash and Pro Models)
 - Vertex AI
 - AI Studio
+- AutoML and ML Model Endpoints on cloud
 
 ### **Frontend**
 
