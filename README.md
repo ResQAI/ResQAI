@@ -73,6 +73,210 @@ Ensure you have the following installed:
 - Python (v3.8 or higher)
 - Google Cloud SDK
 
+## Repository Structure 📂
+```
+├─── 📄 .eslintrc.json
+├─── 📄 .gitignore
+├─── 📄 LICENSE
+├─── 📄 README.md
+├─── 📄 next.config.ts
+├─── 📄 package-lock.json
+├─── 📄 package.json
+├─── 📄 postcss.config.mjs
+├─── 📂 public
+│   ├─── 📄 Chat.svg
+│   ├─── 📄 add-group.png
+│   ├─── 📄 avataaars.png
+│   ├─── 📄 bot.svg
+│   ├─── 📄 file.svg
+│   ├─── 📄 globe.svg
+│   ├─── 📄 next.svg
+│   ├─── 📄 user.png
+│   ├─── 📄 vercel.svg
+│   ├─── 📄 window.svg
+│   └─── 📄 world-110m.json
+├─── 📂 src
+│   ├─── 📂 app
+│   │   ├─── 📂 api
+│   │   │   ├─── 📂 auth
+│   │   │   │   └─── 📂 login
+│   │   │   │       └─── 📄 route.ts
+│   │   │   ├─── 📂 checkFirebase
+│   │   │   │   └─── 📄 route.ts
+│   │   │   └─── 📂 nationalDisasterCommittee
+│   │   │       ├─── 📂 chats
+│   │   │       │   └─── 📄 route.ts
+│   │   │       ├─── 📂 declaredDisasters
+│   │   │       │   └─── 📄 route.ts
+│   │   │       ├─── 📂 disasterNotifications
+│   │   │       │   └─── 📄 route.ts
+│   │   │       ├─── 📂 incomingDisaster
+│   │   │       │   └─── 📄 route.ts
+│   │   │       ├─── 📂 numberOfPeopleWorking
+│   │   │       │   └─── 📄 route.ts
+│   │   │       ├─── 📂 overallNotifications
+│   │   │       │   └─── 📄 route.ts
+│   │   │       ├─── 📂 password
+│   │   │       │   └─── 📄 route.ts
+│   │   │       ├─── 📂 responsePlan
+│   │   │       │   └─── 📄 route.ts
+│   │   │       ├─── 📂 situationshipReports
+│   │   │       │   └─── 📄 route.ts
+│   │   │       └─── 📂 username
+│   │   │           └─── 📄 route.ts
+│   │   ├─── 📂 awareness
+│   │   │   └─── 📄 page.tsx
+│   │   ├─── 📂 citizen
+│   │   │   ├─── 📂 Donate
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 Home
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 Profile
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 components
+│   │   │   │   ├─── 📄 CitizenHeader.tsx
+│   │   │   │   └─── 📄 CitizenSidebarMobile.tsx
+│   │   │   ├─── 📄 layout.tsx
+│   │   │   ├─── 📄 page.tsx
+│   │   │   └─── 📂 saveme
+│   │   │       └─── 📄 page.tsx
+│   │   ├─── 📂 collaborate
+│   │   │   └─── 📄 page.tsx
+│   │   ├─── 📂 department
+│   │   │   ├─── 📂 home
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   └─── 📄 layout.tsx
+│   │   ├─── 📄 favicon.ico
+│   │   ├─── 📄 globals.css
+│   │   ├─── 📄 layout.tsx
+│   │   ├─── 📂 layoutTemp
+│   │   │   └─── 📄 page.tsx
+│   │   ├─── 📂 login
+│   │   │   └─── 📄 page.tsx
+│   │   ├─── 📂 map
+│   │   │   └─── 📄 page.tsx
+│   │   ├─── 📂 national
+│   │   │   ├─── 📂 aisuggest
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 analysis
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 collaborate
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 home
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 incomingdisasterinfo
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📄 layout.tsx
+│   │   │   ├─── 📂 profile
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 sendnotification
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   └─── 📂 situationshipreport
+│   │   │       └─── 📄 page.tsx
+│   │   ├─── 📂 ngo
+│   │   │   ├─── 📂 Donate
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📂 Home
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   ├─── 📄 layout.tsx
+│   │   │   └─── 📄 page.tsx
+│   │   ├─── 📄 page.tsx
+│   │   ├─── 📂 profileTest
+│   │   │   └─── 📄 page.tsx
+│   │   ├─── 📂 quiz
+│   │   │   ├─── 📂 answer
+│   │   │   │   └─── 📄 page.tsx
+│   │   │   └─── 📄 page.tsx
+│   │   ├─── 📂 responsePlan
+│   │   │   ├─── 📄 layout.tsx
+│   │   │   └─── 📄 page.tsx
+│   │   └─── 📂 state
+│   │       ├─── 📂 home
+│   │       │   └─── 📄 page.tsx
+│   │       ├─── 📄 layout.tsx
+│   │       ├─── 📂 notification
+│   │       │   └─── 📄 page.tsx
+│   │       ├─── 📂 profile
+│   │       │   └─── 📄 page.tsx
+│   │       ├─── 📂 report
+│   │       │   └─── 📄 page.tsx
+│   │       └─── 📂 upcomingdisasters
+│   │           └─── 📄 page.tsx
+│   ├─── 📂 components
+│   │   ├─── 📄 AddToMonitorModal.tsx
+│   │   ├─── 📄 Awareness.tsx
+│   │   ├─── 📄 Button.tsx
+│   │   ├─── 📄 ChatAssistant.tsx
+│   │   ├─── 📄 ChatContacts.tsx
+│   │   ├─── 📄 ChatHeader.tsx
+│   │   ├─── 📄 ChatWindow.tsx
+│   │   ├─── 📂 Citizen
+│   │   │   ├─── 📄 CitizenListSide.tsx
+│   │   │   └─── 📄 CitizenlSidebar.tsx
+│   │   ├─── 📂 Department
+│   │   │   ├─── 📄 DepartmentDisasterList.tsx
+│   │   │   ├─── 📄 DepartmentHeader.tsx
+│   │   │   └─── 📄 DepartmentSidebar.tsx
+│   │   ├─── 📄 DisasterList.tsx
+│   │   ├─── 📄 DisasterMap.tsx
+│   │   ├─── 📄 DisasterModal.tsx
+│   │   ├─── 📄 DonationCard.tsx
+│   │   ├─── 📄 DonationList.tsx
+│   │   ├─── 📄 Earthquake.tsx
+│   │   ├─── 📄 Flood.tsx
+│   │   ├─── 📂 NGO
+│   │   │   └─── 📄 NgoSidebar.tsx
+│   │   ├─── 📂 National
+│   │   │   ├─── 📄 NationalHeader.tsx
+│   │   │   ├─── 📄 NationalHomeToggle.tsx
+│   │   │   ├─── 📄 NationalIncomingDisaster.tsx
+│   │   │   ├─── 📄 NationalListSide.tsx
+│   │   │   ├─── 📄 NationalProfile.tsx
+│   │   │   ├─── 📄 NationalResourceManagement.tsx
+│   │   │   ├─── 📄 NationalSendNotification.tsx
+│   │   │   ├─── 📄 NationalSidebar.tsx
+│   │   │   └─── 📄 NationalSidebarMobile.tsx
+│   │   ├─── 📄 Navbar.tsx
+│   │   ├─── 📄 PlanForm.tsx
+│   │   ├─── 📄 PredictionForm.tsx
+│   │   ├─── 📄 PreviousReports.tsx
+│   │   ├─── 📄 Profile.tsx
+│   │   ├─── 📄 Quiz.tsx
+│   │   ├─── 📄 ResponsePlan.tsx
+│   │   ├─── 📄 SaveMeForm.tsx
+│   │   ├─── 📄 ShortDisasterInfo.tsx
+│   │   ├─── 📄 Sidebar.tsx
+│   │   ├─── 📄 SituationReport.tsx
+│   │   ├─── 📂 State
+│   │   │   ├─── 📄 StateDisasterList.tsx
+│   │   │   ├─── 📄 StateHeader.tsx
+│   │   │   ├─── 📄 StateNotification.tsx
+│   │   │   ├─── 📄 StateSidebar.tsx
+│   │   │   └─── 📄 StateUpcomingDisaster.tsx
+│   │   ├─── 📄 StatusUpdateModal.tsx
+│   │   ├─── 📄 WeatherCards.tsx
+│   │   ├─── 📄 WeatherFilter.tsx
+│   │   └─── 📄 donate.tsx
+│   ├─── 📄 constants.ts
+│   ├─── 📄 middleware.ts
+│   ├─── 📂 models
+│   │   └─── 📄 nationalDisasterCommittee.ts
+│   ├─── 📄 store.ts
+│   ├─── 📂 store
+│   │   ├─── 📄 UserAuth.tsx
+│   │   └─── 📄 disasterSlice.ts
+│   ├─── 📂 types
+│   │   ├─── 📄 chatUser.ts
+│   │   └─── 📄 groupChats.ts
+│   └─── 📂 utils
+│       ├─── 📄 firebase.ts
+│       ├─── 📄 validateRequest.ts
+│       └─── 📄 validateToken.ts
+├─── 📄 tailwind.config.ts
+└─── 📄 tsconfig.json
+
+```
+
 ### Steps to Run Locally
 
 1. **Clone the Repository**:
