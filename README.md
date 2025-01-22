@@ -73,9 +73,12 @@ Ensure you have the following installed:
 - Python (v3.8 or higher)
 - Google Cloud SDK
 
-## Repository Structure 📂
-```
-├─── 📄 .eslintrc.json
+<h2>Repository Structure 📂</h2>
+
+<details>
+  <summary>Click to expand Repository Structure</summary>
+
+  <pre>├─── 📄 .eslintrc.json
 ├─── 📄 .gitignore
 ├─── 📄 LICENSE
 ├─── 📄 README.md
@@ -274,8 +277,9 @@ Ensure you have the following installed:
 │       └─── 📄 validateToken.ts
 ├─── 📄 tailwind.config.ts
 └─── 📄 tsconfig.json
+  </pre>
+</details>
 
-```
 
 ### Steps to Run Locally
 
